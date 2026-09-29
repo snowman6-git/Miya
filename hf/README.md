@@ -11,7 +11,7 @@ tags: [minecraft, agent, korean, mmbert, gliner2, mineflayer, work-in-progress]
   <img src="miya_icon.webp" width="110" align="middle" alt="Miya icon">&nbsp;Miya-0.2
 </h1>
 
-<p align="center">한국어 마인크래프트 AI 판단 모델 · 139M 인코더 · 1회 인코딩 ~18ms<br><a href="https://github.com/snowman6-git/Miya">GitHub: 봇 · 서빙 · 학습 코드</a> · <a href="README.en.md">English</a></p>
+<p align="center">한국어 마인크래프트 AI 판단 모델 · 139M 인코더 · 1회 인코딩 ~18ms<br><a href="https://github.com/snowman6-git/Miya">GitHub: 봇 · 서빙 · 학습 코드</a> · <a href="https://huggingface.co/snowman6/Miya-0.2/blob/main/README.en.md">English</a></p>
 
 > [!WARNING]
 > **개발 중(WIP) 모델입니다.** 0.2는 연구용 스냅샷이며 완성된 에이전트가 아닙니다.
@@ -20,7 +20,7 @@ tags: [minecraft, agent, korean, mmbert, gliner2, mineflayer, work-in-progress]
 >
 > **Work in progress.** A research snapshot, not a finished agent. Weights, label schema and API may change without notice.
 
-Korean-first Minecraft agent decision model. One encoder pass (~18 ms) gives intent, task type, target item and count spans, method choice, survival priority and inventory tidy decisions. The mineflayer bot only executes. Full English card: [README.en.md](README.en.md).
+Korean-first Minecraft agent decision model. One encoder pass (~18 ms) gives intent, task type, target item and count spans, method choice, survival priority and inventory tidy decisions. The mineflayer bot only executes. Full English card: [README.en.md](https://huggingface.co/snowman6/Miya-0.2/blob/main/README.en.md).
 
 ![Miya 캐릭터 시트](charasheet.webp)
 
@@ -216,7 +216,7 @@ curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","ctx":""}'
 
 ## 라이선스
 
-Apache-2.0 + [Miya Adopt Licence](LICENSE-MIYA.md) (강제성 없는 부탁 조항).
+Apache-2.0 + [Miya Adopt Licence](https://huggingface.co/snowman6/Miya-0.2/blob/main/LICENSE-MIYA.md) (강제성 없는 부탁 조항).
 
 - 베이스: laya-multilingual (Apache-2.0) ← mmBERT-base (MIT)
 - Minecraft 게임 데이터는 포함하지 않습니다. 저장소의 `docs/extract.md`로 로컬에서 생성합니다.

@@ -2,7 +2,7 @@
   <img src="miya_icon.webp" width="110" align="middle" alt="Miya icon">&nbsp;Miya-0.2
 </h1>
 
-<p align="center">Korean Minecraft AI decision model · 139M encoder · ~18 ms per pass<br><a href="https://github.com/snowman6-git/Miya">GitHub: bot · serving · training code</a> · <a href="README.md">한국어</a></p>
+<p align="center">Korean Minecraft AI decision model · 139M encoder · ~18 ms per pass<br><a href="https://github.com/snowman6-git/Miya">GitHub: bot · serving · training code</a> · <a href="https://huggingface.co/snowman6/Miya-0.2">한국어</a></p>
 
 > [!WARNING]
 > **Work in progress.** 0.2 is a research snapshot, not a finished agent.
@@ -201,7 +201,7 @@ Model code (`model/miya.py`) is in the [GitHub repo](https://github.com/snowman6
 
 ## License
 
-Apache-2.0 + [Miya Adopt Licence](LICENSE-MIYA.md) (a non-binding request clause).
+Apache-2.0 + [Miya Adopt Licence](https://huggingface.co/snowman6/Miya-0.2/blob/main/LICENSE-MIYA.md) (a non-binding request clause).
 
 - Base: laya-multilingual (Apache-2.0) ← mmBERT-base (MIT)
 - No Minecraft game data is included; generate it locally with `docs/extract.en.md` from the repo.
