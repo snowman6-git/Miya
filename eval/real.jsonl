@@ -1,0 +1,529 @@
+{"utt": "Laya 이리와", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "나무 3개 캐와", "prev_bot": "왔어요~", "botq": null, "prev_user": "Laya 이리와", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 3}
+{"utt": "돌도끼 하나만", "prev_bot": "나무 3개 캤어요.", "botq": null, "prev_user": "나무 3개 캐와", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_axe", "cnt": 1}
+{"utt": "만들어", "prev_bot": "그건 지금 없어요.", "botq": null, "prev_user": "돌도끼 하나만", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "멈춰", "prev_bot": "player1님 진짜로 하자는 거죠? (무기(stone_axe))", "botq": null, "prev_user": "만들어", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "철곡하나", "prev_bot": "알겠어요, 멈출게요.", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": 1}
+{"utt": "철곡 ㄱㄱ", "prev_bot": "땅굴에 숨었어요. 아침에 나갈게요.", "botq": null, "prev_user": "철곡하나", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "Laya 멈춰", "prev_bot": "나무곡괭이 다 만들었어요!", "botq": null, "prev_user": "철곡 ㄱㄱ", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "빨리 나무 캐와!!", "prev_bot": "넵 스톱!", "botq": null, "prev_user": "Laya 멈춰", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "ㅇㅇ", "prev_bot": "알겠어요, 멈출게요.", "botq": null, "prev_user": "멈춰", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "철뚝배기 만들어줘", "prev_bot": "멈추라는 거죠?", "botq": "멈추라는 거죠?", "prev_user": "ㅇㅇ", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "나 철곡 줘", "prev_bot": "땅굴에 숨었어요. 아침에 나갈게요.", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "give"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "내려가자", "prev_bot": "죽은 자리까지 못 가겠어요...", "botq": null, "prev_user": "나 철곡 줘", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "주우러가", "prev_bot": "아무것도 안 타고 있어요.", "botq": null, "prev_user": "내려가자", "y": {"act": "목표 실행", "type": "collect"}, "tgt": null, "cnt": null}
+{"utt": "죽었던 곳으로 가자", "prev_bot": "0개 주웠어요.", "botq": null, "prev_user": "주우러가", "y": {"act": "목표 실행", "type": "goto"}, "tgt": "place:death", "cnt": null}
+{"utt": "Laya 나무 8개 캐와", "prev_bot": "떨군 아이템 주우러 갈게요 (19칸).", "botq": null, "prev_user": "죽었던 곳으로 가자", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 8}
+{"utt": "돌 2개 캐와", "prev_bot": "나무 8개 모아올게요.", "botq": null, "prev_user": "Laya 나무 8개 캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": 2}
+{"utt": "지금 뭐해", "prev_bot": "맨손이라 크리퍼는 무리예요 ㅠ 그래도 하라면 할게요.", "botq": null, "prev_user": "돌 2개 캐와", "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "따라와", "prev_bot": "돌 2개 캤어요.", "botq": null, "prev_user": "지금 뭐해", "y": {"act": "목표 실행", "type": "follow"}, "tgt": null, "cnt": null}
+{"utt": "고기점 있니", "prev_bot": "ㄱㄱ", "botq": null, "prev_user": "따라와", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "고기줘", "prev_bot": "네, player1님! 뭐 할까요?", "botq": "네, player1님! 뭐 할까요?", "prev_user": "고기점 있니", "y": {"act": "목표 실행", "type": "give"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "구워와", "prev_bot": "날 돼지고기 드렸어요!", "botq": null, "prev_user": "고기줘", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": null, "cnt": null}
+{"utt": "Laya 돌곡괭이 만들어", "prev_bot": "Claude님 안녕하세요!", "botq": null, "prev_user": "구워와", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_pickaxe", "cnt": null}
+{"utt": "나무 2개 캐와", "prev_bot": "재료로 조약돌 3개 캐러 갈게요.", "botq": null, "prev_user": "Laya 돌곡괭이 만들어", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 2}
+{"utt": "뭐해", "prev_bot": "조약돌 3개 캐기 끝!", "botq": null, "prev_user": "나무 2개 캐와", "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "와바", "prev_bot": "재료로 철 원석 2개 캐러 갈게요.", "botq": null, "prev_user": "Tㅇ", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "집합", "prev_bot": "재료로 철 원석 2개 캐러 갈게요.", "botq": null, "prev_user": "와바", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "고기좀 가져와", "prev_bot": "길을 못 찾겠어요. 조금 더 가까이 와 주실래요?", "botq": "길을 못 찾겠어요. 조금 더 가까이 와 주실래요?", "prev_user": "집합", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "나 생고기 줘", "prev_bot": "화로가 없어서 만들게요.", "botq": null, "prev_user": "고기좀 가져와", "y": {"act": "목표 실행", "type": "give"}, "tgt": "beef", "cnt": null}
+{"utt": "고기", "prev_bot": "조약돌 16개 구울게요. 조금 걸려요.", "botq": null, "prev_user": "구워와", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "그건 돌이잖아 고기 구워", "prev_bot": "지금 하고 있어요!", "botq": null, "prev_user": "고기", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "고기좀 구해와", "prev_bot": "땅굴에 숨었어요. 아침에 나갈게요.", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "고기점 구해온나", "prev_bot": "아침이에요! 나왔어요.", "botq": null, "prev_user": "고기좀 구해와", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "나줘", "prev_bot": "고기 2개 준비됐어요.", "botq": null, "prev_user": "고기좀 구해와", "y": {"act": "목표 실행", "type": "give"}, "tgt": null, "cnt": null}
+{"utt": "철갑옷 만들어", "prev_bot": "그거 해 달라는 거죠?", "botq": "그거 해 달라는 거죠?", "prev_user": "고기좀 구해와", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "Laya 안녕", "prev_bot": "크리퍼다! 잠깐 피할게요.", "botq": null, "prev_user": "멈춰", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "고마워", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "Laya 안녕", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "어디야", "prev_bot": "LAYA님 ㅎㅇ", "botq": null, "prev_user": "고마워", "y": {"act": "질문 답하기", "query": "pos"}, "tgt": null, "cnt": null}
+{"utt": "집함", "prev_bot": "5 69 8에 있어요 (player2님이랑 45칸).", "botq": null, "prev_user": "와바", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "고기구해와", "prev_bot": "아침이에요! 나왔어요.", "botq": null, "prev_user": "고기", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "농사 ㄱㄱ?", "prev_bot": "고기 3개 사냥(근처에 사냥할 동물이 없어요)는 못 했어요.", "botq": null, "prev_user": "고기구해와", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "농사짓자", "prev_bot": "그거 해 달라는 거죠?", "botq": "그거 해 달라는 거죠?", "prev_user": "농사 ㄱㄱ?", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "농사", "prev_bot": "네, player2님! 뭐 할까요?", "botq": "네, player2님! 뭐 할까요?", "prev_user": "농사짓자", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "철곡괭이 만들어", "prev_bot": "아야! ㅋㅋ", "botq": null, "prev_user": "농사", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "Laya 농사짓자", "prev_bot": "다 했는데 철곡괭이 만들기(재료가 모자라요)는 못 했어요.", "botq": null, "prev_user": "철곡괭이 만들어", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "Laya 모래 5개 캐와", "prev_bot": "Claude님 안녕하세요!", "botq": null, "prev_user": "Laya 농사짓자", "y": {"act": "목표 실행", "type": "dig"}, "tgt": "sand", "cnt": 5}
+{"utt": "Laya 나무 3개 캐와", "prev_bot": "모래 5개 캐기(근처에 모래가 없어요)는 못 했어요.", "botq": null, "prev_user": "ㅇㅇ", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 3}
+{"utt": "Laya 상태", "prev_bot": "Claude님 안녕하세요!", "botq": null, "prev_user": "Laya 나무 3개 캐와", "y": {"act": "질문 답하기", "query": "status"}, "tgt": null, "cnt": null}
+{"utt": "Laya 뭐해", "prev_bot": "멀쩡하고 배는 조금 고파요 (16/20). 가진 건 조약돌 14, 유리 5, 철괴 5, 섬록암 4, 양동이 3, 화강암 3 등.", "botq": null, "prev_user": "Laya 상태", "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "Laya 철검 어떻게 만들어?", "prev_bot": "아무것도 안 하고 있어요.", "botq": null, "prev_user": "Laya 뭐해", "y": {"act": "질문 답하기", "query": "recipe"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "Laya 따라와", "prev_bot": "그건 레시피를 못 찾았어요. 아이템 이름을 조금 다르게 말해 주실래요?", "botq": "그건 레시피를 못 찾았어요. 아이템 이름을 조금 다르게 말해 주실래요?", "prev_user": "Laya 이리와", "y": {"act": "목표 실행", "type": "follow"}, "tgt": null, "cnt": null}
+{"utt": "Laya 나무 있어?", "prev_bot": "넵 스톱!", "botq": null, "prev_user": "Laya 멈춰", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:log", "cnt": null}
+{"utt": "줘", "prev_bot": "원목 3개 있어요.", "botq": null, "prev_user": "Laya 나무 있어?", "y": {"act": "목표 실행", "type": "give"}, "tgt": null, "cnt": null}
+{"utt": "Laya 고마워", "prev_bot": "원목 던졌는데 줍는 걸 확인 못 했어요. 인벤토리 확인해 주세요.", "botq": null, "prev_user": "줘", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "Laya 어디야", "prev_bot": "천만에요!", "botq": null, "prev_user": "Laya 고마워", "y": {"act": "질문 답하기", "query": "pos"}, "tgt": null, "cnt": null}
+{"utt": "Laya 와바", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "Laya 흑요석 1개 캐와", "prev_bot": "모래 5개 캤어요.", "botq": null, "prev_user": "ㅇㅇ", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "obsidian", "cnt": 1}
+{"utt": "Laya 조약돌 2개 캐와", "prev_bot": "흑요석 캐기 이어서 할게요. 남은 거: 다이아곡괭이 먼저 만들기 → 흑요석 1개 캐기", "botq": null, "prev_user": "ㅇㅇ", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": 2}
+{"utt": "Laya 흙 1개 캐와", "prev_bot": "출발한 곳(-79 76 255)까지 311칸 남았는데 길이 막혔어요.", "botq": null, "prev_user": "Laya 조약돌 2개 캐와", "y": {"act": "목표 실행", "type": "dig"}, "tgt": "dirt", "cnt": 1}
+{"utt": "제이 상태", "prev_bot": "비교 테스트 준비(v9.1) 업데이트 완료! 다시 왔어요.", "botq": null, "prev_user": null, "y": {"act": "질문 답하기", "query": "status"}, "tgt": null, "cnt": null}
+{"utt": "LAYA 뭐해", "prev_bot": "Claude님 안녕하세요!", "botq": null, "prev_user": "제이 상태", "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "제이 철곡괭이 1개랑 횃불 4개 만들어", "prev_bot": "아무것도 안 하고 있어요.", "botq": null, "prev_user": "LAYA 뭐해", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": 1}
+{"utt": "제이 멈춰", "prev_bot": "재료로 철 원석 3개 캐러 갈게요.", "botq": null, "prev_user": "제이 철곡괭이 1개랑 횃불 4개 만들어", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "데이 여기로와", "prev_bot": "왔어요~", "botq": null, "prev_user": "집합", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "제이 집합", "prev_bot": "왔어요~", "botq": null, "prev_user": "데이 여기로와", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "제이 집힙", "prev_bot": "왔어요~", "botq": null, "prev_user": "제이 집합", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "상태", "prev_bot": "j0.1 비교 업데이트 완료! 다시 왔어요.", "botq": null, "prev_user": "제이 집힙", "y": {"act": "질문 답하기", "query": "status"}, "tgt": null, "cnt": null}
+{"utt": "철곡만들어", "prev_bot": "길을 못 찾겠어요. 조금 더 가까이 와 주실래요?", "botq": "길을 못 찾겠어요. 조금 더 가까이 와 주실래요?", "prev_user": "집합", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철 곡괭이", "prev_bot": "뭘 만들까요? 예: 나무곡괭이 만들어, 작업대 만들어", "botq": null, "prev_user": "철곡만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "템 뭐있냐", "prev_bot": "도착!", "botq": null, "prev_user": "집합", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "나 대나무줘", "prev_bot": "지금은 밤이라 위험해요. 동물은 아침에 다녀올게요.", "botq": null, "prev_user": "템 뭐있냐", "y": {"act": "목표 실행", "type": "give"}, "tgt": "bamboo", "cnt": null}
+{"utt": "나무 줘", "prev_bot": "한 대 맞았다...", "botq": null, "prev_user": "나 대나무줘", "y": {"act": "목표 실행", "type": "give"}, "tgt": "grp:log", "cnt": null}
+{"utt": "농사 ㄱㄱ", "prev_bot": "왜 때려요~", "botq": null, "prev_user": "나무 줘", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "막대기 4개랑 횃불 4개 만들어", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "농사 ㄱㄱ", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stick", "cnt": 4}
+{"utt": "앞에 화로에서. 철 꺼네", "prev_bot": "체력 8/20인데 먹을 게 없어서 회복이 안 돼요 (배고픔 18 이상 필요, 지금 16). 음식 좀 주세요.", "botq": null, "prev_user": "막대기 4개랑 횃불 4개 만들어", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "철갑옷 줘", "prev_bot": "멈췄어요.", "botq": null, "prev_user": "앞에 화로에서. 철 꺼네", "y": {"act": "목표 실행", "type": "give"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "곡괭이. 줘", "prev_bot": "철 12개 모아올게요.", "botq": null, "prev_user": "철갑옷 줘", "y": {"act": "목표 실행", "type": "give"}, "tgt": "grp:pickaxe", "cnt": null}
+{"utt": "인벤 뭐있어", "prev_bot": "체력 7/20인데 먹을 게 없어서 회복이 안 돼요 (배고픔 18 이상 필요, 지금 17). 음식 좀 주세요.", "botq": null, "prev_user": "TTT", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "돌 버려", "prev_bot": "그 아이템이 없어요.", "botq": null, "prev_user": "집합", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "stone", "cnt": null}
+{"utt": "안산암 버려", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "돌 버려", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "andesite", "cnt": null}
+{"utt": "화로 설치해", "prev_bot": "안산암 버렸어요.", "botq": null, "prev_user": "안산암 버려", "y": {"act": "목표 실행", "type": "place"}, "tgt": "furnace", "cnt": null}
+{"utt": "작업대 설치해", "prev_bot": "화로 설치했어요.", "botq": null, "prev_user": "화로 설치해", "y": {"act": "목표 실행", "type": "place"}, "tgt": "crafting_table", "cnt": null}
+{"utt": "작업대로 가", "prev_bot": "작업대 설치했어요.", "botq": null, "prev_user": "작업대 설치해", "y": {"act": "목표 실행", "type": "goto"}, "tgt": "crafting_table", "cnt": null}
+{"utt": "나무곡괭이 들어", "prev_bot": "처치했어요.", "botq": null, "prev_user": "작업대로 가", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "wooden_pickaxe", "cnt": null}
+{"utt": "그거", "prev_bot": "Claude님 ㅎㅇ", "botq": null, "prev_user": "고기", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "철 3개 캐와", "prev_bot": "Claude님 ㅎㅇ", "botq": null, "prev_user": "그거", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": 3}
+{"utt": "철곡괭이 어떻게 만들어?", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "그거", "y": {"act": "질문 답하기", "query": "recipe"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "고기 몇개 있어?", "prev_bot": "철곡괭이: 철괴 3개 + 막대기 2개 (작업대에서). \"만들어\" 하시면 재료부터 구해서 만들어요.", "botq": null, "prev_user": "철곡괭이 어떻게 만들어?", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "막대기 4개랑 작업대 1개 만들어", "prev_bot": "그건 하나도 없어요.", "botq": null, "prev_user": "고기 몇개 있어?", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stick", "cnt": 4}
+{"utt": "고기 먹어", "prev_bot": "작업대 다 만들었어요!", "botq": null, "prev_user": "막대기 4개랑 작업대 1개 만들어", "y": {"act": "목표 실행", "type": "eat"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "조약돌 10개 버려", "prev_bot": "배불러서 못 먹어요.", "botq": null, "prev_user": "고기 먹어", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "cobblestone", "cnt": 10}
+{"utt": "스테이크 2개 먹어", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "고기 몇개 있어?", "y": {"act": "목표 실행", "type": "eat"}, "tgt": "cooked_beef", "cnt": 2}
+{"utt": "막대기 있어?", "prev_bot": "배불러서 못 먹어요.", "botq": null, "prev_user": "스테이크 2개 먹어", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "stick", "cnt": null}
+{"utt": "철 구워", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "막대기 있어?", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "iron_ingot", "cnt": null}
+{"utt": "하던거 마저 해", "prev_bot": "player2님 진짜로 하자는 거죠? (15초에 3대)", "botq": null, "prev_user": "철 구워", "y": {"act": "재개"}, "tgt": null, "cnt": null}
+{"utt": "그만", "prev_bot": "player2님 진짜로 하자는 거죠? (15초에 3대)", "botq": null, "prev_user": "하던거 마저 해", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "철곡 만들어", "prev_bot": "알겠어요, 멈출게요.", "botq": null, "prev_user": "그만", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "횃불 두개만", "prev_bot": "철괴 3개 구울게요. 조금 걸려요.", "botq": null, "prev_user": "철곡 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "torch", "cnt": 2}
+{"utt": "횃불줘", "prev_bot": "철괴 3개 구울게요. 조금 걸려요.", "botq": null, "prev_user": "횃불 두개만", "y": {"act": "목표 실행", "type": "give"}, "tgt": "torch", "cnt": null}
+{"utt": "주봐", "prev_bot": "철곡괭이 다 만들었어요!", "botq": null, "prev_user": "T", "y": {"act": "목표 실행", "type": "give"}, "tgt": null, "cnt": null}
+{"utt": "철곡", "prev_bot": "뭘 드릴까요?", "botq": "뭘 드릴까요?", "prev_user": "주봐", "y": {"act": "목표 실행", "type": "give"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "만들었다며", "prev_bot": "재료로 철 원석 3개 캐러 갈게요.", "botq": null, "prev_user": "철곡", "y": {"act": "지적·조언", "hint": "done_claim"}, "tgt": null, "cnt": null}
+{"utt": "철곡 줘", "prev_bot": "철괴 3개 구울게요. 조금 걸려요.", "botq": null, "prev_user": "만들었다며", "y": {"act": "목표 실행", "type": "give"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철곡 하나 줘", "prev_bot": "주기 수정 업데이트 완료! 다시 왔어요.", "botq": null, "prev_user": "철곡 줘", "y": {"act": "목표 실행", "type": "give"}, "tgt": "iron_pickaxe", "cnt": 1}
+{"utt": "다이아 캐자", "prev_bot": "철곡괭이 드렸어요!", "botq": null, "prev_user": "철좀", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "diamond", "cnt": null}
+{"utt": "Laya 안뇽", "prev_bot": "아 뭐야 ㅋㅋ", "botq": null, "prev_user": null, "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "일루와봐", "prev_bot": "도착!", "botq": null, "prev_user": "Laya 안뇽", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "지금 머하냐", "prev_bot": "왔어요~", "botq": null, "prev_user": "일루와봐", "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "나 어딨는지 알아?", "prev_bot": "왔어요~", "botq": null, "prev_user": "지금 머하냐", "y": {"act": "질문 답하기", "query": "where_player"}, "tgt": null, "cnt": null}
+{"utt": "인벤 뭐있음", "prev_bot": "체력 20/20, 배고픔 20/20, 위치 -32 63 36, 작업 come | 인벤: 비어있음", "botq": null, "prev_user": "나 어딨는지 알아?", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "피 괜찮냐", "prev_bot": "체력 20/20, 배고픔 20/20, 위치 -32 63 36, 작업 come | 인벤: 비어있음", "botq": null, "prev_user": "인벤 뭐있음", "y": {"act": "질문 답하기", "query": "hp"}, "tgt": null, "cnt": null}
+{"utt": "근처에 나무 있음?", "prev_bot": "체력 20/20, 배고픔 20/20, 위치 -32 63 36, 작업 come | 인벤: 비어있음", "botq": null, "prev_user": "피 괜찮냐", "y": {"act": "질문 답하기", "query": "near"}, "tgt": "grp:log", "cnt": null}
+{"utt": "나무 캐러 ㄱㄱ", "prev_bot": "주변(32칸) 엔티티: Armadillo, player1, Claude_Tester | 블록: logs25, coal64+, iron64+, copper64+", "botq": null, "prev_user": "근처에 나무 있음?", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "아 됐다 그만", "prev_bot": "나무 5개 모아올게요.", "botq": null, "prev_user": "나무 캐러 ㄱㄱ", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "막대기 좀 만들어봐", "prev_bot": "멈췄어요.", "botq": null, "prev_user": "아 됐다 그만", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stick", "cnt": null}
+{"utt": "만든거 나한테 던져", "prev_bot": "재료: 원목 캐는 중...", "botq": null, "prev_user": "막대기 좀 만들어봐", "y": {"act": "목표 실행", "type": "give"}, "tgt": null, "cnt": null}
+{"utt": "뒤에 크리퍼!!", "prev_bot": "가진 게 없어요.", "botq": null, "prev_user": "만든거 나한테 던져", "y": {"act": "위험 경고"}, "tgt": null, "cnt": null}
+{"utt": "스탑", "prev_bot": "근처에 대상이 없어요.", "botq": null, "prev_user": "뒤에 크리퍼!!", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "잘했어 ㅋㅋ", "prev_bot": "멈췄어요.", "botq": null, "prev_user": "스탑", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "철검 만들 수 있냐?", "prev_bot": "제가 좀 하죠 ㅋㅋ", "botq": null, "prev_user": "잘했어 ㅋㅋ", "y": {"act": "질문 답하기", "query": "can_make"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "상자에 템 좀 넣어놔", "prev_bot": "제가 좀 하죠 ㅋㅋ", "botq": null, "prev_user": "철검 만들 수 있냐?", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "날 따라다녀", "prev_bot": "근처에 상자가 없어요.", "botq": null, "prev_user": "상자에 템 좀 넣어놔", "y": {"act": "목표 실행", "type": "follow"}, "tgt": null, "cnt": null}
+{"utt": "됐어 멈춰", "prev_bot": "따라가요!", "botq": null, "prev_user": "날 따라다녀", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "나무좀 캐와", "prev_bot": "넵 스톱!", "botq": null, "prev_user": "됐어 멈춰", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "흑좀 캐와", "prev_bot": "나무 5개 모아올게요.", "botq": null, "prev_user": "나무좀 캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "obsidian", "cnt": null}
+{"utt": "캔거 줘", "prev_bot": "밤이다... 좀비 나오겠다", "botq": null, "prev_user": "나무 3개 캐와", "y": {"act": "목표 실행", "type": "give"}, "tgt": null, "cnt": null}
+{"utt": "배고프냐", "prev_bot": "체력 16/20이에요", "botq": null, "prev_user": "피 괜찮냐", "y": {"act": "질문 답하기", "query": "food"}, "tgt": null, "cnt": null}
+{"utt": "주변에 좀비 있어?", "prev_bot": "네, 나무 22개 보여요 (제일 가까운 게 14칸).", "botq": null, "prev_user": "근처에 나무 있음?", "y": {"act": "질문 답하기", "query": "near"}, "tgt": "mob:zombie", "cnt": null}
+{"utt": "돌곡괭이 어케 만듬?", "prev_bot": "지금은 철 주괴 2개 + 막대기 1개이(가) 부족해요. 만들어 달라고 하시면 재료부터 구해 올게요.", "botq": null, "prev_user": "철검 만들 수 있냐?", "y": {"act": "질문 답하기", "query": "recipe"}, "tgt": "stone_pickaxe", "cnt": null}
+{"utt": "돌 맨손으로 캐지냐", "prev_bot": "돌곡괭이: 심층암 조약돌 3개 + 막대기 2개 (작업대에서). \"만들어\" 하시면 재료부터 구해서 만들어요.", "botq": null, "prev_user": "돌곡괭이 어케 만듬?", "y": {"act": "질문 답하기", "query": "can_do"}, "tgt": "stone", "cnt": null}
+{"utt": "나무 몇개 있음?", "prev_bot": "아니요, 돌은(는) Copper Pickaxe 이상이 있어야 드롭돼요. 지금 저는 없어요.", "botq": null, "prev_user": "돌 맨손으로 캐지냐", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:log", "cnt": null}
+{"utt": "어디임?", "prev_bot": "아무것도 안 하고 있어요.", "botq": null, "prev_user": "지금 머하냐", "y": {"act": "질문 답하기", "query": "pos"}, "tgt": null, "cnt": null}
+{"utt": "막대기 만들 수 있어?", "prev_bot": "원목 3개 있어요.", "botq": null, "prev_user": "나무 몇개 있음?", "y": {"act": "질문 답하기", "query": "can_make"}, "tgt": "stick", "cnt": null}
+{"utt": "상태 어때", "prev_bot": "지금은 판자 2개이(가) 부족해요. 만들어 달라고 하시면 재료부터 구해 올게요.", "botq": null, "prev_user": "막대기 만들 수 있어?", "y": {"act": "질문 답하기", "query": "status"}, "tgt": null, "cnt": null}
+{"utt": "철 어캐 캠?", "prev_bot": "좀비 1마리 있어요, 제일 가까운 게 3칸.", "botq": null, "prev_user": "주변에 좀비 있어?", "y": {"act": "질문 답하기", "query": "can_do"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "다이아검 만들 수 있냐", "prev_bot": "철은 돌곡괭이 이상으로 캐야 드롭돼요. \"철 캐와\" 하시면 도구부터 만들어서 캐요.", "botq": null, "prev_user": "철 어캐 캠?", "y": {"act": "질문 답하기", "query": "can_make"}, "tgt": "diamond_sword", "cnt": null}
+{"utt": "템 머잇어", "prev_bot": "player1님 안녕하세요!", "botq": null, "prev_user": "다이아검 만들 수 있냐", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "철검만들자", "prev_bot": "player1님 안녕하세요!", "botq": null, "prev_user": "템 머잇어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "뭐함", "prev_bot": "재료: 원목 캐는 중...", "botq": null, "prev_user": "철검만들자", "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "머ㅓ 만드는데", "prev_bot": "제작 중이에요 (재료: 원목 캐는 중...).", "botq": null, "prev_user": "뭐함", "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "철 곡괭이 만들자", "prev_bot": "제작 중이에요 (재료: 원목 캐는 중...).", "botq": null, "prev_user": "머ㅓ 만드는데", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "구해와", "prev_bot": "Iron Pickaxe을(를) 못 만들었어요. 재료가 부족해요.", "botq": null, "prev_user": "철 곡괭이 만들자", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "철검 만들어", "prev_bot": "인벤: 원목 8, Rotten Flesh 1, Raw Beef 4, 가죽 4, 판자 3", "botq": null, "prev_user": "인벤 뭐있음", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "철검 ㄱㄱ", "prev_bot": "물속이라 못 캐겠어요. 다른 데서 해볼게요.", "botq": null, "prev_user": "철검 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "철곡 ㄱㄱㄱ", "prev_bot": "Iron Sword 완성!", "botq": null, "prev_user": "철검 ㄱㄱ", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철 곡괭이 ㄱㄱ", "prev_bot": "뭘 만들지 모르겠어요. 예: 나무곡괭이 만들어, 작업대 만들어", "botq": null, "prev_user": "철곡 ㄱㄱㄱ", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철 곡광이", "prev_bot": "Claude님 안녕하세요!", "botq": null, "prev_user": "철 곡괭이 ㄱㄱ", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철곡 뽑자", "prev_bot": "재료: Raw Iron 3개 캐는 중...", "botq": null, "prev_user": "철곡 ㄱㄱ", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "인벤 어때", "prev_bot": "체력 3/20인데 먹을 게 없어요. 먹을 거 주시면 회복하고 할게요.", "botq": null, "prev_user": "철곡 뽑자", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "자급자족해", "prev_bot": "체력 3/20인데 먹을 게 없어요. 먹을 거 주시면 회복하고 할게요.", "botq": null, "prev_user": "인벤 어때", "y": {"act": "목표 실행", "type": "auto"}, "tgt": null, "cnt": null}
+{"utt": "만들어와", "prev_bot": "어디 있는지 안 보여요.", "botq": null, "prev_user": "철곡좀", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "철곡 만들어와", "prev_bot": "뭘 만들지 모르겠어요. 예: 나무곡괭이 만들어, 작업대 만들어", "botq": null, "prev_user": "만들어와", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "근처에 소 있어?", "prev_bot": "체력 8/20이에요", "botq": null, "prev_user": "피 괜찮냐", "y": {"act": "질문 답하기", "query": "near"}, "tgt": "mob:cow", "cnt": null}
+{"utt": "ㄴㄴ", "prev_bot": "Iron Pickaxe 만들라는 거죠? (ㅇㅇ/ㄴㄴ)", "botq": "Iron Pickaxe 만들라는 거죠? (ㅇㅇ/ㄴㄴ)", "prev_user": "철곡 ㄱㄱ", "y": {"act": "부정 대답"}, "tgt": null, "cnt": null}
+{"utt": "밤이니까 숨어", "prev_bot": "아 네, 알겠어요. 다시 말해 주세요.", "botq": null, "prev_user": "ㄴㄴ", "y": {"act": "목표 실행", "type": "shelter"}, "tgt": null, "cnt": null}
+{"utt": "상자 정리해", "prev_bot": "지금은 낮이라 숨을 필요 없어요. 밤이 되면 갑옷이 없을 땐 알아서 숨을게요.", "botq": null, "prev_user": "밤이니까 숨어", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "물 한 양동이 떠와", "prev_bot": "근처에 상자가 없어요.", "botq": null, "prev_user": "상자 정리해", "y": {"act": "목표 실행", "type": "bucket"}, "tgt": "water_bucket", "cnt": 1}
+{"utt": "스톱", "prev_bot": "빈 양동이가 0개라 1개 만들게요. (철괴 3개씩)", "botq": null, "prev_user": "물 한 양동이 떠와", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "돌검 만들어와", "prev_bot": "멈췄어요.", "botq": null, "prev_user": "스톱", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_sword", "cnt": null}
+{"utt": "뭐 할 수 있어?", "prev_bot": "넵 스톱!", "botq": null, "prev_user": "그만", "y": {"act": "질문 답하기", "query": "abilities"}, "tgt": null, "cnt": null}
+{"utt": "주변 뭐 있어", "prev_bot": "Claude님 ㅎㅇ", "botq": null, "prev_user": "상태 어때", "y": {"act": "질문 답하기", "query": "near"}, "tgt": null, "cnt": null}
+{"utt": "집 지어줘", "prev_bot": "멈췄어요.", "botq": null, "prev_user": "그만", "y": {"act": "목표 실행", "type": "build"}, "tgt": null, "cnt": null}
+{"utt": "템 머머 있음", "prev_bot": "크리퍼다! 잠깐 피할게요.", "botq": null, "prev_user": "지금 머하냐", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "다곡 만들 수 있냐", "prev_bot": "멈췄어요.", "botq": null, "prev_user": "그만", "y": {"act": "질문 답하기", "query": "can_make"}, "tgt": "diamond_pickaxe", "cnt": null}
+{"utt": "혼자서도 살 수 있게 준비해", "prev_bot": "지금은 판자 3개 + 막대기 2개가 부족해요. 만들어 달라고 하시면 재료부터 구해 올게요.", "botq": null, "prev_user": "다곡 만들 수 있냐", "y": {"act": "목표 실행", "type": "auto"}, "tgt": null, "cnt": null}
+{"utt": "좋은 장비로 바꿔놔", "prev_bot": "넵 스톱!", "botq": null, "prev_user": "그만", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "grp:armor", "cnt": null}
+{"utt": "나와", "prev_bot": "아침이에요! 나왔어요.", "botq": null, "prev_user": "그만", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "고기구하자", "prev_bot": "어디 있는지 안 보여요.", "botq": null, "prev_user": "나와", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "맨손이면 한세월 걸리겠는데", "prev_bot": "고기 3개 구해올게요.", "botq": null, "prev_user": "고기구하자", "y": {"act": "지적·조언", "hint": "slow"}, "tgt": null, "cnt": null}
+{"utt": "고기 줘", "prev_bot": "날 소고기 먹었어요. (배고픔 20/20)", "botq": null, "prev_user": "맨손이면 한세월 걸리겠는데", "y": {"act": "목표 실행", "type": "give"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "온나", "prev_bot": "-110 72 62에 있어요 (player1님이랑 80칸).", "botq": null, "prev_user": "어디야", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "나와 나좀 엄호해", "prev_bot": "여기는 파기 어려워서 옆으로 옮겨서 숨을게요.", "botq": null, "prev_user": "온나", "y": {"act": "목표 실행", "type": "guard"}, "tgt": null, "cnt": null}
+{"utt": "돌검이라도 만들어", "prev_bot": "여기를 지킬게요.", "botq": null, "prev_user": "나와 나좀 엄호해", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_sword", "cnt": null}
+{"utt": "돌검!!!", "prev_bot": "체력 5/20인데 먹을 게 없어서 회복이 안 돼요 (배고픔 18 이상 필요, 지금 17). 음식 좀 주세요.", "botq": null, "prev_user": "돌검이라도 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_sword", "cnt": null}
+{"utt": "돍돌검 만들어", "prev_bot": "공격하라는 거죠?", "botq": "공격하라는 거죠?", "prev_user": "돌검!!!", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_sword", "cnt": null}
+{"utt": "나가서 몹좀 처리해", "prev_bot": "돌검 다 만들었어요!", "botq": null, "prev_user": "나가서 몹조ㅗㅁ", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "공격패", "prev_bot": "스켈레톤은 체력 20이라 지금(체력 5, 돌검, 방어 0) 잡는 데 2.6초, 제가 버티는 건 0.9초라 못 이겨요. (배고픔 18 이상이어야 체력이 회복돼요) 그래도 하려면 \"그래도 공격해\"라고 해주세요.", "botq": null, "prev_user": "나가서 몹좀 처리해", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "그래도 공격해", "prev_bot": "스켈레톤은 체력 20이라 지금(체력 5, 돌검, 방어 0) 잡는 데 2.6초, 제가 버티는 건 0.9초라 못 이겨요. (배고픔 18 이상이어야 체력이 회복돼요) 그래도 하려면 \"그래도 공격해\"라고 해주세요.", "botq": null, "prev_user": "공격패", "y": {"act": "긍정 대답"}, "tgt": null, "cnt": null}
+{"utt": "돌좀 줘봐 흙이나", "prev_bot": "놓쳤어요.", "botq": null, "prev_user": "나가자", "y": {"act": "목표 실행", "type": "give"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "나무캐자", "prev_bot": "조약돌 드렸어요!", "botq": null, "prev_user": "나점 땅으로 옮겨줘", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "도끼 없이 캐면 느릴듯", "prev_bot": "근처에 사냥할 동물이 없어요. 먹을 거 주시면 회복하고 이어서 할게요.", "botq": null, "prev_user": "나무캐자", "y": {"act": "지적·조언", "hint": "slow"}, "tgt": null, "cnt": null}
+{"utt": "농사라도 짓자", "prev_bot": "근처에 사냥할 동물이 없어요. 먹을 거 주시면 회복하고 이어서 할게요.", "botq": null, "prev_user": "도끼 없이 캐면 느릴듯", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "경작지 만들어", "prev_bot": "근처에 사냥할 동물이 없어요. 먹을 거 주시면 회복하고 이어서 할게요.", "botq": null, "prev_user": "만들어", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "씨앗 구해와", "prev_bot": "player1님 진짜로 하자는 거죠? (내 체력 4)", "botq": null, "prev_user": "경작지 만들어", "y": {"act": "목표 실행", "type": "farm"}, "tgt": "wheat_seeds", "cnt": null}
+{"utt": "농사 짓자", "prev_bot": "풀 베서 씨앗 5개 모아올게요.", "botq": null, "prev_user": "씨앗 구해와", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "안보이는데 니가 와봐", "prev_bot": "-22 62 87에 있어요 (player1님이랑 47칸).", "botq": null, "prev_user": "어디야", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "농사좀 지어봐", "prev_bot": "아 뭐야 ㅋㅋ", "botq": null, "prev_user": "안보이는데 니가 와봐", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "씨앗 있잖아", "prev_bot": "장난치지 마요~", "botq": null, "prev_user": "농사짓자", "y": {"act": "지적·조언", "hint": "wrong"}, "tgt": null, "cnt": null}
+{"utt": "나온나", "prev_bot": "이미 숨어 있어요. 아침에 나갈게요.", "botq": null, "prev_user": "거기 위에 심은건 물 닿나", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "거기서 나와", "prev_bot": "아이템 다 찾았어요!", "botq": null, "prev_user": "나와", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "거미 죽여", "prev_bot": "아이템 다 찾았어요!", "botq": null, "prev_user": "거기서 나와", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:spider", "cnt": null}
+{"utt": "철캐와", "prev_bot": "거미는 체력 16이라 지금(체력 20, 맨손, 방어 0) 잡는 데 10.4초, 제가 버티는 건 10.0초라 못 이겨요. [벽을 탐] 나무검 이상 있으면 이길 수 있어요. 그래도 하려면 \"그래도 공격해\"라고 해주세요.", "botq": null, "prev_user": "거미 죽여", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "Laya 철 캐와", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "철캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "Laya 철 5개 더 캐와", "prev_bot": "Claude님 안녕하세요!", "botq": null, "prev_user": "Laya 철 캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": 5}
+{"utt": "Laya 철 5개 캐와", "prev_bot": "Claude님 ㅎㅇ", "botq": null, "prev_user": "Laya 철 5개 더 캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": 5}
+{"utt": "Laya 철 3개 캐와", "prev_bot": "밤이라 갑옷 없이 다니면 위험해서 잠깐 숨어 있을게요. 필요하면 불러요!", "botq": null, "prev_user": "Laya 철 5개 캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": 3}
+{"utt": "Laya 고기 있어?", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "T", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "흙도 있냐", "prev_bot": "스테이크 던졌는데 줍는 걸 확인 못 했어요. 인벤토리 확인해 주세요.", "botq": null, "prev_user": "줘", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "dirt", "cnt": null}
+{"utt": "Laya 흙 있냐", "prev_bot": "Claude님 ㅎㅇ", "botq": null, "prev_user": "줘", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "dirt", "cnt": null}
+{"utt": "고기는?", "prev_bot": "흙 던졌는데 줍는 걸 확인 못 했어요. 인벤토리 확인해 주세요.", "botq": null, "prev_user": "ㅇㅇ", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "하나만 줘", "prev_bot": "네, Claude님! 뭐 할까요?", "botq": "네, Claude님! 뭐 할까요?", "prev_user": "고기는?", "y": {"act": "목표 실행", "type": "give"}, "tgt": null, "cnt": 1}
+{"utt": "다이아는?", "prev_bot": "스테이크 8개 있어요.", "botq": null, "prev_user": "고기는?", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "diamond", "cnt": null}
+{"utt": "Laya 흙 상자에 넣어놔", "prev_bot": "그건 하나도 없어요.", "botq": null, "prev_user": "ㅇㅇ", "y": {"act": "목표 실행", "type": "store"}, "tgt": "dirt", "cnt": null}
+{"utt": "고기도 넣어", "prev_bot": "상자에 24개 넣었어요. (도구/음식은 남김)", "botq": null, "prev_user": "Laya 흙 상자에 넣어놔", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "상자에 뭐 있어?", "prev_bot": "상자에 그 아이템이 없어요.", "botq": null, "prev_user": "고기도 넣어", "y": {"act": "질문 답하기", "query": "chest"}, "tgt": null, "cnt": null}
+{"utt": "고기 다시 꺼내", "prev_bot": "상자 안: dirtx24", "botq": null, "prev_user": "상자에 뭐 있어?", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "Laya 고기도 넣어", "prev_bot": "어 Claude님 왔다!", "botq": null, "prev_user": "Laya 멈춰", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "상자에서 고기 꺼내", "prev_bot": "상자에 흙 24개 있어요.", "botq": null, "prev_user": "상자에 뭐 있어?", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "템 다 줘봐", "prev_bot": "아야! ㅋㅋ", "botq": null, "prev_user": "Laya 멈춰", "y": {"act": "목표 실행", "type": "give"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "철 곡괭이 만들어", "prev_bot": "철괴, 판자, 돌곡괭이, 나무곡괭이, 조약돌, 스테이크, 막대기 드렸어요!", "botq": null, "prev_user": "템 다 줘봐", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "상자 캐", "prev_bot": "조약돌 38개 꺼냈어요.", "botq": null, "prev_user": "철곡 ㄱㄱ", "y": {"act": "목표 실행", "type": "break"}, "tgt": "chest", "cnt": null}
+{"utt": "하나 줘", "prev_bot": "스테이크 3개 있어요.", "botq": null, "prev_user": "Laya 고기 있어?", "y": {"act": "목표 실행", "type": "give"}, "tgt": null, "cnt": 1}
+{"utt": "철 헬멧 만들어줄래?", "prev_bot": "HP 13/20, food 16/20.", "botq": null, "prev_user": "ㅇㅇ", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "고기 구해와", "prev_bot": "나무 3개 캤어요.", "botq": null, "prev_user": "Laya 나무 3개 캐와", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "인벤 보여줘", "prev_bot": "", "botq": null, "prev_user": "고기 구해와", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "엔더드래곤 잡아와", "prev_bot": "", "botq": null, "prev_user": "인벤 보여줘", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:ender_dragon", "cnt": null}
+{"utt": "나무 5개 캐와", "prev_bot": "", "botq": null, "prev_user": "엔더드래곤 잡아와", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 5}
+{"utt": "조약돌 들어", "prev_bot": "", "botq": null, "prev_user": "엔더드래곤 잡아와", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "석탄 들어", "prev_bot": "", "botq": null, "prev_user": "조약돌 들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "coal", "cnt": null}
+{"utt": "석탄 줘", "prev_bot": "", "botq": null, "prev_user": "석탄 들어", "y": {"act": "목표 실행", "type": "give"}, "tgt": "coal", "cnt": null}
+{"utt": "철곡괭이 들어", "prev_bot": "", "botq": null, "prev_user": "석탄 줘", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "용암좀 가온나", "prev_bot": "", "botq": null, "prev_user": "인벤 뭐있어", "y": {"act": "목표 실행", "type": "bucket"}, "tgt": "lava_bucket", "cnt": null}
+{"utt": "용암구햐와", "prev_bot": "", "botq": null, "prev_user": "용암좀 가온나", "y": {"act": "목표 실행", "type": "bucket"}, "tgt": "lava_bucket", "cnt": null}
+{"utt": "용암", "prev_bot": "", "botq": null, "prev_user": "용암구햐와", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "가져와", "prev_bot": "", "botq": null, "prev_user": "용암", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "용암 구해와", "prev_bot": "", "botq": null, "prev_user": "인벤 뭐있어", "y": {"act": "목표 실행", "type": "bucket"}, "tgt": "lava_bucket", "cnt": null}
+{"utt": "돌곡괭이 들어", "prev_bot": "", "botq": null, "prev_user": "장비 맞춰", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "stone_pickaxe", "cnt": null}
+{"utt": "집으로 가", "prev_bot": "", "botq": null, "prev_user": "인벤 뭐있어", "y": {"act": "목표 실행", "type": "goto"}, "tgt": "place:home", "cnt": null}
+{"utt": "나무캐", "prev_bot": "", "botq": null, "prev_user": "집으로 가", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "철갑옷 만들자", "prev_bot": "", "botq": null, "prev_user": "농사짓자", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "갑옷 입어", "prev_bot": "", "botq": null, "prev_user": "인벤 뭐있어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "grp:armor", "cnt": null}
+{"utt": "숨어", "prev_bot": "", "botq": null, "prev_user": "갑옷 입어", "y": {"act": "목표 실행", "type": "shelter"}, "tgt": null, "cnt": null}
+{"utt": "철갑옷입어", "prev_bot": "", "botq": null, "prev_user": "인벤에 있어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "나무 10개 캐오", "prev_bot": "", "botq": null, "prev_user": "집으로 가", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 10}
+{"utt": "무기 들어", "prev_bot": "", "botq": null, "prev_user": "나무 3개 캐와", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "grp:sword", "cnt": null}
+{"utt": "나무 한 세트 캐와", "prev_bot": "", "botq": null, "prev_user": "고기 구해와", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 64}
+{"utt": "나무 64개 캐와", "prev_bot": "", "botq": null, "prev_user": "나무 한 세트 캐와", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 64}
+{"utt": "철검들어", "prev_bot": "", "botq": null, "prev_user": "나무 64개 캐와", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "사냥해", "prev_bot": "", "botq": null, "prev_user": "철검들어", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": null, "cnt": null}
+{"utt": "고기 20개 구해와", "prev_bot": "", "botq": null, "prev_user": "사냥해", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:meat", "cnt": 20}
+{"utt": "소고기 20개", "prev_bot": "", "botq": null, "prev_user": "고기 20개 구해와", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "beef", "cnt": 20}
+{"utt": "다이아곡괭이 만들어", "prev_bot": "", "botq": null, "prev_user": "소고기 20개", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "diamond_pickaxe", "cnt": null}
+{"utt": "흙 8개 파와", "prev_bot": "", "botq": null, "prev_user": "나무 5개 캐와", "y": {"act": "목표 실행", "type": "dig"}, "tgt": "dirt", "cnt": 8}
+{"utt": "돌곡괭이 만들어", "prev_bot": "", "botq": null, "prev_user": "무기 들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_pickaxe", "cnt": null}
+{"utt": "화로 만들어", "prev_bot": "", "botq": null, "prev_user": "돌곡괭이 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "furnace", "cnt": null}
+{"utt": "상자 2개 만들어", "prev_bot": "", "botq": null, "prev_user": "화로 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "chest", "cnt": 2}
+{"utt": "횃불 8개 만들어", "prev_bot": "", "botq": null, "prev_user": "상자 2개 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "torch", "cnt": 8}
+{"utt": "고기 구워", "prev_bot": "", "botq": null, "prev_user": "상자 2개 만들어", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "유리 4개 만들어", "prev_bot": "", "botq": null, "prev_user": "철곡괭이 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "glass", "cnt": 4}
+{"utt": "좀비 잡아", "prev_bot": "", "botq": null, "prev_user": "나무 3개 캐와", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:zombie", "cnt": null}
+{"utt": "엔더맨 잡아", "prev_bot": "", "botq": null, "prev_user": "좀비 잡아", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:enderman", "cnt": null}
+{"utt": "나무검 만들어", "prev_bot": "", "botq": null, "prev_user": "좀비 잡아", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "wooden_sword", "cnt": null}
+{"utt": "돌검 만들고 좀비 잡아", "prev_bot": "", "botq": null, "prev_user": "좀비 잡아", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_sword", "cnt": null}
+{"utt": "돌검 만들", "prev_bot": "", "botq": null, "prev_user": "좀비 잡아", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_sword", "cnt": null}
+{"utt": "철셋만들어", "prev_bot": "", "botq": null, "prev_user": "장비 맞춰", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철곡괭이들어", "prev_bot": "", "botq": null, "prev_user": "철셋만들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철곡괭이만들어", "prev_bot": "", "botq": null, "prev_user": "철곡괭이들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "횃불 들어", "prev_bot": "", "botq": null, "prev_user": "돌곡괭이 들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "torch", "cnt": null}
+{"utt": "철셋 맞춰", "prev_bot": "", "botq": null, "prev_user": "횃불 들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철세트 맞춰", "prev_bot": "", "botq": null, "prev_user": "철곡괭이 어떻게 만들어?", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철셋 만들어", "prev_bot": "", "botq": null, "prev_user": "농사짓자", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철세트 만들어", "prev_bot": "", "botq": null, "prev_user": "철셋 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "출발해", "prev_bot": "", "botq": null, "prev_user": "나무 5개 캐와", "y": {"act": "긍정 대답"}, "tgt": null, "cnt": null}
+{"utt": "나무캐와", "prev_bot": "", "botq": null, "prev_user": "출발해", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "먹을거 구해와", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:food", "cnt": null}
+{"utt": "먹어", "prev_bot": "", "botq": null, "prev_user": "먹을거 구해와", "y": {"act": "목표 실행", "type": "eat"}, "tgt": null, "cnt": null}
+{"utt": "먹을거 구하자", "prev_bot": "", "botq": null, "prev_user": "먹어", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "grp:food", "cnt": null}
+{"utt": "그냥 가", "prev_bot": "", "botq": null, "prev_user": "나무 5개 캐와", "y": {"act": "긍정 대답"}, "tgt": null, "cnt": null}
+{"utt": "출발", "prev_bot": "", "botq": null, "prev_user": "그냥 가", "y": {"act": "긍정 대답"}, "tgt": null, "cnt": null}
+{"utt": "몇시야", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "질문 답하기", "query": "time"}, "tgt": null, "cnt": null}
+{"utt": "아침이야?", "prev_bot": "", "botq": null, "prev_user": "몇시야", "y": {"act": "질문 답하기", "query": "time"}, "tgt": null, "cnt": null}
+{"utt": "밤이야?", "prev_bot": "", "botq": null, "prev_user": "아침이야?", "y": {"act": "질문 답하기", "query": "time"}, "tgt": null, "cnt": null}
+{"utt": "화로에 뭐 있어", "prev_bot": "", "botq": null, "prev_user": "철곡 만들어", "y": {"act": "질문 답하기", "query": "furnace"}, "tgt": null, "cnt": null}
+{"utt": "연어 잡자", "prev_bot": "", "botq": null, "prev_user": "고기 구해와", "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "mob:salmon", "cnt": null}
+{"utt": "가죽버려", "prev_bot": "", "botq": null, "prev_user": "물로가자", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "leather", "cnt": null}
+{"utt": "나무 더 캐자", "prev_bot": "", "botq": null, "prev_user": "가죽버려", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "거기 나무 많네", "prev_bot": "", "botq": null, "prev_user": "나무 더 캐자", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "나무 캐", "prev_bot": "", "botq": null, "prev_user": "거기 나무 많네", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": null}
+{"utt": "모래버려", "prev_bot": "", "botq": null, "prev_user": "나무 캐", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "sand", "cnt": null}
+{"utt": "마두 한세트 캐와", "prev_bot": "", "botq": null, "prev_user": "모래버려", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "나무", "prev_bot": "", "botq": null, "prev_user": "마두 한세트 캐와", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "나무 64개 구해와", "prev_bot": "", "botq": null, "prev_user": "나무 5ㅣ64개 캐와", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 64}
+{"utt": "철새트 맞춰", "prev_bot": "", "botq": null, "prev_user": "나무 64개 캐와", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "여기가 집이야", "prev_bot": "", "botq": null, "prev_user": "철새트 맞춰", "y": {"act": "목표 실행", "type": "mark"}, "tgt": "place:home", "cnt": null}
+{"utt": "상자 깔고 템 정리해", "prev_bot": "", "botq": null, "prev_user": "여기가 집이야", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "상자부터 만들어", "prev_bot": "", "botq": null, "prev_user": "상자 먼저 해", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "chest", "cnt": null}
+{"utt": "상자만들어", "prev_bot": "", "botq": null, "prev_user": "상자부터 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "chest", "cnt": null}
+{"utt": "체력은?", "prev_bot": "", "botq": null, "prev_user": "인벤 보여줘", "y": {"act": "질문 답하기", "query": "hp"}, "tgt": null, "cnt": null}
+{"utt": "스테이크 먹어", "prev_bot": "", "botq": null, "prev_user": "체력은?", "y": {"act": "목표 실행", "type": "eat"}, "tgt": "cooked_beef", "cnt": null}
+{"utt": "상자 설치하", "prev_bot": "", "botq": null, "prev_user": "스테이크 먹어", "y": {"act": "목표 실행", "type": "place"}, "tgt": "chest", "cnt": null}
+{"utt": "상자 깔아", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "place"}, "tgt": "chest", "cnt": null}
+{"utt": "상자에 템 다 넣어", "prev_bot": "", "botq": null, "prev_user": "상자 깔아", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "집 어디야", "prev_bot": "", "botq": null, "prev_user": "상자에 템 다 넣어", "y": {"act": "질문 답하기", "query": "where_thing"}, "tgt": "place:home", "cnt": null}
+{"utt": "이제 철곡 만들자", "prev_bot": "", "botq": null, "prev_user": "집 어디야", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철셋맞춰", "prev_bot": "", "botq": null, "prev_user": "이제 철곡 만들자", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "안녕 Laya", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "이리 와바", "prev_bot": "", "botq": null, "prev_user": "안녕 Laya", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "따라오셈", "prev_bot": "", "botq": null, "prev_user": "이리 와바", "y": {"act": "목표 실행", "type": "follow"}, "tgt": null, "cnt": null}
+{"utt": "멈춰봐", "prev_bot": "", "botq": null, "prev_user": "따라오셈", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "니 체력 몇임", "prev_bot": "", "botq": null, "prev_user": "멈춰봐", "y": {"act": "질문 답하기", "query": "hp"}, "tgt": null, "cnt": null}
+{"utt": "주변에 뭐 보이냐", "prev_bot": "", "botq": null, "prev_user": "지금 머하냐", "y": {"act": "질문 답하기", "query": "near"}, "tgt": null, "cnt": null}
+{"utt": "철 몇개 있음?", "prev_bot": "", "botq": null, "prev_user": "돌곡괭이 어케 만듬?", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "나무 5개만 캐와줘", "prev_bot": "", "botq": null, "prev_user": "배고프냐", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 5}
+{"utt": "ㄴㄴ 그만", "prev_bot": "", "botq": null, "prev_user": "나무 5개만 캐와줘", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "작업대 하나 뽑아줘", "prev_bot": "", "botq": null, "prev_user": "ㄴㄴ 그만", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "crafting_table", "cnt": 1}
+{"utt": "그만해", "prev_bot": "", "botq": null, "prev_user": "작업대 하나 뽑아줘", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "밥 좀 주라", "prev_bot": "", "botq": null, "prev_user": "그만해", "y": {"act": "목표 실행", "type": "give"}, "tgt": "grp:food", "cnt": null}
+{"utt": "고마웡 ㅋㅋ", "prev_bot": "", "botq": null, "prev_user": "밥 좀 주라", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "상자 좀 정리해줄래", "prev_bot": "", "botq": null, "prev_user": "고마웡 ㅋㅋ", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "나 좀 지켜줘", "prev_bot": "", "botq": null, "prev_user": "물 한 양동이 떠와", "y": {"act": "목표 실행", "type": "guard"}, "tgt": null, "cnt": null}
+{"utt": "근처 좀비 보이면 잡아", "prev_bot": "", "botq": null, "prev_user": "그만", "y": {"act": "목표 실행", "type": "guard"}, "tgt": null, "cnt": null}
+{"utt": "멍청아 그것도 못해?", "prev_bot": "", "botq": null, "prev_user": "스톱", "y": {"act": "욕설"}, "tgt": null, "cnt": null}
+{"utt": "나무 두개주라", "prev_bot": "", "botq": null, "prev_user": "나 어딨는지 알아?", "y": {"act": "목표 실행", "type": "give"}, "tgt": "grp:log", "cnt": 2}
+{"utt": "나무 두개 캐와", "prev_bot": "", "botq": null, "prev_user": "인벤 뭐있음", "y": {"act": "목표 실행", "type": "log"}, "tgt": "grp:log", "cnt": 2}
+{"utt": "나무도끼 만들어", "prev_bot": "", "botq": null, "prev_user": "도끼 없이 캐면 느릴듯", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "wooden_axe", "cnt": null}
+{"utt": "흙도 있냐 줘", "prev_bot": "", "botq": null, "prev_user": "줘", "y": {"act": "목표 실행", "type": "give"}, "tgt": "dirt", "cnt": null}
+{"utt": "Laya 흙 줘", "prev_bot": "", "botq": null, "prev_user": "Laya 흙 있냐", "y": {"act": "목표 실행", "type": "give"}, "tgt": "dirt", "cnt": null}
+{"utt": "고기 있어?", "prev_bot": "", "botq": null, "prev_user": "Laya 흙 있냐", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:meat", "cnt": null}
+{"utt": "다이아 있어?", "prev_bot": "", "botq": null, "prev_user": "고기 있어?", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "diamond", "cnt": null}
+{"utt": "철헬멧 만들어", "prev_bot": "", "botq": null, "prev_user": "나무 5개 캐와", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "철 투구", "prev_bot": "", "botq": null, "prev_user": "철헬멧 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "철곡만들어 만들어", "prev_bot": "", "botq": null, "prev_user": "철 투구", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철곡 들어", "prev_bot": "", "botq": null, "prev_user": "철곡 만들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철 도끼 만들어", "prev_bot": "", "botq": null, "prev_user": "철곡괭이 들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_axe", "cnt": null}
+{"utt": "철 머리 만들어", "prev_bot": "", "botq": null, "prev_user": "인벤 보여줘", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "철 헬멧 만들어", "prev_bot": "", "botq": null, "prev_user": "철 머리 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "철 갑못만들어", "prev_bot": "", "botq": null, "prev_user": "상태", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철 머리 만들자", "prev_bot": "", "botq": null, "prev_user": "철 갑못만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "철 헬멧 만들자", "prev_bot": "", "botq": null, "prev_user": "철 머리 만들자", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "상자설치하", "prev_bot": "", "botq": null, "prev_user": "상자만들어", "y": {"act": "목표 실행", "type": "place"}, "tgt": "chest", "cnt": null}
+{"utt": "아이템 정리해", "prev_bot": "", "botq": null, "prev_user": "상자설치하", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "상자 어딨어", "prev_bot": "", "botq": null, "prev_user": "아이템 정리해", "y": {"act": "질문 답하기", "query": "where_thing"}, "tgt": "chest", "cnt": null}
+{"utt": "상자 열어봐", "prev_bot": "", "botq": null, "prev_user": "상자 어딨어", "y": {"act": "질문 답하기", "query": "chest"}, "tgt": null, "cnt": null}
+{"utt": "상자에 돌 넣어", "prev_bot": "", "botq": null, "prev_user": "상자 열어봐", "y": {"act": "목표 실행", "type": "store"}, "tgt": "stone", "cnt": null}
+{"utt": "상자 부숴", "prev_bot": "", "botq": null, "prev_user": "상자에 돌 넣어", "y": {"act": "목표 실행", "type": "break"}, "tgt": "chest", "cnt": null}
+{"utt": "상자에 철 넣어", "prev_bot": "", "botq": null, "prev_user": "상자 부숴", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "상자에 곡괭이 빼", "prev_bot": "", "botq": null, "prev_user": "상자에 철 넣어", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "grp:pickaxe", "cnt": null}
+{"utt": "다 넣어", "prev_bot": "", "botq": null, "prev_user": "상자에 곡괭이 빼", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "상자에서 돌꺼네", "prev_bot": "", "botq": null, "prev_user": "다 넣어", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "stone", "cnt": null}
+{"utt": "철 갑옷 만들어", "prev_bot": "", "botq": null, "prev_user": "인벤 보여줘", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "도끼없어?", "prev_bot": "", "botq": null, "prev_user": "철 갑옷 만들어", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:axe", "cnt": null}
+{"utt": "손으로 나무캐면 한세월일듯", "prev_bot": "", "botq": null, "prev_user": "도끼없어?", "y": {"act": "지적·조언", "hint": "slow"}, "tgt": null, "cnt": null}
+{"utt": "도끼만들", "prev_bot": "", "botq": null, "prev_user": "손으로 나무캐면 한세월일듯", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "grp:axe", "cnt": null}
+{"utt": "철 갑옷만들어", "prev_bot": "", "botq": null, "prev_user": "나무캐자", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "연료없네", "prev_bot": "", "botq": null, "prev_user": "T", "y": {"act": "지적·조언", "hint": "short"}, "tgt": null, "cnt": null}
+{"utt": "화로 확인해", "prev_bot": "", "botq": null, "prev_user": "연료없네", "y": {"act": "목표 실행", "type": "check"}, "tgt": "furnace", "cnt": null}
+{"utt": "철갑옷 풀세트 맞추자", "prev_bot": "", "botq": null, "prev_user": "뭐 제작해", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철갑옷 제작해", "prev_bot": "", "botq": null, "prev_user": "철갑옷 풀세트 맞추자", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "피좀 채워", "prev_bot": "", "botq": null, "prev_user": "철갑옷 만들어", "y": {"act": "목표 실행", "type": "eat"}, "tgt": null, "cnt": null}
+{"utt": "석탄캐와", "prev_bot": "", "botq": null, "prev_user": "나무 5개 캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "coal", "cnt": null}
+{"utt": "상자 설치해", "prev_bot": "", "botq": null, "prev_user": "상자만들어", "y": {"act": "목표 실행", "type": "place"}, "tgt": "chest", "cnt": null}
+{"utt": "상자에 템 정리해", "prev_bot": "", "botq": null, "prev_user": "상자 설치해", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "상자에서 철 꺼내와", "prev_bot": "", "botq": null, "prev_user": "상자에 철 넣어", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "상자에 뭐뭐 있어", "prev_bot": "", "botq": null, "prev_user": "상자에서 철 꺼내와", "y": {"act": "질문 답하기", "query": "chest"}, "tgt": null, "cnt": null}
+{"utt": "상자에서 밀 씨앗 2개 꺼내", "prev_bot": "", "botq": null, "prev_user": "상자에 뭐뭐 있어", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "wheat_seeds", "cnt": 2}
+{"utt": "상자에서 밀 씨앗 2개 가져와", "prev_bot": "", "botq": null, "prev_user": "상자에서 밀 씨앗 2개 꺼내", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "wheat_seeds", "cnt": 2}
+{"utt": "나무캐서 나무 곡괭이 만든 후 돌 캐서 돌 곡괭이 만들어.", "prev_bot": "", "botq": null, "prev_user": "상태", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_pickaxe", "cnt": null}
+{"utt": "돌 캐서 돌 곡괭이 만들어", "prev_bot": "", "botq": null, "prev_user": "나무캐서 나무 곡괭이 만든 후 돌 캐서 돌 곡괭이 만들어.", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stone_pickaxe", "cnt": null}
+{"utt": "철 곡괭이 만들어.", "prev_bot": "", "botq": null, "prev_user": "돌 캐서 돌 곡괭이 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "다이아 4개 모아", "prev_bot": "", "botq": null, "prev_user": "철 곡괭이 만들어.", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "diamond", "cnt": 4}
+{"utt": "농사해", "prev_bot": "", "botq": null, "prev_user": "고기 구해와", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "농사!!!!!!!", "prev_bot": "", "botq": null, "prev_user": "농사해", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "농사해!!!!!!!!!", "prev_bot": "", "botq": null, "prev_user": "농사!!!!!!!", "y": {"act": "목표 실행", "type": "farm"}, "tgt": null, "cnt": null}
+{"utt": "철갑옷만들어", "prev_bot": "", "botq": null, "prev_user": "자급자족해", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "모래 구워", "prev_bot": "", "botq": null, "prev_user": "Laya 모래 5개 캐와", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "glass", "cnt": null}
+{"utt": "유리는", "prev_bot": "", "botq": null, "prev_user": "모래 구워", "y": {"act": "질문 답하기", "query": "progress"}, "tgt": null, "cnt": null}
+{"utt": "유리 구운거 어떻게 됐어", "prev_bot": "", "botq": null, "prev_user": "유리는", "y": {"act": "질문 답하기", "query": "progress"}, "tgt": null, "cnt": null}
+{"utt": "유리 구워", "prev_bot": "", "botq": null, "prev_user": "유리 구운거 어떻게 됐어", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "glass", "cnt": null}
+{"utt": "player2를 공격해", "prev_bot": "", "botq": null, "prev_user": "집합", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "머ㅗㅁ춰", "prev_bot": "", "botq": null, "prev_user": "player2를 공격해", "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "돌 도끼로 player2를 공격해 점프 해서 크리티컬 띄워", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "돌 도끼로 player2 공격해", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "돌 도끼 들어", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "stone_axe", "cnt": null}
+{"utt": "player2 공격", "prev_bot": "", "botq": null, "prev_user": "돌 도끼 들어", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "뛰어 내려", "prev_bot": "", "botq": null, "prev_user": "인벤 보여줘", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "쌓아서 올라가", "prev_bot": "", "botq": null, "prev_user": "조약돌 들어", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "16칸 올라가", "prev_bot": "", "botq": null, "prev_user": "쌓아서 올라가", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "23칸 더 올라가", "prev_bot": "", "botq": null, "prev_user": "조약돌 들어", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "위로 올라가", "prev_bot": "", "botq": null, "prev_user": "23칸 더 올라가", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "블럭 쌓아", "prev_bot": "", "botq": null, "prev_user": "위로 올라가", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "더 쌓아", "prev_bot": "", "botq": null, "prev_user": "블럭 쌓아", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "쌓아", "prev_bot": "", "botq": null, "prev_user": "더 쌓아", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "앞으로 한 칸 가", "prev_bot": "", "botq": null, "prev_user": "뛰어 내려", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "앞으로 한칸 돌 설치", "prev_bot": "", "botq": null, "prev_user": "앞으로 한 칸 가", "y": {"act": "목표 실행", "type": "place"}, "tgt": "stone", "cnt": null}
+{"utt": "앞으로 한칸 가", "prev_bot": "", "botq": null, "prev_user": "앞으로 한칸 돌 설치", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "앞으로 한칸 더 가", "prev_bot": "", "botq": null, "prev_user": "앞으로 한칸 가", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "앞에 조약돌로 가", "prev_bot": "", "botq": null, "prev_user": "앞으로 한칸 더 가", "y": {"act": "목표 실행", "type": "goto"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "앞에 조약돌 3칸 설치", "prev_bot": "", "botq": null, "prev_user": "앞에 조약돌로 가", "y": {"act": "목표 실행", "type": "place"}, "tgt": "cobblestone", "cnt": 3}
+{"utt": "올라가", "prev_bot": "", "botq": null, "prev_user": "앞에 조약돌 3칸 설치", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "앞으로 3칸 설치", "prev_bot": "", "botq": null, "prev_user": "쌓아", "y": {"act": "목표 실행", "type": "place"}, "tgt": null, "cnt": null}
+{"utt": "뛰어", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "앞으로 달려가", "prev_bot": "", "botq": null, "prev_user": "뛰어", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "달려가", "prev_bot": "", "botq": null, "prev_user": "앞으로 달려가", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "-33 107 -20으로 이동", "prev_bot": "", "botq": null, "prev_user": "달려가", "y": {"act": "목표 실행", "type": "goto"}, "tgt": null, "cnt": null}
+{"utt": "조약돌 캐", "prev_bot": "", "botq": null, "prev_user": "밑에 캐", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "돌 쌓아", "prev_bot": "", "botq": null, "prev_user": "쌓아", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "위로 쌓아", "prev_bot": "", "botq": null, "prev_user": "쌓아", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "밑으로 가", "prev_bot": "", "botq": null, "prev_user": "위로 쌓아", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "잔디 캐", "prev_bot": "", "botq": null, "prev_user": "밑으로 가", "y": {"act": "목표 실행", "type": "dig"}, "tgt": "grass_block", "cnt": null}
+{"utt": "잔디", "prev_bot": "", "botq": null, "prev_user": "잔디 캐", "y": {"act": "되묻기"}, "tgt": null, "cnt": null}
+{"utt": "잔디 파괴해", "prev_bot": "", "botq": null, "prev_user": "잔디", "y": {"act": "목표 실행", "type": "dig"}, "tgt": "grass_block", "cnt": null}
+{"utt": "앞으로 가", "prev_bot": "", "botq": null, "prev_user": "잔디 파괴해", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "이리와", "prev_bot": "", "botq": null, "prev_user": "앞으로 가", "y": {"act": "목표 실행", "type": "come"}, "tgt": null, "cnt": null}
+{"utt": "-38 76 10", "prev_bot": "", "botq": null, "prev_user": "이리와", "y": {"act": "목표 실행", "type": "goto"}, "tgt": null, "cnt": null}
+{"utt": "-38 76 10으로 가", "prev_bot": "", "botq": null, "prev_user": "-38 76 10", "y": {"act": "목표 실행", "type": "goto"}, "tgt": null, "cnt": null}
+{"utt": "위로 더 쌓아", "prev_bot": "", "botq": null, "prev_user": "더", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "위로  쌓아", "prev_bot": "", "botq": null, "prev_user": "위로 쌓아", "y": {"act": "목표 실행", "type": "pillar"}, "tgt": null, "cnt": null}
+{"utt": "-39 110 0으로 이동", "prev_bot": "", "botq": null, "prev_user": "위로 쌓아", "y": {"act": "목표 실행", "type": "goto"}, "tgt": null, "cnt": null}
+{"utt": "-39 109 0으로 가", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "goto"}, "tgt": null, "cnt": null}
+{"utt": "돌 캐", "prev_bot": "", "botq": null, "prev_user": "템 뭐있냐", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "아이템 주으러 가", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "collect"}, "tgt": null, "cnt": null}
+{"utt": "LAYA_J 공격", "prev_bot": "", "botq": null, "prev_user": "player2 공격", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "J 공격", "prev_bot": "", "botq": null, "prev_user": "LAYA_J 공격", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "철 24개 캐", "prev_bot": "", "botq": null, "prev_user": "J 공격", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": 24}
+{"utt": "일자굴로 파", "prev_bot": "", "botq": null, "prev_user": "철 24개 캐", "y": {"act": "목표 실행", "type": "tunnel"}, "tgt": null, "cnt": null}
+{"utt": "300칸 터널 파", "prev_bot": "", "botq": null, "prev_user": "일자굴로 파", "y": {"act": "목표 실행", "type": "tunnel"}, "tgt": null, "cnt": null}
+{"utt": "64칸 터널 파", "prev_bot": "", "botq": null, "prev_user": "300칸 터널 파", "y": {"act": "목표 실행", "type": "tunnel"}, "tgt": null, "cnt": null}
+{"utt": "화로 캐", "prev_bot": "", "botq": null, "prev_user": "철 구워", "y": {"act": "목표 실행", "type": "break"}, "tgt": "furnace", "cnt": null}
+{"utt": "막대기 4개 만들어", "prev_bot": "", "botq": null, "prev_user": "철 곡괭이 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stick", "cnt": 4}
+{"utt": "막대기 만들어", "prev_bot": "", "botq": null, "prev_user": "막대기 4개 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "stick", "cnt": null}
+{"utt": "철 곡괭이 들어", "prev_bot": "", "botq": null, "prev_user": "철 곡괭이 만들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "64칸 더 파", "prev_bot": "", "botq": null, "prev_user": "64칸 터널 파", "y": {"act": "목표 실행", "type": "tunnel"}, "tgt": null, "cnt": null}
+{"utt": "철 캐", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "y좌표 16까지 내려가", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "-34 0 -16 으로 가", "prev_bot": "", "botq": null, "prev_user": "y좌표 16까지 내려가", "y": {"act": "목표 실행", "type": "goto"}, "tgt": null, "cnt": null}
+{"utt": "밑으로 캐", "prev_bot": "", "botq": null, "prev_user": "-34 0 -16 으로 가", "y": {"act": "목표 실행", "type": "tunnel"}, "tgt": null, "cnt": null}
+{"utt": "작업대 만들어", "prev_bot": "", "botq": null, "prev_user": "철 구워", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "crafting_table", "cnt": null}
+{"utt": "화로 위에 작업대 설치해", "prev_bot": "", "botq": null, "prev_user": "작업대 설치해", "y": {"act": "목표 실행", "type": "place"}, "tgt": "crafting_table", "cnt": null}
+{"utt": "철 꺼내", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "화로에서 철 꺼내", "prev_bot": "", "botq": null, "prev_user": "철 꺼내", "y": {"act": "목표 실행", "type": "retrieve"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "화로캐", "prev_bot": "", "botq": null, "prev_user": "화로에서 철 꺼내", "y": {"act": "목표 실행", "type": "break"}, "tgt": "furnace", "cnt": null}
+{"utt": "나무 곡괭이 들어", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "wooden_pickaxe", "cnt": null}
+{"utt": "나무 곡괭ㅇ ㅣ들어", "prev_bot": "", "botq": null, "prev_user": "나무 곡괭이 들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "wooden_pickaxe", "cnt": null}
+{"utt": "곡괭이 들어", "prev_bot": "", "botq": null, "prev_user": "나무곡괭이 들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "grp:pickaxe", "cnt": null}
+{"utt": "wooden pickaxe 들어", "prev_bot": "", "botq": null, "prev_user": "곡괭이 들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "wooden_pickaxe", "cnt": null}
+{"utt": "작업대 설치", "prev_bot": "", "botq": null, "prev_user": "작업대로 가", "y": {"act": "목표 실행", "type": "place"}, "tgt": "crafting_table", "cnt": null}
+{"utt": "화로 열어", "prev_bot": "", "botq": null, "prev_user": "작업대 설치", "y": {"act": "질문 답하기", "query": "furnace"}, "tgt": null, "cnt": null}
+{"utt": "작업대 서맃", "prev_bot": "", "botq": null, "prev_user": "화로 열어", "y": {"act": "목표 실행", "type": "place"}, "tgt": "crafting_table", "cnt": null}
+{"utt": "-36 46 -22로 가", "prev_bot": "", "botq": null, "prev_user": "앞에 화로에서. 철 꺼네", "y": {"act": "목표 실행", "type": "goto"}, "tgt": null, "cnt": null}
+{"utt": "철 더 캐", "prev_bot": "", "botq": null, "prev_user": "철 캐", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "철 12개 캐", "prev_bot": "", "botq": null, "prev_user": "철갑옷 줘", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "grp:iron", "cnt": 12}
+{"utt": "상자 만들어", "prev_bot": "", "botq": null, "prev_user": "집합", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "chest", "cnt": null}
+{"utt": "상자 1개 만들어", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "chest", "cnt": 1}
+{"utt": "상자에 아이템 넣어", "prev_bot": "", "botq": null, "prev_user": "상자에 돌 넣어", "y": {"act": "목표 실행", "type": "store"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "옆에 뭐 있어", "prev_bot": "", "botq": null, "prev_user": "상자에 아이템 넣어", "y": {"act": "질문 답하기", "query": "near"}, "tgt": null, "cnt": null}
+{"utt": "상자로 가", "prev_bot": "", "botq": null, "prev_user": "옆에 뭐 있어", "y": {"act": "목표 실행", "type": "goto"}, "tgt": "chest", "cnt": null}
+{"utt": "상자 열어", "prev_bot": "", "botq": null, "prev_user": "상자로 가", "y": {"act": "질문 답하기", "query": "chest"}, "tgt": null, "cnt": null}
+{"utt": "상자에 조약돌 넣어", "prev_bot": "", "botq": null, "prev_user": "상자 열어", "y": {"act": "목표 실행", "type": "store"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "상자에 돌 다 넣어", "prev_bot": "", "botq": null, "prev_user": "상자에 돌 넣어", "y": {"act": "목표 실행", "type": "store"}, "tgt": "stone", "cnt": null}
+{"utt": "다이아 3개 캐", "prev_bot": "", "botq": null, "prev_user": "상자에 돌 다 넣어", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "diamond", "cnt": 3}
+{"utt": "인벤토리 비워", "prev_bot": "", "botq": null, "prev_user": "돌 버려", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "grp:item_all", "cnt": null}
+{"utt": "음식 버려", "prev_bot": "", "botq": null, "prev_user": "인벤 보여줘", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "grp:food", "cnt": null}
+{"utt": "음식 다 버려", "prev_bot": "", "botq": null, "prev_user": "음식 버려", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "grp:food", "cnt": null}
+{"utt": "철 흉갑 벗어", "prev_bot": "", "botq": null, "prev_user": "죽어", "y": {"act": "목표 실행", "type": "unequip"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "철 흉갑 버려", "prev_bot": "", "botq": null, "prev_user": "철 흉갑 벗어", "y": {"act": "목표 실행", "type": "drop"}, "tgt": "iron_chestplate", "cnt": null}
+{"utt": "claude 죽여", "prev_bot": "", "botq": null, "prev_user": "작업대로 가", "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "장착: iron_leggings", "prev_bot": "", "botq": null, "prev_user": "나무곡괭이 들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_leggings", "cnt": null}
+{"utt": "다이아몬드 흉갑 입어", "prev_bot": "", "botq": null, "prev_user": "장착: iron_leggings", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "diamond_chestplate", "cnt": null}
+{"utt": "네더라이트 레깅스 입어", "prev_bot": "", "botq": null, "prev_user": "다이아몬드 흉갑 입어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "netherite_leggings", "cnt": null}
+{"utt": "철곡 만들자", "prev_bot": "", "botq": null, "prev_user": "인벤 보여줘", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "돌캐", "prev_bot": "", "botq": null, "prev_user": "나무캐자", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "돌 2개 캐", "prev_bot": "", "botq": null, "prev_user": "나무캐와", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": 2}
+{"utt": "돌 캐와", "prev_bot": "", "botq": null, "prev_user": "돌 2개 캐", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": null}
+{"utt": "철괴 32개 모아", "prev_bot": "", "botq": null, "prev_user": "나무 캐", "y": {"act": "목표 실행", "type": "mine"}, "tgt": "iron_ingot", "cnt": 32}
+{"utt": "철 몇개있어?", "prev_bot": "", "botq": null, "prev_user": "돌 캐와", "y": {"act": "질문 답하기", "query": "have"}, "tgt": "grp:iron", "cnt": null}
+{"utt": "그거 다 구워", "prev_bot": "", "botq": null, "prev_user": "철 몇개있어?", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": null, "cnt": null}
+{"utt": "철 다 구 워", "prev_bot": "", "botq": null, "prev_user": "그거 다 구워", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "iron_ingot", "cnt": null}
+{"utt": "철 구워ㅜ", "prev_bot": "", "botq": null, "prev_user": "철 다 구 워", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "iron_ingot", "cnt": null}
+{"utt": "화로에 뭐있어?", "prev_bot": "", "botq": null, "prev_user": "철 구워ㅜ", "y": {"act": "질문 답하기", "query": "furnace"}, "tgt": null, "cnt": null}
+{"utt": "철 투구 만들어", "prev_bot": "", "botq": null, "prev_user": "철 갑옷만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "철 바지 만들어", "prev_bot": "", "botq": null, "prev_user": "철 투구 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_leggings", "cnt": null}
+{"utt": "철 신발 만들어", "prev_bot": "", "botq": null, "prev_user": "철 바지 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_boots", "cnt": null}
+{"utt": "인벤어때", "prev_bot": "", "botq": null, "prev_user": "철 신발 만들어", "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "살아남아", "prev_bot": "", "botq": null, "prev_user": "멈춰", "y": {"act": "목표 실행", "type": "auto"}, "tgt": null, "cnt": null}
+{"utt": "철곡괭이 만들자", "prev_bot": "", "botq": null, "prev_user": "살아남아", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철 5개 구워", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "iron_ingot", "cnt": 5}
+{"utt": "구워", "prev_bot": "철 5개 완료!", "botq": null, "prev_user": "철 5개 구워", "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "iron_ingot", "cnt": null}
+{"utt": "돌 3개 캐", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": 3}
+{"utt": "돌 3개 캐봐", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "mine"}, "tgt": "cobblestone", "cnt": 3}
+{"utt": "연어 잡아", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "mob:salmon", "cnt": null}
+{"utt": "연어 죽여", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "mob:salmon", "cnt": null}
+{"utt": "연어 사냥해", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "hunt"}, "tgt": "mob:salmon", "cnt": null}
+{"utt": "나무 3개 버려", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "drop"}, "tgt": "grp:log", "cnt": 3}
+{"utt": "상자 설치 위치 어디야?", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "질문 답하기", "query": "where_thing"}, "tgt": "chest", "cnt": null}
+{"utt": "철 풀셋 만들어", "prev_bot": "", "botq": null, "prev_user": "", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철갑옷 풀셋 만들어", "prev_bot": "", "botq": null, "prev_user": "", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철 풀세트 맞춰", "prev_bot": "", "botq": null, "prev_user": "", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철갑옷 하나 만들어", "prev_bot": "", "botq": null, "prev_user": "", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_chestplate", "cnt": 1}
+{"utt": "철좀", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "give"}, "tgt": "iron_ingot", "cnt": null}
+{"utt": "철곡좀", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "give"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "나가서 몹조ㅗㅁ", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "철괴만들어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_ingot", "cnt": null}
+{"utt": "흙버려", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "drop"}, "tgt": "dirt", "cnt": null}
+{"utt": "하던거 마저해", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "재개"}, "tgt": null, "cnt": null}
+{"utt": "ㅇㅇ 다시 ㄱㄱ", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "재개"}, "tgt": null, "cnt": null}
+{"utt": "정지", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "멈춤"}, "tgt": null, "cnt": null}
+{"utt": "다시해", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "재개"}, "tgt": null, "cnt": null}
+{"utt": "계속해", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "재개"}, "tgt": null, "cnt": null}
+{"utt": "하던거 계속해", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "재개"}, "tgt": null, "cnt": null}
+{"utt": "다시 시킬게", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "상자", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "chest", "cnt": null}
+{"utt": "아카시아나무 원목 판자로 만들어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "acacia_planks", "cnt": null}
+{"utt": "철검만드렁", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "철검만들어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "싸워", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "combat"}, "tgt": null, "cnt": null}
+{"utt": "스켈레톤 죽여", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:skeleton", "cnt": null}
+{"utt": "철검", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_sword", "cnt": null}
+{"utt": "돌 구워", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "furnace"}, "tgt": "stone", "cnt": null}
+{"utt": "철도끼 만들어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "iron_axe", "cnt": null}
+{"utt": "장비해", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "equip"}, "tgt": null, "cnt": null}
+{"utt": "철투구 껴", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_helmet", "cnt": null}
+{"utt": "앞에 부숴", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "break"}, "tgt": null, "cnt": null}
+{"utt": "여기서 나가", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "flee"}, "tgt": null, "cnt": null}
+{"utt": "너 익사한다", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "위험 경고"}, "tgt": null, "cnt": null}
+{"utt": "아이고", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "철세트", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철 세트 만들어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "철 셋 만들어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "죽은곳에서 아이템 줍자", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "collect"}, "tgt": null, "cnt": null}
+{"utt": "흙 캐", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "dig"}, "tgt": "dirt", "cnt": null}
+{"utt": "위로 가", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "move"}, "tgt": null, "cnt": null}
+{"utt": "스켈레톤 잡아", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:skeleton", "cnt": null}
+{"utt": "상자 어떻게 만들어?", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "질문 답하기", "query": "recipe"}, "tgt": "chest", "cnt": null}
+{"utt": "인벤에 뭐있어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "질문 답하기", "query": "inv"}, "tgt": null, "cnt": null}
+{"utt": "왜 멈춰있어", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "질문 답하기", "query": "doing"}, "tgt": null, "cnt": null}
+{"utt": "아카시아 나무 있잖아", "prev_bot": null, "botq": null, "prev_user": null, "y": {"act": "지적·조언", "hint": "wrong"}, "tgt": null, "cnt": null}
+{"utt": "좀비 죽여", "prev_bot": "", "botq": null, "prev_user": "", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:zombie", "cnt": null}
+{"utt": "좀비처리해", "prev_bot": "좀비 만드는 법을 모르겠어요, 도와줄래요?", "botq": null, "prev_user": "좀비 죽여", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:zombie", "cnt": null}
+{"utt": "좀비사냥해", "prev_bot": "enchant는 아직 못해요", "botq": null, "prev_user": "좀비처리해", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:zombie", "cnt": null}

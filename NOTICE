@@ -1,0 +1,16 @@
+Miya
+Copyright 2026 snowman6
+
+Licensed under the Apache License, Version 2.0 (see LICENSE).
+
+Model weights (ckpt/miya-*) are fine-tuned from convaiinnovations/laya-multilingual
+(Apache-2.0, mmBERT encoder) — https://huggingface.co/convaiinnovations/laya-multilingual
+
+laya-multilingual's encoder is jhu-clsp/mmBERT-base (MIT).
+
+No Minecraft game data or assets are included. docs/extract.md describes how to
+generate them locally from official Mojang downloads.
+Minecraft is a trademark of Mojang Studios / Microsoft.
+This project is not affiliated with or endorsed by Mojang or Microsoft.
+
+Additional non-binding requests: LICENSE-MIYA.md

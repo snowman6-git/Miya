@@ -1,0 +1,261 @@
+{
+  "_": "봇 대답 문구. 키 = 상황.TASK_TYPE (없으면 상황 기본키). 배열이면 랜덤 1개. {변수} 치환. 수정시 재시작 없이 반영",
+  "start": [
+    "{ko} {n}개 할게요! ({steps}단계)"
+  ],
+  "start.craft": [
+    "{ko} {n}개 만들게요! ({steps}단계)"
+  ],
+  "start.mine": [
+    "{ko} {n}개 캐올게요! ({steps}단계)"
+  ],
+  "start.log": [
+    "{ko} {n}개 캐올게요! ({steps}단계)"
+  ],
+  "start.dig": [
+    "{ko} {n}개 파올게요! ({steps}단계)"
+  ],
+  "start.furnace": [
+    "{ko} {n}개 구울게요! ({steps}단계)"
+  ],
+  "start.hunt": [
+    "{ko} 잡으러 갈게요! ({steps}단계)"
+  ],
+  "start.combat": [
+    "{ko} 처리할게요!"
+  ],
+  "start.farm": [
+    "{ko} 농사 지을게요! ({steps}단계)"
+  ],
+  "start.bucket": [
+    "{ko} 떠올게요!"
+  ],
+  "done": [
+    "{ko} {n}개 완료!"
+  ],
+  "done.craft": [
+    "{ko} {n}개 만들었어요!"
+  ],
+  "done.mine": [
+    "{ko} {n}개 캤어요!"
+  ],
+  "done.log": [
+    "{ko} {n}개 캤어요!"
+  ],
+  "done.dig": [
+    "{ko} {n}개 파왔어요!"
+  ],
+  "done.furnace": [
+    "{ko} {n}개 구웠어요!"
+  ],
+  "done.hunt": [
+    "{ko} 잡았어요!"
+  ],
+  "done.combat": [
+    "처리했어요!"
+  ],
+  "done.farm": [
+    "{ko} {n}개 수확했어요!"
+  ],
+  "done.bucket": [
+    "{ko} 떠왔어요!"
+  ],
+  "goal.unknown": [
+    "{ko} 만드는 법을 모르겠어요, 도와줄래요?"
+  ],
+  "goal.ask": [
+    "{ko}는 혼자 하기 어려워요, 도와줄래요?"
+  ],
+  "fail.step": [
+    "{step} {target} 실패({why})"
+  ],
+  "fail.retry": [
+    ", 다른 방법 해볼게요"
+  ],
+  "fail.giveup": [
+    "계속 안되네요, 도와줄래요?"
+  ],
+  "answer.inv": [
+    "인벤: {inv}"
+  ],
+  "answer.have": [
+    "{ko} {n}개 있어요"
+  ],
+  "answer.hp": [
+    "체력 {hp}/20"
+  ],
+  "answer.food": [
+    "배고픔 {food}/20"
+  ],
+  "answer.pos": [
+    "{x} {y} {z}"
+  ],
+  "answer.idle": [
+    "아무것도 안해요"
+  ],
+  "answer.day": [
+    "낮이에요"
+  ],
+  "answer.night": [
+    "밤이에요"
+  ],
+  "answer.where_player": [
+    "{d}칸 거리에 있어요"
+  ],
+  "answer.not_seen": [
+    "안보여요"
+  ],
+  "answer.near": [
+    "{near}"
+  ],
+  "answer.near_none": [
+    "주변에 별거 없어요"
+  ],
+  "answer.unknown_thing": [
+    "뭘 말하는지 모르겠어요"
+  ],
+  "answer.recipe": [
+    "{ko}: {how}"
+  ],
+  "answer.recipe_none": [
+    "{ko}는 못 만들어요"
+  ],
+  "answer.status": [
+    "상태: 체력 {hp} 배고픔 {food} | 인벤: {inv}"
+  ],
+  "ask.what_is": [
+    "\"{text}\"가 뭔가요?"
+  ],
+  "ask.unclear": [
+    "무슨 말인지 모르겠어요, 다시 말해줄래요?"
+  ],
+  "ask.what_do": [
+    "뭘 할까요?"
+  ],
+  "ask.what_give": [
+    "뭘 줄까요?"
+  ],
+  "ask.what_place": [
+    "뭘 설치할까요?"
+  ],
+  "ask.what": [
+    "뭘요?"
+  ],
+  "act.stop": [
+    "멈췄어요"
+  ],
+  "act.no_resume": [
+    "재개할 작업이 없어요"
+  ],
+  "act.yes": [
+    "넵!"
+  ],
+  "act.no": [
+    "알겠어요"
+  ],
+  "act.warn": [
+    "조심할게요!"
+  ],
+  "act.hint": [
+    "알겠어요 ({hint})"
+  ],
+  "act.swear": [
+    "..."
+  ],
+  "act.echo": [
+    "{ko}?"
+  ],
+  "act.chat": [
+    "ㅎㅎ"
+  ],
+  "move.no_player": [
+    "어디 계신지 안보여요"
+  ],
+  "move.follow": [
+    "따라갈게요"
+  ],
+  "move.go": [
+    "가요!"
+  ],
+  "move.no_path": [
+    "길을 못찾겠어요"
+  ],
+  "none": [
+    "{ko} 없어요"
+  ],
+  "done.give": [
+    "{ko} {n}개 드렸어요"
+  ],
+  "done.drop": [
+    "{ko} {n}개 버렸어요"
+  ],
+  "done.equip": [
+    "{ko} 착용!"
+  ],
+  "done.collect": [
+    "주웠어요"
+  ],
+  "done.place": [
+    "{ko} 설치!"
+  ],
+  "fail.place": [
+    "설치 실패({why})"
+  ],
+  "sleep.no_bed": [
+    "침대가 없어요"
+  ],
+  "done.sleep": [
+    "잘게요"
+  ],
+  "fail.sleep": [
+    "못자요({why})"
+  ],
+  "unsupported": [
+    "{type}는 아직 못해요"
+  ],
+  "eat.none": [
+    "먹을게 없어요"
+  ],
+  "done.eat": [
+    "냠"
+  ],
+  "error": [
+    "오류났어요: {why}"
+  ],
+  "answer.where_thing": [
+    "{ko} {x} {y} {z} ({d}칸)"
+  ],
+  "answer.where_none": [
+    "{ko} 위치를 몰라요"
+  ],
+  "fail.paused": [
+    "\"{req}\" 계속 방해받아서 멈췄어요, 다시 시킬래요?"
+  ],
+  "done.tidy": [
+    "정리했어요 (버림: {drop} / 상자: {store})"
+  ],
+  "why.reuse": [
+    "{ko}는 있는거 쓸게요!"
+  ],
+  "why.fuel": [
+    "연료는 {ko} 쓸게요."
+  ],
+  "why.via": [
+    "{ko}부터 만들어서 할게요."
+  ],
+  "why.qed": [
+    "해봤던 방법이에요 ({n}번, 성공 {ok}%)."
+  ],
+  "why.qed_changed": [
+    "저번 경험상 {base}보다 {ko} 쪽이 나아서 바꿨어요 ({n}번, 성공 {ok}%)."
+  ],
+  "why.fuel_fast": [
+    "연료는 {ko} 쓸게요, {alt}보다 {dt}초 빨라요."
+  ],
+  "why.fuel_safe": [
+    "연료는 {ko} 쓸게요, {alt}보다 덜 위험해요."
+  ],
+  "why.fuel_exp": [
+    "연료는 {ko} 쓸게요, 해봤던 쪽이 나아서요."
+  ]
+}

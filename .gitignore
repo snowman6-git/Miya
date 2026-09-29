@@ -1,0 +1,55 @@
+.env
+# 환경·캐시
+.venv*/
+.venv-*.log
+__pycache__/
+*.pyc
+node_modules/
+hf_cache/
+graphify-out/
+.claude/
+
+# 개인·에이전트 노트 (접속정보 포함)
+AGENTS.md
+Claude_note.md
+HANDOFF.md
+webui_replace.md
+
+# 가중치 → HF 에 따로 업로드
+ckpt/
+*.pt
+*.safetensors
+
+# 생성 데이터·로그 (재생성 가능 / 플레이어 채팅 포함)
+data/gen/
+data/srvlog/
+data/botlog/
+data/loops/
+data/chat_raw.jsonl
+data/events_raw.jsonl
+data/qed.db*
+eval/last_errors.txt
+*.log
+*.pid
+
+# 벤치 런타임 (서버 사본·DB)
+bench/a/
+bench/b/
+bench/base/
+bench/*.db
+
+# Mojang 게임 데이터·에셋 — 배포 안함, docs/extract.md 로 직접 추출
+.mc/
+mcdata/
+data/mcx.db
+bot/assets/
+miya-assets/
+
+# QED: 스키마만 (qed/schema.sql)
+qed/schema_v0.1a.sql
+
+# 원본 이미지 (webp 변환본만 공개)
+docs/TASK_TYPE.png
+
+# MS 로그인 토큰 캐시
+bot/.auth/

@@ -1,0 +1,5 @@
+torch>=2.4
+transformers>=5.0
+safetensors
+huggingface_hub
+# 선택: flash-attn (학습 가속), laya (eval/laya_serve.py 벤치만)
