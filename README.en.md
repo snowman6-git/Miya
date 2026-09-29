@@ -6,6 +6,11 @@
 
 <p align="center"><a href="README.md">한국어</a> | <b>English</b></p>
 
+> [!WARNING]
+> **Experimental (WIP) project.** Miya-0.2 is a research snapshot, not a finished agent.
+> There is no autonomous mode yet, help-request (ask) calibration is unfinished, and some survival decisions are weak ([Limitations](#limitations)).
+> Code, weights, label schema and API may change without compatibility in the next version.
+
 > A lightweight Korean-first Minecraft agent. Every decision is made by a 139M encoder model (single forward pass, ~18 ms); the mineflayer bot only executes.
 
 Miya takes Korean chat commands and lets the model make every decision. The bot only executes what the model can't do itself (walking, digging, clicking).
@@ -85,6 +90,10 @@ survive separate loop: /prio only when state changes → fight an approaching zo
 - **Attribution**: the model chooses once more without experience. If the pick differs, the decision is flagged `changed` (web UI badge "QED: A → B").
 - Death causes feed the survival context. Item value (base value plus acquisition difficulty) drives decisions about recovering items after death.
 - Schema: [qed/schema.sql](qed/schema.sql)
+
+![QED decision evidence example](docs/qed_example.webp)
+
+The web UI's decision panel in a real run. For `철곡 만들어` (make an iron pickaxe) each of the 7 planner options carries choice probability, estimate, predicted time, risk and QED experience (14 runs, 29% success, recent death); the model picked reusing the already placed crafting table and furnace at 83%.
 
 ### Loop protection
 
@@ -172,6 +181,14 @@ The development loop:
 5. Build the next round of data from those problems.
 
 Both training and serving need `mcdata/mc.db` and `data/mcx.db` → [docs/extract.en.md](docs/extract.en.md)
+
+## Limitations
+
+- **No autonomous mode**: "자급자족해" (be self-sufficient) is classified but not executed.
+- **Ask over-calibration**: over-asks for help when experience shows a middling success rate.
+- **Survival weak spots**: low accuracy on flee-by-pillaring and dig-in-and-hide; the fight/flee boundary is fuzzy.
+- **Data bias**: mostly synthetic training data, little real chat. Korean only.
+- **Fixed environment**: Minecraft 26.1.2; tasks mineflayer can't do (enchanting, trading, ranged) are not executed yet.
 
 ## Roadmap
 

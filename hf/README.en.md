@@ -126,6 +126,10 @@ Actions and results accumulate in a DB and go into the next decision **as experi
 direct | 원정 참나무 원목 1 → 벌목 참나무 원목 2 → 제작 참나무 판자 8 → … | 예상 301초 위험 40% | 경험 5회 성공 80% 평균 170초 최근실패 1회(no_ore)
 ```
 
+![QED decision evidence example](qed_example.webp)
+
+The web UI's decision panel in a real run. For `철곡 만들어` (make an iron pickaxe) each of the 7 planner options carries choice probability, estimate, predicted time, risk and QED experience (14 runs, 29% success, recent death); the model picked reusing the already placed crafting table and furnace at 83%.
+
 **Attribution.** The choice is made once more without experience. If the result differs it is marked `changed` (experience changed the decision).
 
 **Deaths and value.** Recent death causes go into the survival context. Item value (base value + acquisition difficulty) drives recovery: lose one dirt block and it doesn't go back; lose a full diamond set and it does.

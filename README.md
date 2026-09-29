@@ -6,6 +6,11 @@
 
 <p align="center"><b>한국어</b> | <a href="README.en.md">English</a></p>
 
+> [!WARNING]
+> **실험적(WIP) 프로젝트입니다.** Miya-0.2는 연구용 스냅샷이며 완성된 에이전트가 아닙니다.
+> 자율모드는 아직 없고, 도움 요청(ask) 보정이 덜 됐으며, 생존 판단 일부가 약합니다([한계](#한계)).
+> 코드·가중치·라벨 스키마·API는 다음 버전에서 호환 없이 바뀔 수 있습니다.
+
 > A lightweight Korean-first Minecraft agent. Every decision is made by a 139M encoder model (single forward pass, ~18 ms); the mineflayer bot only executes.
 
 Miya는 한국어 명령을 받아 판단은 모두 모델이 하는 마인크래프트 AI입니다. 봇은 모델이 직접 할 수 없는 실행(걷기·캐기·클릭)만 맡습니다.
@@ -85,6 +90,10 @@ Miya는 한국어 명령을 받아 판단은 모두 모델이 하는 마인크�
 - 발현 표기: 경험을 빼고 한 번 더 선택해 봅니다. 결과가 다르면 `changed`로 표시합니다(WEBUI 배지 "QED: A → B").
 - 사망 원인은 생존 판단 ctx에 들어가고, 아이템 가치(기본 + 획득 난이도)는 회수 판단에 쓰입니다.
 - 스키마: [qed/schema.sql](qed/schema.sql)
+
+![QED 판단 근거 예시](docs/qed_example.webp)
+
+실제 WEBUI 판단 근거 화면. `철곡 만들어` → planner 후보 7개마다 선택 확률·추정·예측 시간·위험·QED 경험(14회, 성공 29%, 최근 사망)이 붙고, 모델이 이미 놓은 작업대·화로를 재사용하는 방법을 83%로 골랐습니다.
 
 ### 무한루프 차단
 
@@ -170,6 +179,14 @@ cd bot && npm install && cd ..
 5. 그 기록으로 다음 데이터를 만들고 1로 돌아갑니다.
 
 학습과 서빙 모두 `mcdata/mc.db`, `data/mcx.db`가 필요합니다 → [docs/extract.md](docs/extract.md)
+
+## 한계
+
+- **자율모드 없음**: "자급자족해"는 분류만 되고 실행되지 않습니다.
+- **ask 과보정**: 성공률이 중간인 경험에서 도움 요청을 과하게 고릅니다.
+- **생존 판단 약점**: 블럭 쌓아 도망·굴 파고 숨기 정답률이 낮고, 전투/도망 경계가 애매합니다.
+- **데이터 편향**: 학습 데이터 대부분이 합성이고 실발화는 소량입니다. 한국어 전용입니다.
+- **환경 고정**: Minecraft 26.1.2 기준, mineflayer로 불가능한 작업(인챈트·거래·원거리)은 아직 실행하지 않습니다.
 
 ## 로드맵
 
