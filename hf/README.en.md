@@ -158,6 +158,39 @@ Compared with LAYA base, keeping planner, QED and bot identical and **swapping o
 | In-game, 14 scenarios | **13/14** | 0/14 |
 | Model latency p50 / p95 | 17.8 / 19.7 ms | — |
 
+## Examples (real serving output)
+
+Real responses from `model/serve.py` (:8765). Probabilities and ms rounded, some fields omitted.
+
+```bash
+S='"state":{"hp":20,"food":20,"night":false,"inv":{"oak_log":4},"task":null}'
+curl -s localhost:8765/turn -d "{\"utt\":\"철곡 만들어\",$S}"
+```
+
+| utterance | act | type | target · count | hint | ms |
+|---|---|---|---|---|---|
+| `철곡 만들어` (make iron pick) | run goal 1.00 | craft | `철곡` → iron_pickaxe (철 곡괭이) | short | 25 |
+| `나무 5개 캐오셈` (go get 5 logs) | run goal 1.00 | log | `나무` → grp:log · `5개` → 5 | short | 21 |
+| `철뚝 ㄱㄱ` (iron helmet, go) | run goal 1.00 | craft | `철뚝` → iron_helmet (철 투구) | slow | 22 |
+| `그거론 한참걸리겠는데?` ("that'll take forever") | criticism/advice 1.00 | — | — | slow | 25 |
+
+```bash
+curl -s localhost:8765/plan -d '{"goal":"iron_pickaxe","cnt":1,"inv":{"oak_log":4},"placed":{},"near":{},"hp":20,"night":false,"armor":0}'
+```
+```json
+{"detail": {"pick_ko": "나무 곡괭이 경유, 돌 곡괭이 경유", "qed_changed": false,
+  "opts": [{"ko": "나무 곡괭이 경유, 돌 곡괭이 경유", "p": 0.58, "est_s": 321, "risk": 15,
+             "qed": {"n": 20, "ok": 0.6, "avg_ms": 273603},
+             "steps": ["제작 참나무 판자 12", "제작 제작대 1", "설치 제작대 1", "제작 막대기 4", "제작 나무 곡괭이 1",
+                       "원정 돌 1", "채광 돌 11(나무 곡괭이)", "…", "화로 철 주괴 3", "제작 철 곡괭이 1"]},
+           {"ko": "나무 곡괭이 경유, 돌 곡괭이 경유, 연료 석탄", "p": 0.25, "est_s": 446, "risk": 25}, …]}}
+```
+
+```bash
+curl -s localhost:8765/prio -d '{"ctx":"체력 5/20 배고픔 18/20 | 밤 | 위협: 좀비 4칸"}'
+# {"label":"달려서 도망","p":0.48,"ms":20.5}
+```
+
 ## Usage
 
 ```bash
@@ -165,7 +198,7 @@ git clone https://github.com/snowman6-git/Miya miya && cd miya
 hf download snowman6/Miya-0.2 --local-dir ckpt/miya-0.2
 # game data (mc.db, mcx.db) is not included → extract locally with docs/extract.en.md
 .venv/bin/python model/serve.py   # :8765 (SERVE_HOST=0.0.0.0 for bots on other machines)
-curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","ctx":""}'
+curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","state":{"hp":20,"food":20,"night":false,"inv":{},"task":null}}'
 ```
 
 To run the bot too: `./run.sh host:port`. The server must be in **offline mode** (`online-mode=false`); for an online server use `MC_AUTH=microsoft ./run.sh host:port` to sign in with a Microsoft account (on first run, enter the code from bot.log at microsoft.com/link; the token is cached in `bot/.auth/`). All options: [GitHub README](https://github.com/snowman6-git/Miya/blob/main/README.en.md#server-and-login).
@@ -178,10 +211,11 @@ To run the bot too: `./run.sh host:port`. The server must be in **offline mode**
 | `/qed` · `/death` | record results and deaths |
 | `/tidy` · `/value` · `/placed` | inventory tidy, item value, placed blocks |
 
-Two files:
+Three files:
 
 - `model.pt`: state_dict
 - `schema.json`: labels
+- `config.json`: metadata (the file HF counts downloads by)
 
 Model code (`model/miya.py`) is in the [GitHub repo](https://github.com/snowman6-git/Miya).
 

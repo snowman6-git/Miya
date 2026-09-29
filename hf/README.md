@@ -171,6 +171,39 @@ LAYA base와 비교했습니다. planner·QED·봇은 같게 두고 **판단만 
 | 인게임 14 시나리오 | **13/14** | 0/14 |
 | 모델 지연 p50 / p95 | 17.8 / 19.7 ms | — |
 
+## 예시 (실제 서빙 출력)
+
+`model/serve.py`(:8765)에 요청한 실제 응답입니다. 확률·ms 는 반올림, 출력 일부 생략.
+
+```bash
+S='"state":{"hp":20,"food":20,"night":false,"inv":{"oak_log":4},"task":null}'
+curl -s localhost:8765/turn -d "{\"utt\":\"철곡 만들어\",$S}"
+```
+
+| 발화 | act | type | 대상 · 개수 | hint | ms |
+|---|---|---|---|---|---|
+| `철곡 만들어` | 목표 실행 1.00 | craft | `철곡` → iron_pickaxe (철 곡괭이) | short | 25 |
+| `나무 5개 캐오셈` | 목표 실행 1.00 | log | `나무` → grp:log · `5개` → 5 | short | 21 |
+| `철뚝 ㄱㄱ` | 목표 실행 1.00 | craft | `철뚝` → iron_helmet (철 투구) | slow | 22 |
+| `그거론 한참걸리겠는데?` | 지적·조언 1.00 | — | — | slow | 25 |
+
+```bash
+curl -s localhost:8765/plan -d '{"goal":"iron_pickaxe","cnt":1,"inv":{"oak_log":4},"placed":{},"near":{},"hp":20,"night":false,"armor":0}'
+```
+```json
+{"detail": {"pick_ko": "나무 곡괭이 경유, 돌 곡괭이 경유", "qed_changed": false,
+  "opts": [{"ko": "나무 곡괭이 경유, 돌 곡괭이 경유", "p": 0.58, "est_s": 321, "risk": 15,
+             "qed": {"n": 20, "ok": 0.6, "avg_ms": 273603},
+             "steps": ["제작 참나무 판자 12", "제작 제작대 1", "설치 제작대 1", "제작 막대기 4", "제작 나무 곡괭이 1",
+                       "원정 돌 1", "채광 돌 11(나무 곡괭이)", "…", "화로 철 주괴 3", "제작 철 곡괭이 1"]},
+           {"ko": "나무 곡괭이 경유, 돌 곡괭이 경유, 연료 석탄", "p": 0.25, "est_s": 446, "risk": 25}, …]}}
+```
+
+```bash
+curl -s localhost:8765/prio -d '{"ctx":"체력 5/20 배고픔 18/20 | 밤 | 위협: 좀비 4칸"}'
+# {"label":"달려서 도망","p":0.48,"ms":20.5}
+```
+
 ## 사용
 
 ```bash
@@ -178,7 +211,7 @@ git clone https://github.com/snowman6-git/Miya miya && cd miya
 hf download snowman6/Miya-0.2 --local-dir ckpt/miya-0.2
 # 게임 데이터(mc.db, mcx.db)는 포함되지 않음 → 저장소 docs/extract.md 로 로컬 추출
 .venv/bin/python model/serve.py   # :8765 (다른 PC 봇이면 SERVE_HOST=0.0.0.0)
-curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","ctx":""}'
+curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","state":{"hp":20,"food":20,"night":false,"inv":{},"task":null}}'
 ```
 
 봇까지 띄우려면 `./run.sh host:port`. 봇이 붙을 서버는 **오프라인 모드**(`online-mode=false`)여야 하고, 정품 서버라면 `MC_AUTH=microsoft ./run.sh host:port` 로 MS 계정 로그인(첫 실행시 bot.log 의 코드를 microsoft.com/link 에 입력, 토큰은 `bot/.auth/` 캐시). 옵션 전체는 [GitHub README](https://github.com/snowman6-git/Miya#서버-접속--로그인).
@@ -193,10 +226,11 @@ curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","ctx":""}'
 | `/qed` · `/death` | 결과·사망 기록 |
 | `/tidy` · `/value` · `/placed` | 인벤 정리, 아이템 가치, 설치물 |
 
-파일은 두 개입니다.
+파일은 세 개입니다.
 
 - `model.pt`: state_dict
 - `schema.json`: 라벨
+- `config.json`: 메타 정보 (HF 다운로드 수 집계 기준 파일)
 
 모델 코드(`model/miya.py`)는 [GitHub 저장소](https://github.com/snowman6-git/Miya)에 있습니다.
 

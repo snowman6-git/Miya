@@ -51,7 +51,7 @@ def choose(utt, ctx, qid, opts):
 
 
 def turn(x):
-    ctx = x.get("ctx") or G.ctx_text(None, x["state"])
+    ctx = x["ctx"] if "ctx" in x else G.ctx_text(None, x["state"])  # ctx 직접 or state 로 생성
     utt = x["utt"]
     if x.get("hist"):  # 멀티턴: 직전 사용자·봇 발화
         utt = f"이전 나: {x['hist'][0]} / 봇: {x['hist'][1]} ▶ {utt}"

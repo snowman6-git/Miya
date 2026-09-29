@@ -143,3 +143,4 @@
 - .env.example 공개용 추가, README(ko/en)·bot README·HF 카드에 오프라인 모드/MS 로그인 안내
 - 미검증: 실제 정품 서버 MS 로그인 (계정 없음)
 - 2026-09-29 README·HF: QED 판단근거 예시(docs/qed_example.webp) 추가, GitHub README 실험적(WIP) 경고·한계 섹션
+- 2026-09-29 README 4종 실서빙 예시(turn/plan/prio), serve ctx:"" 허용, HF config.json(다운로드 집계)

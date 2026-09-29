@@ -117,6 +117,39 @@ planner·QED·봇은 같고 판단만 바꿨습니다. 상세: [bench/RESULT.md]
 | /turn p50 | **57ms** | 181ms |
 | 인게임 14 시나리오 | **13/14** | 0/14 |
 
+## 예시 (실제 서빙 출력)
+
+`model/serve.py`(:8765)에 요청한 실제 응답입니다. 확률·ms 는 반올림, 출력 일부 생략.
+
+```bash
+S='"state":{"hp":20,"food":20,"night":false,"inv":{"oak_log":4},"task":null}'
+curl -s localhost:8765/turn -d "{\"utt\":\"철곡 만들어\",$S}"
+```
+
+| 발화 | act | type | 대상 · 개수 | hint | ms |
+|---|---|---|---|---|---|
+| `철곡 만들어` | 목표 실행 1.00 | craft | `철곡` → iron_pickaxe (철 곡괭이) | short | 25 |
+| `나무 5개 캐오셈` | 목표 실행 1.00 | log | `나무` → grp:log · `5개` → 5 | short | 21 |
+| `철뚝 ㄱㄱ` | 목표 실행 1.00 | craft | `철뚝` → iron_helmet (철 투구) | slow | 22 |
+| `그거론 한참걸리겠는데?` | 지적·조언 1.00 | — | — | slow | 25 |
+
+```bash
+curl -s localhost:8765/plan -d '{"goal":"iron_pickaxe","cnt":1,"inv":{"oak_log":4},"placed":{},"near":{},"hp":20,"night":false,"armor":0}'
+```
+```json
+{"detail": {"pick_ko": "나무 곡괭이 경유, 돌 곡괭이 경유", "qed_changed": false,
+  "opts": [{"ko": "나무 곡괭이 경유, 돌 곡괭이 경유", "p": 0.58, "est_s": 321, "risk": 15,
+             "qed": {"n": 20, "ok": 0.6, "avg_ms": 273603},
+             "steps": ["제작 참나무 판자 12", "제작 제작대 1", "설치 제작대 1", "제작 막대기 4", "제작 나무 곡괭이 1",
+                       "원정 돌 1", "채광 돌 11(나무 곡괭이)", "…", "화로 철 주괴 3", "제작 철 곡괭이 1"]},
+           {"ko": "나무 곡괭이 경유, 돌 곡괭이 경유, 연료 석탄", "p": 0.25, "est_s": 446, "risk": 25}, …]}}
+```
+
+```bash
+curl -s localhost:8765/prio -d '{"ctx":"체력 5/20 배고픔 18/20 | 밤 | 위협: 좀비 4칸"}'
+# {"label":"달려서 도망","p":0.48,"ms":20.5}
+```
+
 ## 실행
 
 요구사항:
