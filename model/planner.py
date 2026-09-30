@@ -310,12 +310,11 @@ class Plan:
             times = math.ceil(need / r["cnt"])
             at = self.station(r["st"])  # 작업대 먼저: 나중에 만들면 모아둔 재료(판자) 소모 → 부족
             used = []
-            for g in r["ing"]:
+            for g in r["ing"]:  # 확보 즉시 차감(예약): 뒤 재료(막대기)가 같은 판자 이중계산 → 판자 부족 no_material 버그
                 a = pick(g["any"], self.inv)
                 self.obtain(a, g["n"] * times, depth + 1)
+                self.inv[a] = self.inv.get(a, 0) - g["n"] * times
                 used.append((a, g["n"] * times))
-            for a, k in used:
-                self.inv[a] = self.inv.get(a, 0) - k
             self.add("craft", item, times * r["cnt"], 800 * times + 500, need=[f"재료:{ko(a)} {k}" for a, k in used] + ([f"작업대"] if r["st"] == "crafting_table" else []), at=at)
             self.inv[item] = self.inv.get(item, 0) + times * r["cnt"]
             return

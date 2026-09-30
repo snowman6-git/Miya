@@ -7,8 +7,8 @@
 <p align="center"><a href="README.md">한국어</a> | <b>English</b></p>
 
 > [!WARNING]
-> **Experimental (WIP) project.** Miya-0.2 is a research snapshot, not a finished agent.
-> There is no autonomous mode yet, help-request (ask) calibration is unfinished, and some survival decisions are weak ([Limitations](#limitations)).
+> **Experimental (WIP) project.** Miya-0.3 is a research snapshot, not a finished agent.
+> There is no autonomous mode yet, and unseen-item linking and some survival decisions are weak ([Limitations](#limitations)).
 > Code, weights, label schema and API may change without compatibility in the next version.
 
 > A lightweight Korean-first Minecraft agent. Every decision is made by a 139M encoder model (single forward pass, ~18 ms); the mineflayer bot only executes.
@@ -29,7 +29,20 @@ Regex or if/else logic makes no decisions. Facts such as recipes and ore heights
 - **GOAL-based execution**: one command is enough. Miya checks its inventory, placed blocks and surroundings, picks one of several candidate methods, runs the steps, replans on failure, and recognises when the goal is done.
 - **Remembers placed blocks**: Miya reuses crafting tables and furnaces it already placed instead of crafting duplicates. It tells its own chests apart from other players' chests.
 - **QED (Quasi-Evolutionary Diary)**: actions and outcomes (tool, ms, success/fail, deaths) go into a DB. The next decision gets them as experience, so methods that keep failing are avoided.
-- **Survival priority**: the model weighs HP, hunger, threats, night and air, then chooses whether to fight, flee, eat, hide or resume.
+- **Survival priority**: the model weighs HP, hunger, threats, night and air, then chooses whether to fight, flee, eat, hide or resume. It also checks while idle.
+- **Human-like fine judgments (0.3)**: ten decisions that used to be bot if/else now come from the model.
+  | Judgment | Example |
+  |---|---|
+  | food | HP 3 → golden apple, otherwise bread |
+  | weapon / shield | one zombie → iron sword; skeleton or several → + shield |
+  | combat target | zombie + spider → zombie first |
+  | hunt target | "사냥해" (go hunt) → cow among armadillo, chicken, cow, horse, sheep |
+  | explore direction | sand → picks northeast from per-direction terrain samples and visit counts |
+  | failure handling | no target → replan → replan → ask for help |
+  | death recovery | value 58, bare-handed, spider nearby → give up |
+  | quantity meaning | `조약돌 3개 줘` (give 3 cobble) → 3; `철 원석 버려` (drop raw iron, 4 held) → "how many?" |
+  | group target | `나무 버려` (drop wood) → "oak log or acacia log?" |
+  | advice → action | `그거론 한참걸리겠는데?` → switch if a faster method exists, else explain and continue |
 - **Explains itself** in chat, e.g. "I'll reuse the furnace!" or "Using coal, 12 s faster than logs."
 - **Web UI integration**: state via SSE, decision evidence (candidates, probabilities, QED) and live settings → [WEBUI_API.md](WEBUI_API.md) (Korean)
 
@@ -59,7 +72,7 @@ survive separate loop: /prio only when state changes → fight an approaching zo
 
 ## Technology
 
-### Model (Miya-0.2)
+### Model (Miya-0.3)
 
 - **Encoder**: mmBERT, 22 layers, bf16. Fine-tuned from the encoder weights of [convaiinnovations/laya-multilingual](https://huggingface.co/convaiinnovations/laya-multilingual). All heads are new.
 - **Size reduction**: vocab pruned from 256,000 to 29,252 tokens, parameters from 312M to 139M; the checkpoint is 292 MB. The original tokenizer is kept and ids are remapped inside the model.
@@ -71,12 +84,13 @@ survive separate loop: /prio only when state changes → fight an approaching zo
 | Head | Output |
 |---|---|
 | option scorer | act(11) · task_type(39) · query(18) · hint(5) · prio(9) · method(via) · tidy(3) |
+| judgment questions (0.3) | food · weapon · target · hunt · explore · fail · recover · qty · pick · hintact. Options are input text, so no new heads, only new questions |
 | span extraction | target, count, tool, person, coords, place, distance (7 labels) |
 | item linking | span ↔ 1,628 items. Bi-encoder + ColBERT late interaction (partial matches like `철뚝`). NULL means ask back |
 | pairing | count ↔ target (`철 3개랑 석탄 5개`, "3 iron and 5 coal") |
 | value | per-method expected time and success probability |
 
-- **Latency**: turn p50 17.8 ms / p95 19.7 ms (single GPU)
+- **Latency**: turn p50 18.8 ms / p95 21.9 ms (single GPU)
 
 ### Planner (facts) vs model (choice)
 
@@ -102,6 +116,24 @@ The previous model could loop forever: "low HP → hunt → no animals → low H
 - Caps: step retries ≤3, replans ≤5, auto-resume limit (`resume_max`).
 - The survival check fires only when the state signature changes, and a fight/flee decision is held for `prio_hold_ms`.
 - Recent consecutive failures show up in the options, so the model stops repeating the same method.
+
+## Evaluation (Miya-0.3 vs 0.21)
+
+Same eval set (537 real utterances, 7.4k dev). Details: [VERSION_NOTES.md](VERSION_NOTES.md) (Korean)
+
+| Metric | 0.21 | 0.3 |
+|---|---|---|
+| intent (act) | 95.0% | **95.7%** |
+| task type | 92.3% | **95.3%** |
+| target item | 84.6% | **91.7%** |
+| count | 89.3% | **98.2%** |
+| survival priority (dev prio) | 74.6% | **97.0%** |
+| method choice (dev plan) | 75.6% | **76.5%** |
+| 10 fine judgments (dev) | 5–60% (untrained) | **96–100%** |
+| slang holdout | 11/12 | **12/12** |
+| latency p50 / p95 | 19.0 / 22.5 ms | **18.8 / 21.9 ms** |
+
+In-game (Paper 26.1.2): all 10 fine judgments plus the night flee↔resume loop passed (11/11). A zombie now dies in ~2 s (0.21 never killed it because of an attack-cooldown reset bug).
 
 ## Benchmark (Miya-0.2 vs LAYA base, zero-shot)
 
@@ -163,7 +195,7 @@ Requirements:
 python -m venv .venv && .venv/bin/pip install -r requirements.txt
 
 # 2. Weights (Hugging Face)
-hf download snowman6/Miya-0.2 --local-dir ckpt/miya-0.2
+hf download snowman6/Miya-0.3 --local-dir ckpt/miya-0.3
 
 # 3. Bot
 cd bot && npm install && cd ..
@@ -201,7 +233,7 @@ Chat in game with no prefix, e.g. `철곡 만들어` (make an iron pickaxe), `�
 
 ```bash
 .venv/bin/python data/gen.py          # synthetic data → data/gen/{train,dev}.jsonl
-.venv/bin/python model/train.py       # → ckpt/miya-0.2 (EP, BS, LR via env)
+.venv/bin/python model/train.py       # → ckpt/miya-0.3 (EP, BS, LR via env)
 .venv/bin/python model/eval.py        # real utterances, holdout, dev, latency
 ```
 
@@ -218,15 +250,19 @@ Both training and serving need `mcdata/mc.db` and `data/mcx.db` → [docs/extrac
 ## Limitations
 
 - **No autonomous mode**: "자급자족해" (be self-sufficient) is classified but not executed.
-- **Ask over-calibration**: over-asks for help when experience shows a middling success rate.
-- **Survival weak spots**: low accuracy on flee-by-pillaring and dig-in-and-hide; the fight/flee boundary is fuzzy.
+- **Ask over-calibration**: over-asks for help when experience shows a middling success rate (not re-measured for 0.3).
+- **Unseen item linking**: items missing from training goals (`선인장` cactus, `얼음` ice) are mislinked or asked back.
+- **Survival weak spots**: still flees from mobs faster than the bot (spiders). Method choice (plan) plateaus at 76%.
+- **Quantity phrasing**: `반만` (half) is not read as half yet; the model asks back.
+- **Answer re-reading**: combining an answer with the original request is still done by the bot (to move into the model with multi-turn data).
 - **Data bias**: mostly synthetic training data, little real chat. Korean only.
 - **Fixed environment**: Minecraft 26.1.2; tasks mineflayer can't do (enchanting, trading, ranged) are not executed yet.
 
 ## Roadmap
 
 - Autonomous mode: survive and progress on its own (farming, gear upgrades, housing, chest sorting), with QED as the reward loop.
-- Calibrate "ask for help": the model currently over-asks when experience shows a middling success rate.
+- 0.3 patch: data for the limitations above (same-version continued training).
+- Option cache + cross-attention PoC (reuse option encodings).
 - Port the serving and bot to Rust.
 
 ## Versions

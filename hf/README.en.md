@@ -1,12 +1,12 @@
 <h1 align="center">
-  <img src="miya_icon.webp" width="110" align="middle" alt="Miya icon">&nbsp;Miya-0.2
+  <img src="miya_icon.webp" width="110" align="middle" alt="Miya icon">&nbsp;Miya-0.3
 </h1>
 
-<p align="center">Korean Minecraft AI decision model · 139M encoder · ~18 ms per pass<br><a href="https://github.com/snowman6-git/Miya">GitHub: bot · serving · training code</a> · <a href="https://huggingface.co/snowman6/Miya-0.2">한국어</a></p>
+<p align="center">Korean Minecraft AI decision model · 139M encoder · ~18 ms per pass<br><a href="https://github.com/snowman6-git/Miya">GitHub: bot · serving · training code</a> · <a href="https://huggingface.co/snowman6/Miya-0.3">한국어</a></p>
 
 > [!WARNING]
-> **Work in progress.** 0.2 is a research snapshot, not a finished agent.
-> There is no autonomous mode yet, help-request (ask) calibration is unfinished, and some survival decisions are weak ([Limitations](#limitations--work-in-progress)).
+> **Work in progress.** 0.3 is a research snapshot, not a finished agent.
+> There is no autonomous mode yet, and unseen-item linking and some survival decisions are weak ([Limitations](#limitations--work-in-progress)).
 > Weights, label schema and API may change without compatibility in the next version.
 
 ![Miya character sheet](charasheet.webp)
@@ -31,6 +31,19 @@ No regex or if-chains decide anything. Facts such as recipes and ore heights are
 - **Asks when unsure**: if the item link is NULL it asks back, then re-reads the request together with the answer (multi-turn)
 - **Method choice**: picks one of the planner's options after reading QED experience
 - **Survival priority**: from HP, hunger, threats, night and air, picks fight, flee, eat, hide or resume
+- **Human-like fine judgments (0.3)**: ten decisions that used to be bot if/else now come from the model.
+  | Judgment | Example |
+  |---|---|
+  | food | HP 3 → golden apple, otherwise bread |
+  | weapon / shield | one zombie → iron sword; skeleton or several → + shield |
+  | combat target | zombie + spider → zombie first |
+  | hunt target | "사냥해" (go hunt) → cow among armadillo, chicken, cow, horse, sheep |
+  | explore direction | sand → picks northeast from per-direction terrain samples and visit counts |
+  | failure handling | no target → replan → replan → ask for help |
+  | death recovery | value 58, bare-handed, spider nearby → give up |
+  | quantity meaning | `조약돌 3개 줘` (give 3 cobble) → 3; `철 원석 버려` (drop raw iron, 4 held) → "how many?" |
+  | group target | `나무 버려` (drop wood) → "oak log or acacia log?" |
+  | advice → action | `그거론 한참걸리겠는데?` → switch if a faster method exists, else explain and continue |
 
 ## Architecture
 
@@ -46,7 +59,7 @@ Player chat ─▶ Paper server ─▶ bot (TS·mineflayer) ─HTTP JSON─▶ s
 
 | Component | Does | Does not |
 |---|---|---|
-| **Miya model** | understand requests, choose methods, survival priority, inventory tidy | pathfinding, block manipulation |
+| **Miya model** | understand requests, choose methods, survival priority, inventory tidy, 10 fine judgments | pathfinding, block manipulation |
 | **planner** | goal + state → up to 6 method options with steps, est. time and risk | choose among options |
 | **QED DB** | record actions and results, inject them as experience text into the next decision | block things by rule |
 | **bot** | walk, dig, craft, fight; report results | decide |
@@ -73,6 +86,7 @@ Because options are input text, heads need no rebuilding when planner options or
 | Head | Output |
 |---|---|
 | Option scores | act(11) · task_type(39) · query(18) · hint(5) · prio(9) · method (via) · tidy(3) |
+| Judgment questions (0.3) | food · weapon · target · hunt · explore · fail · recover · qty · pick · hintact. Options are input text, so no new heads, only new questions |
 | Span extraction | target · count · tool · person · coords · place · distance (7 kinds, width ≤ 8) |
 | Item link | span ↔ name bank of 1,628 (items + mobs + groups/sets/places). Bi-encoder + ColBERT late interaction handles partial matches like `철뚝`. NULL → ask back |
 | Pairing | count ↔ target/tool (`철 3개랑 석탄 5개`, "3 iron and 5 coal") |
@@ -142,10 +156,30 @@ The web UI's decision panel in a real run. For `철곡 만들어` (make an iron 
 
 ## Evaluation
 
+### Miya-0.3 vs 0.21
+
+Same eval set (537 real utterances, 7.4k dev).
+
+| Metric | 0.21 | 0.3 |
+|---|---|---|
+| intent (act) | 95.0% | **95.7%** |
+| task type | 92.3% | **95.3%** |
+| target item | 84.6% | **91.7%** |
+| count | 89.3% | **98.2%** |
+| survival priority (dev prio) | 74.6% | **97.0%** |
+| method choice (dev plan) | 75.6% | **76.5%** |
+| 10 fine judgments (dev) | 5–60% (untrained) | **96–100%** |
+| slang holdout | 11/12 | **12/12** |
+| latency p50 / p95 | 19.0 / 22.5 ms | **18.8 / 21.9 ms** |
+
+In-game (Paper 26.1.2): all 10 fine judgments plus the night flee↔resume loop passed (11/11). A zombie now dies in ~2 s (0.21 never killed it because of an attack-cooldown reset bug).
+
+### Miya-0.2 vs LAYA base
+
 Compared with LAYA base, keeping planner, QED and bot identical and **swapping only the decisions**.
 
 - Real utterances: 488 raw server chat lines, excluded from training
-- dev: 5.8k
+- dev: 5.8k (as of 0.2)
 - In-game: 14 scenarios run in parallel on two local servers with the same seed
 
 | | Miya-0.2 | LAYA base (zero-shot) |
@@ -195,7 +229,7 @@ curl -s localhost:8765/prio -d '{"ctx":"체력 5/20 배고픔 18/20 | 밤 | 위�
 
 ```bash
 git clone https://github.com/snowman6-git/Miya miya && cd miya
-hf download snowman6/Miya-0.2 --local-dir ckpt/miya-0.2
+hf download snowman6/Miya-0.3 --local-dir ckpt/miya-0.3
 # game data (mc.db, mcx.db) is not included → extract locally with docs/extract.en.md
 .venv/bin/python model/serve.py   # :8765 (SERVE_HOST=0.0.0.0 for bots on other machines)
 curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","state":{"hp":20,"food":20,"night":false,"inv":{},"task":null}}'
@@ -210,10 +244,13 @@ To run the bot too: `./run.sh host:port`. The server must be in **offline mode**
 | `/prio` | state ctx → survival priority |
 | `/qed` · `/death` | record results and deaths |
 | `/tidy` · `/value` · `/placed` | inventory tidy, item value, placed blocks |
+| `/food` · `/weapon` · `/target` | food, weapon/shield, combat target (0.3) |
+| `/hunt` · `/explore` | hunt target/expedition, explore direction (0.3) |
+| `/fail` · `/recover` · `/hintact` | failure handling, death recovery, advice → action (0.3) |
 
 Three files:
 
-- `model.pt`: state_dict
+- `model.safetensors`: weights
 - `schema.json`: labels
 - `config.json`: metadata (the file HF counts downloads by)
 
@@ -224,18 +261,18 @@ Model code (`model/miya.py`) is in the [GitHub repo](https://github.com/snowman6
 > Still **unfinished**. These are known issues to be addressed in the next versions.
 
 - **No autonomous mode**: commands like "자급자족해" (be self-sufficient) are classified but not executed. A survive-and-progress loop is planned.
-- **Ask over-calibration**: with mid success-rate experience (e.g. 28% over 14 runs) it picks "ask for help" too often. To be calibrated in 0.3.
-- **Survival weak spots**
-  - Low accuracy on flee by pillaring and dig-in-and-hide.
-  - The fight/flee boundary sits near p≈0.5; the bot currently softens it by holding decisions briefly.
-- **Joined combat verbs misclassified**: "좀비처리해" ("deal with the zombie", written without spaces) is misclassified.
-- **Data bias**: most training data (284k) is synthetic, with little real chat. Korean only.
+- **Ask over-calibration**: over-asks for help when experience shows a middling success rate (not re-measured for 0.3).
+- **Unseen item linking**: items missing from training goals (`선인장` cactus, `얼음` ice) are mislinked or asked back.
+- **Survival weak spots**: still flees from mobs faster than the bot (spiders). Method choice (plan) plateaus at 76%.
+- **Quantity phrasing**: `반만` (half) is not read as half yet; the model asks back.
+- **Answer re-reading**: combining an answer with the original request is still done by the bot (to move into the model with multi-turn data).
+- **Data bias**: most training data (370k) is synthetic, with little real chat. Korean only.
 - **Fixed environment**: Minecraft 26.1.2 recipes; tasks mineflayer can't do (enchanting, trading, ranged, etc.) are not executed yet.
 - **No compatibility**: weights and schema are not guaranteed compatible across versions.
 
 ## License
 
-Apache-2.0 + [Miya Adopt Licence](https://huggingface.co/snowman6/Miya-0.2/blob/main/LICENSE-MIYA.md) (a non-binding request clause).
+Apache-2.0 + [Miya Adopt Licence](https://huggingface.co/snowman6/Miya-0.3/blob/main/LICENSE-MIYA.md) (a non-binding request clause).
 
 - Base: laya-multilingual (Apache-2.0) ← mmBERT-base (MIT)
 - No Minecraft game data is included; generate it locally with `docs/extract.en.md` from the repo.

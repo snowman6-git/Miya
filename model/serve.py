@@ -10,9 +10,19 @@
 /placed {add?|del?|kind?|all?} → {list} 내 설치물(상자 소유 구분), del=좌표 kind=종류 all=전부 삭제
 /lesson {}                  → {death:{killer,cause,n}|null} prio ctx '최근 사망원인'용
 /choose {utt, ctx, qid, opts} → {k, p}  벤치(eval/bench.py)용 원시 선택
+0.3 판단(봇 규칙→Miya, ctx·보기 텍스트 = gen.py 공용 함수):
+/food {inv, hp, food, fight?, task?}           → {item|null, p}
+/weapon {inv, dur?:{id:%}, mob, d, n, hp, armor} → {item(hand|id), shield, p}
+/target {threats:[[mob,d]], hp, weapon, armor, why?} → {i, p}
+/hunt {animals:[[mob,d,n]], food, has_food, want?} → {i|null(원정), p}
+/explore {target, y, night, hop, dirs:[{f:{나무..},v}]×8(북부터 시계)} → {i, dir, p}
+/fail {goal, step:{type,target}, reason, tries, replans, streak, hp, night, player} → {act:retry|replan|help|giveup, label, p}
+/recover {inv, d, el, cause, night, armor, weapon, hp} → {go, value, p}
+/hintact {utt, hint?, goal?, step?, threat?} → {act, label, p}  (turn 이 지적·조언이면 자동 포함)
+/turn: give·drop·equip·store·place 묶음 대상 → 실물 선택(pick), give·drop·craft 개수 없음·다·좀·더·까지 → 수량 의미(qty). 되묻기면 goal.ask
 봇은 판단 안 함: 이 결과만 실행. CK=ckpt 경로, PORT=기본 8765, SERVE_HOST=바인드(원격 봇이면 0.0.0.0)
 """
-import json, math, os, re, sqlite3, sys, time
+import glob, json, math, os, re, sqlite3, sys, time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 import torch
@@ -25,9 +35,11 @@ import planner as P  # noqa: E402
 from eval import Runner  # noqa: E402
 from miya import collate, pack  # noqa: E402
 
-CK = os.environ.get("CK") or next(c for c in (f"{H}/../ckpt/miya-0.2", f"{H}/../ckpt/miya-0.1a") if os.path.exists(f"{c}/model.pt"))  # 최신 ckpt
+CK = os.environ.get("CK") or next(c for c in (f"{H}/../ckpt/miya-0.3", f"{H}/../ckpt/miya-0.21", f"{H}/../ckpt/miya-0.2", f"{H}/../ckpt/miya-0.1a") if glob.glob(f"{c}/model.*"))  # 최신 ckpt
 R = Runner(CK)
-TIDY_OK = "tidy" in json.load(open(os.path.join(CK, "schema.json")))  # 미학습 ckpt면 정리 판단 끔(쓰레기값으로 템 버림 방지)
+SCH = json.load(open(os.path.join(CK, "schema.json")))
+TIDY_OK = "tidy" in SCH
+JUDGE_OK = "judge" in SCH  # 0.3+: 판단 문항 학습됨. 아니면 기존 규칙 폴백  # 미학습 ckpt면 정리 판단 끔(쓰레기값으로 템 버림 방지)
 QDB = sqlite3.connect(os.environ.get("QED", f"{H}/../data/qed.db"), check_same_thread=False)
 QDB.executescript("""
 create table if not exists goals(id integer primary key, ts real, req text, goal text, cnt int, via text, ok int, ms int, fail text, ctx text);
@@ -73,7 +85,11 @@ def turn(x):
         if d["label"] in ("대상",) and d["item"]:
             goals.append({"item": d["item"], "ko": d["ko"], "count": cnt_of.get(k)})
     if y["type"] in HELD and x.get("state"):
-        goals = held(goals, x["state"].get("inv", {}))
+        goals = held(goals, x["state"].get("inv", {}), y["type"], x["utt"]) if JUDGE_OK else held_rule(goals, x["state"].get("inv", {}))
+    if JUDGE_OK and y["act"] == "목표 실행" and y["type"] in ("give", "drop", "craft") and x.get("state"):
+        goals = [qty(g, y["type"], x["utt"], x["state"].get("inv", {})) for g in goals]
+    if JUDGE_OK and y["act"] == "지적·조언":
+        y["hact"] = hintact({"utt": x["utt"], "hint": y["hint"], **(x.get("task") or {})})
     y["spans"], y["goals"], y["ctx"] = sp, goals, ctx
     return y
 
@@ -87,7 +103,47 @@ GRP_RE = {"grp:log": r"_(log|stem)$", "grp:planks": r"_planks$", "grp:meat": r"(
 ALL = ("grp:item_all", "grp:armor", "set:")
 
 
-def held(goals, inv):
+def fam(item):
+    """아이템 → 속한 묶음 (종 지정 원목 → grp:log)"""
+    return next((g for g, rx in GRP_RE.items() if g not in ALL and g not in ("grp:food",) and re.search(rx, item)), None)
+
+
+def held(goals, inv, typ, utt):
+    """묶음/미보유 대상 → 보유 실물 후보 중 모델 선택 (pick). 전부·세트는 전체. 되묻기 → ask"""
+    out = []
+    for g in goals:
+        it = g["item"]
+        if it in inv or it.startswith(ALL):
+            out += held_rule([g], inv); continue
+        grp = it if it.startswith("grp:") else fam(it)
+        cands = sorted((k for k in inv if grp and re.search(GRP_RE.get(grp, "^$"), k)), key=lambda k: -inv[k])[:6]
+        if not cands:
+            out.append(g); continue
+        k, pr, _ = choose(utt, G.pick_ctx(typ if typ in G.TYPES else "give"), "실물", [f"{P.ko(c)} {inv[c]}개" for c in cands] + [G.PICK_ASK])
+        out.append({"item": cands[k], "ko": P.ko(cands[k]), "count": g["count"], "pick_p": round(pr[k], 3)} if k < len(cands) else
+                   {**g, "ask": "which", "cands": [P.ko(c) for c in cands]})
+    return out
+
+
+def qty(g, typ, utt, inv):
+    """수량 의미 (qty) → 실제 개수 계산은 여기(사실). 전부·1개·절반·추가·총·되묻기"""
+    it = g["item"]
+    if g.get("ask") or it.startswith(("grp:", "set:")):
+        return g
+    h = inv.get(it, 0)
+    k, pr, _ = choose(utt, G.qty_ctx(typ, it, h), "수량", G.QTY)
+    n = g.get("count")
+    q = G.QTY[k]
+    c = {"전부": h, "1개": 1, "절반": max(1, math.ceil(h / 2)), "말한 개수(추가로)": n, "말한 개수 맞추기(총)": None if n is None else n - h}.get(q)
+    out = {**g, "qty": q, "qty_p": round(pr[k], 3)}
+    if q == "되묻기" or c is None and q != "되묻기" and typ != "craft":
+        out["ask"] = "count"; out["held"] = h
+    elif c is not None:
+        out["count"] = max(0, c) if typ == "craft" else min(max(c, 0), h) if h else c
+    return out
+
+
+def held_rule(goals, inv):
     out = []
     for g in goals:
         it = g["item"]
@@ -109,9 +165,10 @@ def plan(x):
     pinv = {k: v for k, v in P.wood(inv, spec).items() if k not in gi}  # 요청은 "n개 더" (보유분 무시, 봇 실행도 보유+n 기준)
     ms = P.methods(goal, cnt, pinv, {"placed": placed, "near": P.wood(near, spec, True)}, k=6)
     if not ms:
-        return {"opts": [], "pick": -1, "steps": []}
+        return {"opts": [], "pick": -1, "steps": [], "goal_set": sorted(gi)}
     qed = {m["via"]: q for m in ms if (q := qed_of(goal, m["via"]))}
-    opts = [P.method_text(m, qed.get(m["via"]), maxstep=4) for m in ms] + ["ask | 플레이어에게 도움 요청하고 대기 | 예상 300초 위험 0%"]
+    ask = [] if x.get("noask") else ["ask | 플레이어에게 도움 요청하고 대기 | 예상 300초 위험 0%"]  # noask: 도움요청에 혼자해 답 → ask 후보 제외
+    opts = [P.method_text(m, qed.get(m["via"]), maxstep=4) for m in ms] + ask
     inv_s = ", ".join(f"{P.ko(k)} {v}" for k, v in inv.items()) or "비어있음"
     ctx = (f"GOAL: {P.ko(goal)} {cnt} | 체력 {x.get('hp', 20)}/20 {'밤' if x.get('night') else '낮'} {'갑옷 있음' if x.get('armor') else '갑옷 없음'}"
            f" | 인벤: {inv_s} | 설치: " + (", ".join(f"{P.ko(k)} {v}칸" for k, v in placed.items()) or "없음") +
@@ -120,7 +177,7 @@ def plan(x):
     via = ms[k]["via"] if k < len(ms) else "ask"
     qi = None
     if qed:  # QED 발현 판정: 경험 빼고 한번 더 선택 → 다르면 경험이 결정 바꿈
-        k0 = choose("방법 선택", ctx, "방법", [P.method_text(m, None, maxstep=4) for m in ms] + opts[-1:])[0]
+        k0 = choose("방법 선택", ctx, "방법", [P.method_text(m, None, maxstep=4) for m in ms] + ask)[0]
         qi = {"changed": core(ms[k0]["via"] if k0 < len(ms) else "ask") != core(via), "base": ms[k0]["via"] if k0 < len(ms) else "ask", "ev": qed}
         qi["base_ko"] = via_ko(qi["base"])
     steps = ms[k]["steps"] if k < len(ms) else []
@@ -149,9 +206,10 @@ def plan(x):
               "opts": [{"via": m["via"], "ko": via_ko(m["via"]), "p": round(pr[j], 4), "pick": j == k, "est_s": round(m["est_ms"] / 1000), "risk": round(m["risk"] * 100),
                         "val_s": round(math.expm1(val[j][0])), "val_ok": round(100 / (1 + math.exp(-val[j][1]))), "qed": qed.get(m["via"]),
                         "steps": [P.step_text(x) for x in m["steps"]]} for j, m in enumerate(ms)]
-              + [{"via": "ask", "ko": "도움 요청", "p": round(pr[-1], 4), "pick": k >= len(ms), "est_s": 300, "risk": 0}]}  # 모달 상세용 (판단 근거 전부)
+              + [{"via": "ask", "ko": "도움 요청", "p": round(pr[-1], 4), "pick": k >= len(ms), "est_s": 300, "risk": 0}] * bool(ask)}  # 모달 상세용 (판단 근거 전부)
+    LAST.update(goal=goal, via_ko=via_ko(via), faster=k < len(ms) and any(m["est_ms"] < ms[k]["est_ms"] * 0.7 for m in ms))
     return {"why": why, "detail": detail, "opts": opts, "pick": k, "p": pr, "val": [[round(math.expm1(a), 1), 1 / (1 + math.exp(-b))] for a, b in val],
-            "via": via, "via_ko": via_ko(via), "steps": steps, "ctx": ctx, "qed": qi}
+            "via": via, "via_ko": via_ko(via), "steps": steps, "ctx": ctx, "qed": qi, "goal_set": sorted(gi)}
 
 
 def via_ko(via):
@@ -271,13 +329,93 @@ def placed(x):
     return {"list": [dict(zip(("kind", "x", "y", "z"), r)) for r in QDB.execute("select kind, x, y, z from placed")]}
 
 
+def pick1(utt, ctx, q, opts):
+    k, pr, _ = choose(utt, ctx, q, opts)
+    return k, round(pr[k], 3)
+
+
+def food(x):
+    fs = {k: n for k, n in x["inv"].items() if k in G.FOOD}
+    if not fs:
+        return {"item": None}
+    ks = list(fs)
+    k, p = pick1("음식 선택", G.food_ctx(x.get("hp", 20), x.get("food", 20), x.get("fight"), x.get("task")), "음식", [G.food_opt(i, fs[i]) for i in ks])
+    return {"item": ks[k], "ko": P.ko(ks[k]), "p": p}
+
+
+def weapon(x):
+    dur = x.get("dur") or {}
+    ws = {w: dur.get(w, 100) for w in x["inv"] if w in G.MELEE}
+    ws["hand"] = 100
+    o = G.weapon_opts(ws, "shield" in x["inv"])
+    k, p = pick1("무기 선택", G.weapon_ctx(x["mob"], x.get("d", 8), x.get("n", 1), x.get("hp", 20), x.get("armor", 0)), "무기", [t for _, t in o])
+    w = o[k][0]
+    return {"item": w.split("+")[0], "shield": w.endswith("+shield"), "p": p}
+
+
+def target(x):
+    ts = x["threats"]
+    k, p = pick1("전투 대상", G.target_ctx(x.get("hp", 20), x.get("weapon") or "맨손", x.get("armor", 0), x.get("why") or "자기방어"), "대상",
+                 [f"{P.ko('mob:' + m)} {d}칸" for m, d in ts])
+    return {"i": k, "mob": ts[k][0], "p": p}
+
+
+def hunt(x):
+    an = x["animals"]
+    k, p = pick1("사냥 대상", G.hunt_ctx(x.get("food", 20), x.get("has_food"), x.get("want") or "사냥해"), "사냥",
+                 [f"{P.ko('mob:' + m)} {d}칸 {n}마리" for m, d, n in an] + [G.HUNT_NONE])
+    return {"i": k if k < len(an) else None, "mob": an[k][0] if k < len(an) else None, "p": p}
+
+
+def seek_of(t):
+    return "log" if re.search(r"_(log|stem)$|^grp:log", t) else "animal" if t.startswith("mob:") else "sand" if "sand" in t else "water" if re.search("clay|water", t) else "ore"
+
+
+def explore(x):
+    t = x.get("target", "")
+    k, p = pick1("탐색 방향", G.explore_ctx(seek_of(t), P.ko(t), x.get("y", 64), x.get("night"), x.get("hop", 1)), "방향",
+                 [G.explore_opt(d, e["f"], e.get("v", 0)) for d, e in zip(G.DIRS, x["dirs"])])
+    return {"i": k, "dir": G.DIRS[k], "p": p}
+
+
+def fail(x):
+    st = x.get("step") or {}
+    rs = QDB.execute("select ok from goals where goal=? and ifnull(fail,'')!='stopped' order by id desc limit 20", (x.get("goal"),)).fetchall()
+    qs = f"{len(rs)}회 성공 {round(100 * sum(r[0] for r in rs) / len(rs))}%" if rs else None
+    ctx = G.fail_ctx(P.ko(x.get("goal", "")), f"{P.TYPE_KO.get(st.get('type'), st.get('type'))} {P.ko(st.get('target', ''))}", re.sub(r"^err:(?!timeout).*", "err", x["reason"]),
+                     x.get("tries", 1), x.get("replans", 0), x.get("streak", 1), qs, x.get("hp", 20), x.get("night"), x.get("player"))
+    k, p = pick1("실패 대응", ctx, "대응", G.FAIL)
+    return {"act": ("retry", "replan", "help", "giveup")[k], "label": G.FAIL[k], "p": p, "ctx": ctx}
+
+
+def recover(x):
+    v = value(x)
+    top = ", ".join(f"{P.ko(k)} {x['inv'][k]}" for k in sorted(v["items"], key=lambda k: -v["items"][k])[:3])
+    w = x.get("weapon") or "hand"
+    ctx = G.recover_ctx(v["total"], top, x.get("d", 0), x.get("el", 0), x.get("cause", ""), x.get("night"), x.get("armor", 0), "맨손" if w == "hand" else P.ko(w), x.get("hp", 20))
+    k, p = pick1("사망 회수", ctx, "회수", G.RECOVER)
+    return {"go": k == 0, "value": v["total"], "p": p, "ctx": ctx}
+
+
+LAST = {}  # 최근 /plan: goal·현재방법·더 빠른 방법 유무 (hintact ctx)
+
+
+def hintact(x):
+    g = x.get("goal")  # 진행중 GOAL 없으면 None (최근 plan 은 같은 GOAL 일때만 참조)
+    lp = LAST if g and LAST.get("goal") == g else {}
+    ctx = G.hint_ctx(P.ko(g) if g else None, x.get("step"), x.get("via") or lp.get("via_ko"), lp.get("faster", False), x.get("threat"))
+    k, p = pick1(x["utt"], ctx, "조언 대응", G.HACT)
+    return {"act": ("explain", "replan", "ask", "danger", "recheck")[k], "label": G.HACT[k], "p": p}
+
+
 def prio(x):
     k, pr, _ = choose("우선순위 판단", x["ctx"], "우선", G.PRIO)
     return {"label": G.PRIO[k], "p": pr[k]}
 
 
 EP = {"/choose": lambda x: dict(zip(("k", "p"), choose(x["utt"], x["ctx"], x["qid"], x["opts"])[:2])),  # 벤치: 단일 문항 원시 선택
-      "/turn": turn, "/plan": plan, "/prio": prio, "/qed": qed, "/death": death, "/value": value, "/lesson": lesson, "/tidy": tidy, "/placed": placed, "/ko": lambda x: {i: P.ko(i) for i in x["ids"]}}
+      "/turn": turn, "/plan": plan, "/prio": prio, "/qed": qed, "/death": death, "/value": value, "/lesson": lesson, "/tidy": tidy, "/placed": placed, "/food": food, "/weapon": weapon, "/target": target, "/hunt": hunt, "/explore": explore, "/fail": fail,
+      "/recover": recover, "/hintact": hintact, "/ko": lambda x: {i: P.ko(i) for i in x["ids"]}}
 
 
 class Hd(BaseHTTPRequestHandler):

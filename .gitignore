@@ -54,3 +54,4 @@ docs/TASK_TYPE.png
 # MS 로그인 토큰 캐시
 bot/.auth/
 docs/스크린샷*.png
+.serena/

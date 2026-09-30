@@ -257,5 +257,17 @@
   ],
   "why.fuel_exp": [
     "연료는 {ko} 쓸게요, 해봤던 쪽이 나아서요."
-  ]
+  ],
+  "ask.which": "{cands} 중에 어떤 거요?",
+  "ask.count": "{ko} {held}개 있는데 몇 개요?",
+  "hint.replan": "더 나은 방법으로 다시 짜볼게요",
+  "hint.recheck": "인벤이랑 설치물 다시 확인해볼게요",
+  "hint.danger": "주변 확인할게요",
+  "hint.ask": "뭐가 틀렸어요? 알려주세요",
+  "fail.help": "{ko} 하다가 계속 막혀요({why}). 도와줄 수 있어요?",
+  "death.recover": "죽은 곳({d}칸) 가서 템 회수할게요",
+  "death.skip": "잃은 템(가치 {v})은 포기할게요",
+  "prio.hide": "밤이라 땅 파고 숨을게요",
+  "prio.pillar": "블럭 쌓고 피할게요",
+  "hint.explain": "지금 방법이 제일 빨라요, 이대로 할게요"
 }

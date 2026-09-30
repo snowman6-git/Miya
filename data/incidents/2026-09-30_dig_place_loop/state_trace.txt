@@ -1,0 +1,55 @@
+03:35:40 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:41 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:42 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:43 {'x': 171, 'y': 115, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 5, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:44 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:45 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:46 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:47 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 5, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:48 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:35:49 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) 1/5 20 {'oak_log': 8, 'wooden_pickaxe': 1, 'acacia_log': 4, 'stone_pickaxe': 1, 'dirt': 6, 'cobblestone': 12, 'acacia_planks': 3, 'oak_sapling': 2, 'raw_iron': 4}
+03:36:01 {'x': 171, 'y': 114, 'z': 272} 철 곡괭이 1개 (2/5) dirt 7 cobble 12 coal None
+03:36:03 {'x': 171, 'y': 115, 'z': 272} 철 곡괭이 1개 (2/5) dirt 5 cobble 12 coal None
+03:36:05 {'x': 169, 'y': 119, 'z': 274} 철 곡괭이 1개 (2/5) dirt 4 cobble 12 coal None
+03:36:07 {'x': 165, 'y': 118, 'z': 280} 철 곡괭이 1개 (2/5) dirt 4 cobble 12 coal None
+03:36:09 {'x': 164, 'y': 117, 'z': 286} idle dirt 4 cobble 12 coal None
+03:36:11 {'x': 154, 'y': 117, 'z': 286} idle dirt 4 cobble 12 coal None
+03:36:13 {'x': 151, 'y': 118, 'z': 286} idle dirt 4 cobble 12 coal None
+03:36:15 {'x': 144, 'y': 118, 'z': 287} idle dirt 4 cobble 12 coal None
+03:36:17 {'x': 138, 'y': 119, 'z': 287} 철 곡괭이 1개 (1/4) dirt 4 cobble 12 coal None
+03:36:19 {'x': 139, 'y': 120, 'z': 278} 철 곡괭이 1개 (1/4) dirt 4 cobble 12 coal None
+03:36:21 {'x': 139, 'y': 120, 'z': 274} 철 곡괭이 1개 (1/4) dirt 4 cobble 12 coal None
+03:36:23 {'x': 140, 'y': 120, 'z': 273} 철 곡괭이 1개 (1/4) dirt 6 cobble 12 coal None
+03:36:25 {'x': 146, 'y': 120, 'z': 270} idle dirt 6 cobble 12 coal None
+03:36:27 {'x': 154, 'y': 119, 'z': 268} idle dirt 6 cobble 12 coal None
+03:36:30 {'x': 156, 'y': 117, 'z': 259} idle dirt 6 cobble 12 coal None
+03:36:32 {'x': 156, 'y': 114, 'z': 256} idle dirt 6 cobble 12 coal None
+03:36:34 {'x': 157, 'y': 113, 'z': 255} idle dirt 6 cobble 12 coal None
+03:36:36 {'x': 159, 'y': 111, 'z': 247} idle dirt 6 cobble 12 coal None
+03:36:38 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:40 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:42 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:44 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:46 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:48 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:50 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:52 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:54 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:56 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:36:58 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:00 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:02 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:04 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:06 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:08 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:10 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:12 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:14 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:16 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:18 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:20 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:22 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:24 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:26 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:28 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None
+03:37:30 {'x': 159, 'y': 107, 'z': 242} idle dirt 6 cobble 12 coal None

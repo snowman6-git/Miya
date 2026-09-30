@@ -50,10 +50,12 @@ const w0 = bot._client.write.bind(bot._client)
 let mc: any
 
 // ---- 상태 ----
-let task: string | null = null, paused: { req: string, goal: string, cnt: number, ko?: string, type?: string, n?: number } | null = null
-let botq: string | null = null, hist: [string, string] | null = null
+let task: string | null = null, paused: { req: string, goal: string, cnt: number, ko?: string, type?: string, n?: number, noask?: boolean, base?: number, set?: string[] } | null = null
+let botq: string | null = null
+let askFor: { req: string, goal: string, n: number, ko: string, type?: string } | null = null  // goal.ask 대기중 GOAL → 답(혼자해/도와줄게·재명령)시 ask 빼고 재계획
+let askQ: string | null = null  // ask.which/count 대기중 원요청 → 답을 앞에 붙여 재해석 (ponytail: hist 답변 학습 전 임시, 0.3 패치 데이터로 대체)
 let job = 0  // 멈춤시 증가 → 진행중 작업 중단
-let cur: { req: string, goal: string, cnt: number, ko: string, type?: string } | null = null  // 진행중 GOAL
+let cur: { req: string, goal: string, cnt: number, ko: string, type?: string, noask?: boolean, base?: number, set?: string[] } | null = null  // 진행중 GOAL. base=시작 보유량, set=목표 아이템 묶음 → 재개·재계획시 남은 수량만
 const placed: Record<string, Vec3> = {}
 let own: { kind: string, x: number, y: number, z: number }[] = []  // 내가 설치한 블럭 → 남의 상자와 구분
 let plan: { title: string, steps: { ko: string, state: 'done' | 'doing' | 'fail' | 'todo', why?: string, for?: string }[] } | null = null
@@ -95,6 +97,9 @@ function state() {
 }
 // QED 변수: 같은 방법도 도구 티어·장비·시간따라 결과 다름
 const TIER = ['wooden', 'stone', 'golden', 'iron', 'diamond', 'netherite']
+// 방어점수 = 착용칸(5~8) 재질·부위 합 (armor 속성 키가 버전마다 달라 0으로 읽힘)
+const APT: Record<string, number[]> = { leather: [1, 3, 2, 1], golden: [2, 5, 3, 1], chainmail: [2, 5, 4, 1], iron: [2, 6, 5, 2], diamond: [3, 8, 6, 3], netherite: [3, 8, 6, 3], turtle: [2, 0, 0, 0] }
+const armorPts = () => bot.inventory.slots.slice(5, 9).reduce((a, it, k) => a + (it ? APT[it.name.split('_')[0]]?.[k] ?? 0 : 0), 0)
 function vars() {
   const tools: Record<string, string> = {}
   for (const i of bot.inventory.items()) {
@@ -102,7 +107,7 @@ function vars() {
     if (TIER.indexOf(t) > TIER.indexOf(tools[k] ?? '')) tools[k] = t
   }
   const p = bot.entity.position
-  return { tools, armor: Math.round((bot.entity as any).attributes?.['minecraft:armor']?.value ?? 0), hp: Math.round(bot.health), food: bot.food,
+  return { tools, armor: armorPts(), hp: Math.round(bot.health), food: bot.food,
     night: night(), held: bot.heldItem?.name ?? null, dim: bot.game.dimension, pos: [Math.round(p.x), Math.round(p.y), Math.round(p.z)] }
 }
 let nearIds: Map<number, string> | null = null
@@ -135,7 +140,14 @@ function T(key: string, v: Record<string, any> = {}) {
   try { const m = statSync(RF).mtimeMs; if (m !== rpT) { rp = JSON.parse(readFileSync(RF, 'utf8')); rpT = m } } catch (e: any) { log('replies', e.message) }
   const a = rp[key] ?? rp[key.split('.')[0]] ?? key
   const t = Array.isArray(a) ? a[Math.floor(Math.random() * a.length)] : a
-  return t.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ''))
+  return t.replace(/\{(\w+)\}(은|는|이|가|을|를)?/g, (_, k, j) => { const w = String(v[k] ?? ''); return w + (j ? josa(w, j) : '') })
+}
+// 조사 받침 맞춤 (철셋는 → 철셋은). 한글 아니면 템플릿 그대로
+function josa(w: string, j: string) {
+  const c = w.charCodeAt(w.length - 1) - 0xAC00
+  if (c < 0 || c > 11171) return j
+  const p = ({ 은: '는', 는: '는', 이: '가', 가: '가', 을: '를', 를: '를' } as any)[j]
+  return c % 28 ? ({ 는: '은', 가: '이', 를: '을' } as any)[p] : p
 }
 const timeout = <T>(p: Promise<T>, ms: number) => Promise.race([p, sleep(ms).then(() => { throw new Error('timeout') })]) as Promise<T>
 async function go(goal: any, ms = 60000) {  // stuck 1회 → 막는 블럭 캐고 재시도, 2회째 실패
@@ -207,13 +219,53 @@ async function equipName(n?: string | null, dest: any = 'hand') {
   const it = bot.inventory.items().find(i => i.name === n)
   if (it) await bot.equip(it, dest)
 }
-// 원정: 범위내 대상 없으면 무작위 방향 48칸씩 이동하며 재탐색 (hops 상한 → 무한탐색 방지)
-async function explore(found: () => any, id: number, hops = S.explore_hops) {
+// 보유 방어구 > 착용중 → 착용 (제작 끝 착용 X: 유저용 제작일수도. 달라하면 벗어서 줌)
+const ARM: Record<string, number> = { leather: 1, golden: 2, chainmail: 3, turtle: 3, iron: 4, diamond: 5, netherite: 6 }
+const SLOTS = [['helmet', 'head', 5], ['chestplate', 'torso', 6], ['leggings', 'legs', 7], ['boots', 'feet', 8]] as const
+const rank = (n?: string) => n ? ARM[n.split('_')[0]] ?? 1 : 0
+let wearing = false, wearHold = 0
+async function wearBest() {
+  if (wearing || Date.now() < wearHold || bot.currentWindow) return
+  wearing = true
+  try {
+    for (const [k, d, i] of SLOTS) {
+      const w = bot.inventory.slots[i]?.name, b = bot.inventory.items().filter(x => x.name.endsWith('_' + k)).sort((x, y) => rank(y.name) - rank(x.name))[0]
+      if (b && rank(b.name) > rank(w)) { await bot.equip(b, d); log('WEAR', b.name) }
+    }
+  } catch (x: any) { log('wear', x.message) } finally { wearing = false }
+}
+async function unwear(n: string) {  // 입은 템 달라/버려 → 벗기 (인벤 없고 착용중일때)
+  const s = SLOTS.find(([, , i]) => bot.inventory.slots[i]?.name === n)
+  if (s && !cnt(n)) { wearHold = Date.now() + 10000; await bot.unequip(s[1]) }
+}
+// 원정: 범위내 대상 없으면 48칸씩 이동하며 재탐색 (hops 상한 → 무한탐색 방지). 방향 = 모델(/explore: 8방위 지표 표본 + 방문 기억)
+const visited: Vec3[] = []
+const SURF: [RegExp, string][] = [[/_log$|_leaves$|_stem$/, '나무'], [/^(grass_block|short_grass|tall_grass|dirt|podzol|fern)$/, '풀'], [/^(sand|red_sand)$/, '모래'], [/^water$/, '물'],
+  [/stone|andesite|diorite|granite|gravel|deepslate|tuff|ore$/, '돌']]
+function sector(i: number) {  // 북(-z)부터 시계 45°, 거리 12~36 표본 8칸 → 지표 블럭 종류 수 + 방문수
+  const a = i * Math.PI / 4, p = bot.entity.position, f: Record<string, number> = {}
+  for (const r of [12, 20, 28, 36]) for (const o of [-0.2, 0.2]) {
+    const x = Math.floor(p.x + Math.sin(a + o) * r), z = Math.floor(p.z - Math.cos(a + o) * r)
+    let k = '미로드'
+    for (let y = Math.floor(p.y) + 16; y > p.y - 16; y--) {
+      const b = bot.blockAt(new Vec3(x, y, z)); if (!b) break
+      if (b.name === 'air' || b.name === 'cave_air' || b.name === 'snow') continue
+      k = SURF.find(([re]) => re.test(b.name))?.[1] ?? '돌'; break
+    }
+    f[k] = (f[k] ?? 0) + 1
+  }
+  const v = visited.filter(q => { const d = q.minus(p); return Math.hypot(d.x, d.z) > 8 && Math.hypot(d.x, d.z) < 80 && Math.abs(((Math.atan2(d.x, -d.z) - a) % (2 * Math.PI) + 3 * Math.PI) % (2 * Math.PI) - Math.PI) < Math.PI / 8 }).length
+  return { f, v }
+}
+async function explore(found: () => any, id: number, target = '', hops = S.explore_hops) {
   for (let h = 0; h < hops; h++) {
     if (id !== job) throw new Fail('stopped')
-    const a = Math.random() * Math.PI * 2, p = bot.entity.position
-    if (LOG) log('explore', h + 1, '/', hops)
-    try { await go(new goals.GoalXZ(Math.round(p.x + Math.cos(a) * S.explore_dist), Math.round(p.z + Math.sin(a) * S.explore_dist)), 60000) } catch { }
+    const p = bot.entity.position
+    visited.push(p.clone()); if (visited.length > 64) visited.shift()
+    const r = await api('/explore', { target, y: Math.floor(p.y), night: night(), hop: h + 1, dirs: [0, 1, 2, 3, 4, 5, 6, 7].map(sector) }).catch(() => null)
+    const a = r ? r.i * Math.PI / 4 : Math.random() * Math.PI * 2
+    log('EXPLORE', h + 1, '/', hops, target, r ? `${r.dir} ${r.p}` : '랜덤(api 실패)')
+    try { await go(new goals.GoalXZ(Math.round(p.x + Math.sin(a) * S.explore_dist), Math.round(p.z - Math.cos(a) * S.explore_dist)), 60000) } catch { }
     if (found()) return true
   }
   return false
@@ -245,7 +297,7 @@ async function gather(s: Step, id: number) {
     if (++tries > s.cnt * 4 + 10) throw new Fail('stuck')
     const b = findBlock(bs, S.scan_r, true)
     if (!b && S.mine_mode === 'stair' && !descended && s.y !== undefined && bot.entity.position.y > s.y + 4) { descended = true; await stair(s.y, id); continue }
-    if (!b) { if (await explore(() => findBlock(bs, S.scan_r, true), id)) continue; throw new Fail('no_target') }
+    if (!b) { if (await explore(() => findBlock(bs, S.scan_r, true), id, s.target)) continue; throw new Fail('no_target') }
     if (s.tool && s.tool !== 'hand' && !bot.inventory.items().some(i => i.name === s.tool)) throw new Fail('no_tool')  // 도구 파손 → 맨손 채굴(드랍0) 방지, 재계획
     await equipName(s.tool)
     try { await go(new goals.GoalLookAtBlock(b.position, bot.world), 60000) } catch (e: any) {  // LookAt = 실월드 시야 판정 → 묻힌 블럭(흙 밑 돌)은 항상 No path → 인접 이동(파고 들어감)
@@ -280,12 +332,20 @@ async function stair(toY: number, id: number) {
     await go(new goals.GoalBlock(nx.x, nx.y, nx.z), 8000)
   }
 }
+const DUR = () => Object.fromEntries(bot.inventory.items().filter(i => i.maxDurability).map(i => [i.name, Math.round(100 * (1 - (i.durabilityUsed ?? 0) / i.maxDurability))]))
+async function arm(e: any, n = 1) {  // 무기·방패 선택 = 모델(/weapon: 처치시간·내구도·원거리·크리퍼)
+  const r = await api('/weapon', { inv: inv(), dur: DUR(), mob: e.name, d: dist(e.position), n, hp: Math.round(bot.health), armor: armorPts() }).catch(() => null)
+  if (!r) return
+  log('WEAPON', e.name, r.item, r.shield ? '+방패' : '', r.p)
+  if (r.item !== 'hand') await equipName(r.item)
+  if (r.shield) await equipName('shield', 'off-hand')
+}
 async function hunt(s: Step, id: number) {
   const mob = s.target.replace('mob:', '')
   for (let k = 0; k < s.cnt; k++) {
-    const e = findMob(mob) ?? (await explore(() => findMob(mob), id) ? findMob(mob) : null)
+    const e = findMob(mob) ?? (await explore(() => findMob(mob), id, s.target) ? findMob(mob) : null)
     if (!e) throw new Fail('no_target')
-    await equipName(s.tool)
+    if (s.type === 'combat') await arm(e); else await equipName(s.tool)
     const t0 = Date.now()
     while (e.isValid && Date.now() - t0 < 60000) {
       if (id !== job) throw new Fail('stopped')
@@ -380,7 +440,7 @@ async function exec(s: Step, id: number) {
     case 'furnace': return smelt(s, id)
     case 'expedition': {
       const f = s.target.startsWith('mob:') ? () => findMob(s.target.slice(4)) : () => findBlock(fam(s.target, s.any), 64)
-      if (f() || await explore(f, id)) return
+      if (f() || await explore(f, id, s.target)) return
       throw new Fail('no_target')
     }
     default: throw new Fail('unsupported:' + s.type)
@@ -413,18 +473,21 @@ async function tidy(sit: string, goal?: string, n?: number) {
 // ---- GOAL 실행 + QED 기록 ----
 // 끝난 plan 5초 표시후 비움 → 웹UI 유휴 전환 (그사이 새 job 시작시 유지)
 const endPlan = (id: number) => setTimeout(() => { if (id === job && !task) plan = null }, 5000)
-async function runGoal(req: string, goal: string, n: number, koName: string, type?: string) {
+async function runGoal(req: string, goal: string, n: number, koName: string, type?: string, noask = false, from?: { base?: number, set?: string[] }) {
   const id = ++job
-  cur = { req, goal, cnt: n, ko: koName, type }
-  const TRIES = 5
-  let prevVia: string | null = null  // 재계획시 이전 방법 → webui TASK 교체 표시
+  cur = { req, goal, cnt: n, ko: koName, type, noask, base: from?.base, set: from?.set }
+  const TRIES = 8  // 안전 상한(모델 /fail 이 보통 먼저 도움요청·포기)
+  let prevVia: string | null = null, lastF = '', streak = 0, dec = 'replan'  // dec: 실패 대응 = 모델(/fail)  // 재계획시 이전 방법 → webui TASK 교체 표시
   for (let attempt = 0; attempt < TRIES; attempt++) {  // 실패시 재계획 (QED 최근실패 반영), 상한 → 무한루프 차단
     if (id !== job) return  // 다른 명령이 선점
     own = (await api('/placed', {}).catch(() => ({ list: own }))).list  // 외부 삭제 반영
     const st = state()
-    const p = await api('/plan', { goal, type, cnt: n, inv: st.inv, placed: st.placed, near: nearMap(), hp: st.hp, night: st.night, armor: bot.inventory.slots.slice(5, 9).some(Boolean), req, y: Math.floor(bot.entity.position.y) })
-    if (p.via === 'ask') { say(T('goal.ask', { ko: koName })); botq = `${koName} 도움`; return }  // ask도 steps 비어있음 → 먼저
+    const left = cur.set ? cur.base! + n - cntF(cur.set) : n  // 멈춤·실패 전 모은 분 제외 ("n개 더" 중복 방지)
+    if (left <= 0) { cur = null; endPlan(id); say(T('done.' + type, { ko: koName, n })); return }
+    const p = await api('/plan', { goal, type, cnt: left, inv: st.inv, placed: st.placed, near: nearMap(), hp: st.hp, night: st.night, armor: bot.inventory.slots.slice(5, 9).some(Boolean), req, y: Math.floor(bot.entity.position.y), noask })
+    if (p.via === 'ask') { say(T('goal.ask', { ko: koName })); botq = `${koName} 도움`; askFor = { req, goal, n, ko: koName, type }; return }  // ask도 steps 비어있음 → 먼저
     if (!p.steps.length) { say(T('goal.unknown', { ko: koName })); botq = `${koName} 방법`; return }
+    if (!cur.set && p.goal_set) { cur.set = (p.goal_set as string[]).flatMap(g => fam(g, p.steps.some((s: Step) => s.any))); cur.base = cntF(cur.set) }
     if (p.qed) log('QED', p.qed.changed ? `바꿈 ${p.qed.base_ko} → ${p.via_ko}` : '참고', JSON.stringify(p.qed.ev))
     log('PLAN', p.via, p.steps.map((s: Step) => `${s.type}:${s.target}x${s.cnt}`).join(' → '))
     if (attempt === 0) say([T('start.' + type, { ko: koName, n, steps: p.steps.length }), ...(p.why ?? []).map((w: any) => T('why.' + w.k, w))].join(' '))  // 방법 사유(설치물 재사용·경유·QED) 같이
@@ -445,8 +508,14 @@ async function runGoal(req: string, goal: string, n: number, koName: string, typ
         fail = null
         if (id !== job) { fail = 'stopped'; break }
         try { await exec(s, id) } catch (e: any) { fail = e instanceof Fail ? e.message : 'err:' + String(e.message ?? e).slice(0, 60) }
-        if (!fail || k >= 3 || !/^(err:|craft_|stuck|slow|no_space|no_target)/.test(fail)) break
-        log('RETRY', s.type, s.target, fail); await sleep(1000)
+        if (!fail || fail === 'stopped' || id !== job || k >= 6) break
+        streak = fail === lastF ? streak + 1 : 1; lastF = fail
+        const r = await api('/fail', { goal, step: { type: s.type, target: s.target }, reason: fail, tries: k + 1, replans: attempt, streak, hp: Math.round(bot.health), night: night(), player: Object.keys(bot.players).length > 1 })
+          .catch(() => ({ act: k < 2 && /^(err:|craft_|stuck|slow|no_space)/.test(fail!) ? 'retry' : 'replan', label: 'api 실패 규칙' }))
+        dec = r.act
+        log('FAIL', s.type, s.target, fail, `시도${k + 1} 재계획${attempt} 연속${streak}`, '→', r.label, r.p ?? '')
+        if (dec !== 'retry') break
+        await sleep(1000)
       }
       rec.push({ ...s, ms: Date.now() - t1, ok: !fail, fail })
       log('STEP', i + 1, s.type, s.target, s.cnt, fail ?? 'ok', Date.now() - t1, 'ms')
@@ -464,10 +533,12 @@ async function runGoal(req: string, goal: string, n: number, koName: string, typ
     }
     if (fail === 'stopped') { if (cur?.req === req) cur = null; return }
     if (id !== job) return
+    if (dec === 'help') { cur = null; endPlan(id); botq = `${koName} 도움`; askFor = { req, goal, n, ko: koName, type }; return say(T('fail.help', { ko: koName, why: fail })) }
+    if (dec === 'giveup') break
     say(T('fail.step', { step: rec.at(-1).type, target: rec.at(-1).target, why: fail }) + (attempt < TRIES - 1 ? T('fail.retry') : ''))
   }
-  cur = null; endPlan(id)
-  paused = { req, goal, cnt: n, ko: koName, type, n: (resumes.get(req) ?? 0) }
+  const c0 = cur; cur = null; endPlan(id)
+  paused = { req, goal, cnt: n, ko: koName, type, noask, n: (resumes.get(req) ?? 0), base: c0?.base, set: c0?.set }
   botq = `${koName} 실패`
   say(T('fail.giveup', { ko: koName }))
 }
@@ -488,8 +559,8 @@ async function answer(q: string, user: string, t: any) {
     case 'doing': case 'progress': return say(task ?? T('answer.idle'))
     case 'time': return say(T(night() ? 'answer.night' : 'answer.day'))
     case 'where_thing': {
-      const k = g?.item, b = k && (placed[k] ?? findBlock([k], 64)?.position)
-      return say(b ? T('answer.where_thing', { ko: g.ko, x: b.x, y: b.y, z: b.z, d: dist(b) }) : g ? T('answer.where_none', { ko: g.ko }) : T('answer.unknown_thing'))
+      const w = g ?? t.spans.find((s: any) => s.label === '장소' && s.item), k = w?.item, b = k && (placed[k] ?? findBlock([k], 64)?.position)
+      return say(b ? T('answer.where_thing', { ko: w.ko, x: b.x, y: b.y, z: b.z, d: dist(b) }) : w ? T('answer.where_none', { ko: w.ko }) : T('answer.unknown_thing'))
     }
     case 'where_player': { const e = player(user); return say(e ? T('answer.where_player', { d: dist(e.position) }) : T('answer.not_seen')) }
     case 'near': { const nm = nearMap(); const k2 = Object.keys(nm); const kk = await kos(k2); const near = k2.map(k => `${kk[k]} ${nm[k]}칸`).join(', '); return say(near ? T('answer.near', { near }) : T('answer.near_none')) }
@@ -505,37 +576,67 @@ async function answer(q: string, user: string, t: any) {
 // ---- 턴 처리 ----
 const GOALS = new Set(['craft', 'mine', 'log', 'dig', 'furnace', 'hunt', 'farm', 'bucket', 'combat'])
 async function onChat(user: string, msg: string) {
-  const h = botq ? hist : S.hist && prevUser && Date.now() - prevUser[1] < 120000 ? [prevUser[0], lastSay] : null  // HIST=0: hist 미학습 ckpt용
+  const h = prevUser && (botq || S.hist && Date.now() - prevUser[1] < 120000) ? [prevUser[0], lastSay] : null  // HIST=0: hist 미학습 ckpt용
   prevUser = [msg, Date.now()]
-  const t = await api('/turn', { utt: msg, state: state(), hist: h })
+  const aw = askQ; askQ = null
+  if (aw) {  // 되묻기 답: "아카시아" + "나무 버려" → 모델이 한 문장으로 재해석, 여전히 되묻기면 원래 흐름
+    const r = await api('/turn', { utt: `${msg} ${aw}`, state: { ...state(), botq: null }, hist: null })
+    if (r.act === '목표 실행' && r.goals.length && !r.goals.some((x: any) => x.ask)) { log('ANSWER', msg, '+', aw, '→', JSON.stringify(r.goals)); botq = null; return doType(user, `${msg} ${aw}`, r) }
+  }
+  const t = await api('/turn', { utt: msg, state: state(), hist: h, task: { goal: cur?.goal ?? null, step: task, threat: threatText() } })
   emit({ type: 'miya', ms: Math.round(t.ms), doc: msg, a: { intent: [t.act, Math.round(t.act_p * 100)], skill: [t.type, Math.round(t.type_p * 100)], ask: [t.query ?? 'none'], goal: [t.goals.map((g: any) => g.ko + (g.count ? '×' + g.count : '')).join(',') || 'none'] }, spans: t.spans.map((s: any) => `${s.label}:${s.text}`) })
   log('TURN', msg, '|', t.act, t.type, t.query, JSON.stringify(t.goals), t.ms + 'ms')
-  const g = t.goals[0]
-  botq = null
+  const g = t.goals[0], af = askFor
+  botq = null; askFor = null
+  if (af && (t.act === '긍정 대답' || t.act === '부정 대답' || t.act === '목표 실행' && g?.item === af.goal)) return runGoal(af.req, af.goal, af.n, af.ko, af.type, true)
   switch (t.act) {
     case '목표 실행': return doType(user, msg, t)
     case '질문 답하기': return answer(t.query, user, t)
     case '되묻기': {
       const s = t.spans.find((s: any) => !s.item && (s.label === '대상')) ?? t.spans[0]
       const q = s ? T('ask.what_is', { text: s.text }) : T('ask.unclear')
-      botq = q; hist = [msg, q]; return say(q)
+      botq = q; return say(q)
     }
     case '멈춤': job++; bot.pathfinder.setGoal(null); if (task) paused = null; task = null; plan = null; return say(T('act.stop'))
-    case '재개': if (paused) { const p = paused; paused = null; return runGoal(p.req, p.goal, p.cnt, p.ko ?? p.goal, p.type) } return say(T('act.no_resume'))
+    case '재개': if (paused) { const p = paused; paused = null; return runGoal(p.req, p.goal, p.cnt, p.ko ?? p.goal, p.type, p.noask, p) } return say(T('act.no_resume'))
     case '긍정 대답': return say(T('act.yes'))
     case '부정 대답': return say(T('act.no'))
     case '위험 경고': return say(T('act.warn'))
-    case '지적·조언': return say(T('act.hint', { hint: t.hint }))
+    case '지적·조언': {  // 행동 변화 = 모델(/turn hact)
+      const a = t.hact?.act ?? 'explain', c = cur
+      log('HINT', t.hint, '→', t.hact?.label)
+      if (a === 'danger') { lastSig = ''; return say(T('hint.danger')) }
+      if (a === 'ask') { botq = T('hint.ask'); return say(botq) }
+      if ((a === 'replan' || a === 'recheck') && c) { say(T('hint.' + a)); job++; return runGoal(c.req, c.goal, c.cnt, c.ko, c.type, c.noask, c) }
+      return say(c ? T('hint.explain') : T('act.hint', { hint: t.hint }))
+    }
     case '욕설': return say(T('act.swear'))
     default: return say(g ? T('act.echo', { ko: g.ko }) : T('act.chat'))
   }
 }
+async function pickMob(type: string, why: string): Promise<string | null> {
+  const es = Object.values(bot.entities).filter(x => x.type === (type === 'combat' ? 'hostile' : 'animal') && dist(x.position) < 48).sort((a, b) => dist(a.position) - dist(b.position))
+  if (type === 'combat') {
+    if (!es.length) return null
+    const ts = es.slice(0, 5).map(e => [e.name, dist(e.position)])
+    const r = await api('/target', { threats: ts, hp: Math.round(bot.health), armor: armorPts(), why }).catch(() => ({ mob: ts[0][0] }))
+    return r.mob
+  }
+  const by: Record<string, [string, number, number]> = {}
+  for (const e of es) { const k = e.name!; by[k] = by[k] ? [k, by[k][1], by[k][2] + 1] : [k, dist(e.position), 1] }
+  const r = await api('/hunt', { animals: Object.values(by).slice(0, 6), food: bot.food, has_food: bot.inventory.items().some(i => mc.foodsByName[i.name]), want: why }).catch(() => null)
+  log('HUNT', JSON.stringify(Object.values(by)), '→', r?.mob ?? '원정')
+  return r?.mob ?? null
+}
 async function doType(user: string, msg: string, t: any) {
   const g = t.goals[0], e = player(user)
+  const aq = t.goals.find((x: any) => x.ask)  // 모델: 실물·개수 불확실 + 파괴적 행동 → 되묻기
+  if (aq) { const q = aq.ask === 'which' ? T('ask.which', { cands: aq.cands.join(', ') }) : T('ask.count', { ko: aq.ko, held: aq.held }); botq = q; askQ = msg; return say(q) }
   if (GOALS.has(t.type)) {
-    const m = !g && t.type === 'combat' ? bot.nearestEntity(e => e.type === 'hostile' && dist(e.position) < 32) : null  // 대상없는 전투(몹 좀 잡아) → 최근접 적대몹
-    if (m) return runGoal(msg, 'mob:' + m.name, 1, '몹', t.type)
-    if (!g) { botq = '뭘요?'; hist = [msg, botq]; return say(T('ask.what_do')) }
+    const m = !g && (t.type === 'combat' || t.type === 'hunt') ? await pickMob(t.type, msg) : null  // 대상없는 전투·사냥 → 무엇을 = 모델(/target·/hunt)
+    if (m) return runGoal(msg, 'mob:' + m, 1, (await kos(['mob:' + m]))['mob:' + m] ?? '몹', t.type)
+    if (!g && t.type === 'hunt') return runGoal(msg, 'grp:meat', 1, '고기', t.type)  // 모델: 주변 없음 → 고기 (원정은 plan)
+    if (!g) { botq = '뭘요?'; return say(T('ask.what_do')) }
     for (const x of t.goals) await runGoal(msg, x.item, x.count ?? 1, x.ko, t.type)
     return
   }
@@ -549,6 +650,7 @@ async function doType(user: string, msg: string, t: any) {
     }
     case 'give': case 'drop': {
       if (!g) return say(T('ask.what_give'))
+      for (const x of t.goals) await unwear(x.item).catch(() => { })
       const gs = t.goals.filter((x: any) => cnt(x.item))
       if (!gs.length) return say(T('none', { ko: g.ko }))
       if (t.type === 'give' && e) { try { await go(new goals.GoalNear(e.position.x, e.position.y, e.position.z, 2), 30000) } catch { } await bot.lookAt(e.position.offset(0, 1.6, 0)) }
@@ -566,12 +668,7 @@ async function doType(user: string, msg: string, t: any) {
       await equipName(n, dest); return say(T('done.equip', { ko: g.ko }))
     }
     case 'eat': return eat()
-    case 'collect': {
-      for (const it of Object.values(bot.entities).filter(x => x.name === 'item' && dist(x.position) < 16)) {
-        try { await go(new goals.GoalBlock(Math.floor(it.position.x), Math.floor(it.position.y), Math.floor(it.position.z)), 8000) } catch { }
-      }
-      return say(T('done.collect'))
-    }
+    case 'collect': await collectNear(); return say(T('done.collect'))
     case 'place': if (g) { try { await place(g.item); return say(T('done.place', { ko: g.ko })) } catch (x: any) { return say(T('fail.place', { why: x.message })) } } return say(T('ask.what_place'))
     case 'sleep': {
       const b = bot.findBlock({ matching: (b: any) => b.name.endsWith('_bed'), maxDistance: 32 })
@@ -581,15 +678,17 @@ async function doType(user: string, msg: string, t: any) {
     default: return say(T('unsupported', { type: t.type }))
   }
 }
-async function eat() {
-  const f = bot.inventory.items().find(i => mc.foodsByName[i.name])
+async function eat(fight = false) {  // 뭘 먹을지 = 모델(/food: 허기·포만·부작용·비상)
+  const r = await api('/food', { inv: inv(), hp: Math.round(bot.health), food: bot.food, fight, task }).catch(() => null)
+  const f = r ? bot.inventory.items().find(i => i.name === r.item) : bot.inventory.items().find(i => mc.foodsByName[i.name])
+  if (r) log('FOOD', r.item, r.p)
   if (!f) return say(T('eat.none'))
   await bot.equip(f, 'hand'); await bot.consume(); say(T('done.eat'))
 }
 
 // ---- 우선순위(위협/생존) 루프: 상태 바뀔때만 요청 → 과부하 방지 ----
 const DMG: Record<string, number> = { wooden: 4, golden: 4, stone: 5, iron: 6, diamond: 7, netherite: 8 }
-let lastSig = '', busyPrio = false, hold = 0, holdHp = 20, fightT: any  // hold: 전투·도망 유지 끝 시각 (체력 줄면 해제)
+let lastSig = '', busyPrio = false, hold = 0, holdHp = 20, fightT: any, fightE = -1, curAct = ''  // hold: 전투·도망 유지 끝 시각 (체력 줄면 해제)
 const RESUME = ['멈춘 작업 재개', '계속 진행']  // 멈춘작업 있고 위협없을때 계속=재개
 const resumes = new Map<string, number>()  // 자동재개 횟수 상한 → 실패-재개 무한루프 차단
 // 인지: 벽·땅 너머 몹은 위협 아님(지하 채굴중 지상 스켈레톤 11칸 → 무한 도망·작업 정지 원인)
@@ -598,47 +697,93 @@ function seen(e: any) {
   const h = (bot.world as any).raycast(a, d.scaled(1 / n), n)
   return !h || h.position.distanceTo(b.floored()) < 1
 }
+let hidden = false
+const FILL = () => bot.inventory.items().find(i => /^(cobblestone|cobbled_deepslate|dirt|stone|netherrack|andesite|diorite|granite|tuff)$/.test(i.name))
+async function shelter() {  // 굴: 발밑 3칸 파고 머리위 막기
+  bot.pathfinder.setGoal(null)
+  for (let k = 0; k < 3; k++) {
+    const b = bot.blockAt(bot.entity.position.floored().offset(0, -1, 0))
+    if (!b || b.boundingBox !== 'block' || /lava|water|bedrock/.test(b.name)) break
+    const t = bot.pathfinder.bestHarvestTool(b); if (t) await bot.equip(t, 'hand').catch(() => { })
+    await timeout(bot.dig(b), 15000).catch(() => bot.stopDigging()); await sleep(400)
+  }
+  const f = FILL(), p = bot.entity.position.floored()
+  if (f) {
+    await bot.equip(f, 'hand').catch(() => { })
+    for (const o of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const ref = bot.blockAt(p.offset(o[0], 2, o[1]))
+      if (ref?.boundingBox === 'block') { await bot.placeBlock(ref, new Vec3(-o[0], 0, -o[1])).catch((x: any) => log('shelter', x.message)); break }
+    }
+  }
+  hidden = true; log('SHELTER', bot.entity.position.floored().toString())
+}
+async function pillar(n = 3) {  // 기둥: 점프+발밑 설치 n회
+  bot.pathfinder.setGoal(null)
+  for (let k = 0; k < n; k++) {
+    const f = FILL(); if (!f) break
+    await bot.equip(f, 'hand').catch(() => { })
+    await bot.look(bot.entity.yaw, -Math.PI / 2, true)
+    bot.setControlState('jump', true); await sleep(350); bot.setControlState('jump', false)
+    const b = bot.blockAt(bot.entity.position.floored().offset(0, -2, 0))
+    if (b) await bot.placeBlock(b, new Vec3(0, 1, 0)).catch((x: any) => log('pillar', x.message))
+    await sleep(300)
+  }
+}
+const threatText = () => Object.values(bot.entities).filter(e => e.type === 'hostile' && dist(e.position) < 16).slice(0, 3).map(e => `${ko('mob:' + e.name)} ${dist(e.position)}칸`).join(', ') || null
 async function prioTick() {
   if (busyPrio || !bot.entity) return
+  wearBest()
   const threats = Object.values(bot.entities).filter(e => e.type === 'hostile' && dist(e.position) < S.threat_r && (dist(e.position) <= 4 || seen(e))).sort((a, b) => dist(a.position) - dist(b.position)).slice(0, 3)
   const hp = Math.round(bot.health ?? 20)  // 스폰 직후 health 미수신 → NaN
   const free = bot.inventory.emptySlotCount()
   const food = bot.inventory.items().find(i => mc.foodsByName[i.name])
   if (S.hp_eat && hp <= S.hp_eat && bot.food < 20 && food) { busyPrio = true; try { log('PRIO 강제 먹기'); await eat() } finally { busyPrio = false } return }  // 유저 강제 규칙
-  if (!threats.length && hp > S.hp_check && bot.food > S.food_check && air >= 20 && free > 2 && !(paused && !task)) return
+  if (!threats.length && curAct !== '굴 파고 숨기') curAct = ''
+  if (hidden && night()) return  // 숨는 중: 아침까지 대기 (숨기 행동의 일부)
+  hidden = false
   if (Date.now() < hold && hp >= holdHp && threats.length) return  // 전투·도망 유지 (전투↔도망 루프 방지)
-  const sig = `${hp}|${bot.food}|${air}|${free}|${paused && !task ? Math.floor(Date.now() / 15000) : ''}|${threats.map(e => (e.name ?? "") + Math.round(dist(e.position) / S.dist_bucket)).join(',')}`
+  const sig = `${hp}|${bot.food}|${air}|${free}|${night()}|${task ? 1 : 0}|${paused && !task ? Math.floor(Date.now() / 15000) : ''}|${threats.map(e => (e.name ?? "") + Math.round(dist(e.position) / S.dist_bucket)).join(',')}`
   if (sig === lastSig) return
   lastSig = sig
   busyPrio = true
   try {
     const sw = bot.inventory.items().map(i => i.name).filter(n => n.endsWith('_sword')).sort((a, b) => DMG[b.split('_')[0]] - DMG[a.split('_')[0]])[0]
     const kw = await kos([...(sw ? [sw] : []), ...threats.map(e => 'mob:' + e.name)])
-    const armor = Math.round((bot.entity as any).attributes?.['minecraft:armor']?.value ?? 0)
+    const armor = armorPts()
     const ctx = `체력 ${hp}/20 배고픔 ${bot.food}/20 빈칸 ${free}/36${air < 20 ? ` 산소 ${air}/20` : ''} ${night() ? '밤' : '낮'} 방어 ${armor} 무기 ${sw ? kw[sw] : '맨손'} 공격력 ${sw ? DMG[sw.split('_')[0]] : 1}` +
       ` | 음식 ${food ? '있음' : '없음'} | 작업: ${task ?? '없음'}` + (paused ? ' | 멈춘작업: ' + paused.req : '') +
-      ' | 위협: ' + (threats.map(e => `${kw['mob:' + e.name]} ${dist(e.position)}칸`).join(', ') || '없음') +
+      (curAct ? ' | 현재: ' + curAct : '') + ' | 위협: ' + (threats.map(e => `${kw['mob:' + e.name]} ${dist(e.position)}칸`).join(', ') || '없음') +
       (lastDeath ? ' | 최근 사망원인: ' + lastDeath : '')
     const r = await api('/prio', { ctx })
-    const e = threats[0], forced = !e ? null : S.hp_flee && hp <= S.hp_flee ? '달려서 도망' : r.label === '근접 전투' || /도망/.test(r.label) ? (S.hostile_policy === 'fight' ? '근접 전투' : S.hostile_policy === 'avoid' ? '달려서 도망' : null) : null
+    let e = threats[0]
+    if (threats.length > 1 && r.label === '근접 전투') {  // 누구부터 = 모델(/target)
+      const tr = await api('/target', { threats: threats.map(x => [x.name, dist(x.position)]), hp, weapon: sw ? kw[sw] : '맨손', armor }).catch(() => null)
+      if (tr) { e = threats[tr.i] ?? e; log('TARGET', tr.mob, tr.p) }
+    }
+    const forced = !e ? null : S.hp_flee && hp <= S.hp_flee ? '달려서 도망' : r.label === '근접 전투' || /도망/.test(r.label) ? (S.hostile_policy === 'fight' ? '근접 전투' : S.hostile_policy === 'avoid' ? '달려서 도망' : null) : null
     if (forced && forced !== r.label) { log('PRIO 설정 강제', r.label, '→', forced); r.label = forced; r.forced = true }
     log('PRIO', ctx, '→', r.label, r.p.toFixed(2))
     if (['근접 전투', '달려서 도망', '블럭 쌓아 도망'].includes(r.label)) { hold = Date.now() + S.prio_hold_ms; holdHp = hp }
+    curAct = ['근접 전투', '달려서 도망', '굴 파고 숨기'].includes(r.label) ? r.label : ''
+    if (r.label !== '근접 전투' || fightE !== e?.id) { clearInterval(fightT); fightE = -1 }  // 행동·대상 바뀌면 교전 타이머 정리
     if (r.label !== '계속') emit({ type: /도망/.test(r.label) ? 'evade' : 'decision', text: `우선순위: ${r.label} (${Math.round(r.p * 100)}%)`, forced: !!r.forced })
-    if (['근접 전투', '달려서 도망'].includes(r.label) && e && cur) { paused = { ...cur }; cur = null; job++; task = null; log('PAUSE', paused.req) }
+    if ((['근접 전투', '달려서 도망', '블럭 쌓아 도망'].includes(r.label) && e || r.label === '굴 파고 숨기') && cur) { paused = { ...cur }; cur = null; job++; task = null; log('PAUSE', paused.req) }
     if (r.label === '물 위로 올라가기') await surface()
-    else if (r.label === '먹기') await eat()
+    else if (r.label === '먹기') await eat(!!e)
+    else if (r.label === '굴 파고 숨기') { say(T('prio.hide')); await shelter() }
+    else if (r.label === '블럭 쌓아 도망') { say(T('prio.pillar')); await pillar(); hold = Date.now() + S.prio_hold_ms }
     else if (r.label === '인벤 정리' && !task) await tidy('인벤 가득', cur?.goal, cur?.cnt)
     else if (r.label === '근접 전투' && e) {  // 유지시간 동안 공격 반복 (prio 틱 없이도 계속 때림)
-      await equipName(sw); bot.pathfinder.setGoal(new goals.GoalFollow(e, 1), true)
-      clearInterval(fightT); fightT = setInterval(() => { if (!e.isValid || Date.now() > hold) return clearInterval(fightT); if (dist(e.position) <= 3) bot.lookAt(e.position.offset(0, e.height / 2, 0)).then(() => bot.attack(e)).catch(() => { }) }, 600)
+      if (fightE === e.id) return  // 같은 대상 교전중 → 재장착·타이머 재시작 X (장착마다 공격 쿨다운 초기화)
+      fightE = e.id; await arm(e, threats.length); bot.pathfinder.setGoal(new goals.GoalFollow(e, 1), true)
+      clearInterval(fightT); fightT = setInterval(() => { if (!e.isValid || Date.now() > hold) { fightE = -1; return clearInterval(fightT) } if (dist(e.position) <= 3) bot.lookAt(e.position.offset(0, e.height / 2, 0)).then(() => bot.attack(e)).catch(() => { }) }, 600)
     }
     else if (r.label === '달려서 도망' && e) {  // GoalInvert(Follow)는 굴·좁은길서 경로 못찾고 조용히 정지 → 반대방향 고정점 + go() 끼임감지
       const p = bot.entity.position, v = p.minus(e.position), k = 16 / (Math.hypot(v.x, v.z) || 1)
       go(new goals.GoalNearXZ(p.x + v.x * k, p.z + v.z * k, 3), 15000).catch((x: any) => { log('flee', x.message); hold = 0 })
     }
     else if (RESUME.includes(r.label) && paused && !task && !e && (resumes.get(paused.req) ?? 0) >= S.resume_max) { say(T('fail.paused', { req: paused.req })); resumes.delete(paused.req); paused = null }  // 상한: 조용히 무시하면 영구대기
-    else if (RESUME.includes(r.label) && paused && !task && !e) { const p = paused; resumes.set(p.req, (resumes.get(p.req) ?? 0) + 1); paused = null; bot.pathfinder.setGoal(null); runGoal(p.req, p.goal, p.cnt, p.ko ?? p.goal, p.type).catch(x => log('ERR', x)) }
+    else if (RESUME.includes(r.label) && paused && !task && !e) { const p = paused; resumes.set(p.req, (resumes.get(p.req) ?? 0) + 1); paused = null; bot.pathfinder.setGoal(null); runGoal(p.req, p.goal, p.cnt, p.ko ?? p.goal, p.type, p.noask, p).catch(x => log('ERR', x)) }
   } catch (x: any) { log('prio', x.message) } finally { busyPrio = false }
 }
 
@@ -668,6 +813,26 @@ bot.on('message', (m: any) => {
   const k = m.translate as string, w = m.with?.[1]
   dmsg = JSON.stringify({ cause: k.startsWith('death.fell') ? 'fall' : k.split('.')[2], killer: !w ? null : w.translate?.startsWith('entity.minecraft.') ? w.translate.slice(17) : 'player' })
 })
+let lost: { pos: Vec3, t: number, inv: Record<string, number>, cause: string } | null = null
+async function collectNear(r = 16) {
+  for (const it of Object.values(bot.entities).filter(x => x.name === 'item' && dist(x.position) < r)) {
+    try { await go(new goals.GoalBlock(Math.floor(it.position.x), Math.floor(it.position.y), Math.floor(it.position.z)), 8000) } catch { }
+  }
+}
+async function recover() {  // 회수 여부 = 모델(/recover: 잃은 가치·거리·소멸시간·원인 위험)
+  const l = lost; lost = null
+  if (!l || !Object.keys(l.inv).length) return
+  const w = bot.inventory.items().map(i => i.name).find(n => /_(sword|axe)$/.test(n)) ?? 'hand'
+  const r = await api('/recover', { inv: l.inv, d: dist(l.pos), el: Math.round((Date.now() - l.t) / 1000), cause: l.cause, night: night(), armor: armorPts(), weapon: w, hp: Math.round(bot.health) }).catch(() => null)
+  log('RECOVER', r?.go, r?.value, r?.p)
+  if (!r) return
+  if (!r.go) return say(T('death.skip', { v: Math.round(r.value) }))
+  say(T('death.recover', { d: dist(l.pos) }))
+  const id = ++job; task = '사망 회수'
+  try { await go(new goals.GoalNear(l.pos.x, l.pos.y, l.pos.z, 2), 180000); await collectNear() } catch (x: any) { log('recover', x.message) }
+  if (id === job) task = null
+}
+bot.on('spawn', () => { if (lost) setTimeout(recover, 1500) })
 bot.on('death', () => {
   log('DEATH'); job++; task = null; plan = null
   placed['place:death'] = bot.entity.position.floored()
@@ -680,6 +845,8 @@ bot.on('death', () => {
       else if (d.cause === 'drown') lastDeath = '익사'
       log('DEATH', d.cause, d.killer, 'inv_value', r.inv_value, JSON.stringify(r.top))
       emit({ type: 'death', text: `사망: ${d.killer ?? d.cause} (잃은 가치 ${r.inv_value})` })
+      lost = { pos: placed['place:death'], t: Date.now(), inv: s?.inv ?? {}, cause: d.killer && d.killer !== 'player' ? d.killer : d.cause }
+      if (bot.health > 0) recover()
     } catch (e: any) { log('death', e.message) }
   }, 500)
 })
@@ -710,7 +877,7 @@ function webState() {
   const recent = calls.filter(c => now - c[0] < 60000)
   return {
     online: true, startedAt, name: bot.username, hp: Math.round(bot.health), food: bot.food, air,
-    level: bot.experience.level, xp: bot.experience.progress, armorPts: Math.round((bot.entity as any).attributes?.['minecraft:armor']?.value ?? 0),
+    level: bot.experience.level, xp: bot.experience.progress, armorPts: armorPts(),
     pos: { x: Math.floor(me.x), y: Math.floor(me.y), z: Math.floor(me.z) }, dim: String(bot.game.dimension).replace(/^minecraft:/, ''),
     day: !night(), tod: bot.time.timeOfDay / 24000, task: task ?? 'idle', progress: plan ? `${plan.steps.filter(x => x.state === 'done').length}/${plan.steps.length}` : '',
     held: bot.heldItem ? 'minecraft:' + bot.heldItem.name : null, inv: [...s.slice(9, 45)].map(item), armor: [8, 7, 6, 5].map(k => item(s[k])), offhand: item(s[45]), sel: bot.quickBarSlot, window: win(),

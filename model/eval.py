@@ -8,7 +8,7 @@ import torch
 H = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, H); sys.path.insert(0, f"{H}/../data")
 import catalog as C  # noqa: E402
-from miya import LABELS, build, collate, load_tok, pack  # noqa: E402
+from miya import LABELS, build, collate, load_tok, pack, read_ck  # noqa: E402
 from train import TURN_Q, encode_row, dev_acc  # noqa: E402
 import gen as G  # noqa: E402
 
@@ -27,7 +27,7 @@ class Runner:
         self.dev = dev
         self.tok = load_tok()
         self.m = build(dev, base_init=False)
-        self.m.load(torch.load(f"{ck}/model.pt", map_location=dev))
+        self.m.load(read_ck(ck, dev))
         self.m.eval()
         self.ents = C.entries()
         with torch.no_grad():

@@ -53,7 +53,8 @@ SMELT_T = ["raw_iron", "grp:iron", "grp:meat", "beef", "porkchop", "sand", "cobb
 MISC = ["cobblestone", "dirt", "oak_log", "stick", "torch", "coal", "iron_ingot", "raw_iron", "diamond", "cooked_beef", "bread", "oak_planks",
         "wheat_seeds", "andesite", "sand", "gravel", "rotten_flesh", "leather", "bone", "string", "gold_ingot", "stone_pickaxe", "iron_pickaxe",
         "iron_sword", "stone_axe", "wooden_pickaxe", "shield", "bow", "arrow", "iron_helmet", "iron_chestplate", "grp:meat", "grp:food",
-        "grp:iron", "grp:log", "crafting_table", "furnace", "chest", "bucket", "water_bucket", "lava_bucket", "bamboo", "glass", "diorite", "granite"]
+        "grp:iron", "grp:log", "crafting_table", "furnace", "chest", "bucket", "water_bucket", "lava_bucket", "bamboo", "glass", "diorite", "granite",
+        "birch_log", "spruce_log", "acacia_log", "jungle_log", "cherry_log", "dark_oak_log", "mangrove_log", "birch_planks", "spruce_planks"]
 EQUIP_T = ["iron_pickaxe", "stone_pickaxe", "wooden_pickaxe", "diamond_pickaxe", "iron_sword", "stone_sword", "stone_axe", "iron_axe", "shield",
            "torch", "bow", "iron_helmet", "iron_chestplate", "iron_leggings", "iron_boots", "diamond_chestplate", "netherite_leggings",
            "set:iron_armor", "grp:armor", "grp:sword", "grp:pickaxe", "grp:axe", "cobblestone", "coal", "golden_helmet"] + ["iron_chestplate", "set:iron_armor"] * 2
@@ -124,7 +125,11 @@ E_STORE = ["넣어", "넣어놔", "넣어줘", "보관해", "집어넣어", "넣
 E_TAKE = ["꺼내", "꺼내와", "빼", "빼와", "가져와", "꺼내줘", "꺼네", "빼줘"]
 
 
-VERBS = {"craft": E_CRAFT, "mine": E_GATHER, "log": E_LOG, "dig": E_DIG, "give": E_GIVE, "furnace": E_SMELT, "hunt": E_KILL}
+VERBS_OLD = {"craft": E_CRAFT, "mine": E_GATHER, "log": E_LOG, "dig": E_DIG, "give": E_GIVE, "furnace": E_SMELT, "hunt": E_KILL}
+VERBS = {**VERBS_OLD, "equip": E_EQUIP, "drop": E_DROP, "place": E_PLACE, "store": E_STORE, "retrieve": E_TAKE}
+VERBS_ASK = set(VERBS) - {"log"}  # 나무캐→뭘요 부자연
+WEARABLE = ["iron_leggings", "iron_helmet", "iron_chestplate", "iron_boots", "iron_sword", "iron_pickaxe", "iron_axe", "shield", "stone_sword",
+            "diamond_sword", "diamond_pickaxe", "diamond_chestplate", "golden_helmet", "leather_boots", "bow", "stone_pickaxe"]
 
 
 def tail(r, s):
@@ -437,10 +442,13 @@ SIMPLE = {
     "재개": ["하던거 마저 해", "마저해", "다시 ㄱㄱ", "하던 거 마저 해줘", "계속 진행해", "이어서 ㄱㄱ", "하던거 이어서", "다시 해봐", "진행해", "계속 해줘", "하던거 계속 ㄱㄱ", "아까 하던거 해", "이어서 해", "계속해", "다시 해", "하던거 해", "하던 거 계속", "마저 해", "다시 시작"],
     "긍정 대답": ["ㅇㅇ", "응", "어", "가자", "출발", "고고", "ㄱㄱ", "좋아", "그래", "진행해", "시작해", "만들자", "ㅋ", "ㅋㅋ", "ㅇㅋ", "오키", "웅", "해", "그렇게 해", "ok", "네", "넹", "콜", "출발해", "그냥 가", "맞아", "ㅇㅇ 그거", "해줘", "그래도 공격해", "그래도 해", "상관없어 해", "그냥 해", "괜찮으니까 해"],
     "부정 대답": ["ㄴㄴ", "아니", "싫어", "하지마", "노노", "아니야", "안돼", "ㄴ", "no", "됐어", "안 해도 돼", "그거 아니야", "다른거"],
-    "잡담": ["안녕", "다시 시킬게요", "나중에 다시 시킬게", "이따 시킬게", "잠깐 딴거 할게", "아이고야", "아이고 ㅋㅋ", "헐", "에휴", "ㅎㅇ", "고마워", "잘했어 ㅋㅋ", "굿", "수고", "고마웡 ㅋㅋ", "안뇽", "ㅋㅋㅋㅋ", "잘자", "좋아 좋아", "와 대박", "ㄳ", "땡큐", "나 왔어", "심심하다", "휴 살았다", "ㅎㅎ", "귀엽네", "잘하네"],
+    "잡담": ["안녕", "다시 시킬게요", "나중에 다시 시킬게", "이따 시킬게", "잠깐 딴거 할게", "아이고야", "아이고", "아이구", "??", "?", "???", "엥?", "뭐지", "하..", "아이고 ㅋㅋ", "헐", "에휴", "ㅎㅇ", "고마워", "잘했어 ㅋㅋ", "굿", "수고", "고마웡 ㅋㅋ", "안뇽", "ㅋㅋㅋㅋ", "잘자", "좋아 좋아", "와 대박", "ㄳ", "땡큐", "나 왔어", "심심하다", "휴 살았다", "ㅎㅎ", "귀엽네", "잘하네"],
     "욕설": ["멍청아 그것도 못해?", "바보냐", "병신아", "야 이 멍청아", "븅신", "개못하네", "쓰레기네", "죽을래?", "닥쳐", "등신아"],
-    "위험 경고": ["뒤에 크리퍼!!", "너 익사해", "익사한다", "숨 막히겠다", "너 물에 빠졌어", "빠져 죽겠다", "너 죽는다", "피 없다", "떨어진다", "떨어져 죽어", "용암이야!!", "화살 맞는다", "크리퍼 온다", "좀비 온다", "조심해", "거미 있어", "뒤에 스켈레톤", "위험해", "몹 온다", "옆에 좀비", "피해!!", "용암 조심"],
+    "위험 경고": ["뒤에 크리퍼!!", "너 익사해", "익사한다", "너 익사한다", "익사하겠다", "물에 빠졌잖아", "빠져죽는다", "숨 막혀", "물 속이야", "숨 막히겠다", "너 물에 빠졌어", "빠져 죽겠다", "너 죽는다", "피 없다", "떨어진다", "떨어져 죽어", "용암이야!!", "화살 맞는다", "크리퍼 온다", "좀비 온다", "조심해", "거미 있어", "뒤에 스켈레톤", "위험해", "몹 온다", "옆에 좀비", "피해!!", "용암 조심"],
 }
+ASK_REPLY = {"부정 대답": ["혼자해", "혼자 해", "혼자 해봐", "ㄴㄴ 혼자해봐", "못도와줌", "못 도와줘", "니가 해", "너가 해", "알아서 해", "나 바빠", "바빠", "혼자 할 수 있잖아",
+                          "안 도와줄거임", "싫어 혼자해", "직접 해", "니 혼자 해", "그냥 혼자 해", "도움 없음", "알아서 해봐", "혼자서 해"],
+             "긍정 대답": ["응 도와줄게", "도와줄게", "ㅇㅇ 도와줌", "뭐 필요해?", "뭐 줄까", "같이 하자", "도와줄께", "ㅇㅋ 도와줌", "같이 해", "뭐 도와줘?"]}
 HINT_T = {"slow": ["도끼 없이 캐면 느릴듯", "맨손이면 한세월 걸리겠는데", "손으로 나무캐면 한세월일듯", "그거론 한참 걸리겠는데?", "곡괭이 만들고 캐", "너무 느린데", "그걸로 언제 캐"],
           "wrong": ["그건 돌이잖아", "옆에 자작나무 있잖아", "여기 나무 많은데", "가까운거 캐", "옆에 있는 나무 캐", "참나무 있잖아", "근처에 나무 있는데 왜 멀리가", "가문비 나무 있잖아", "그거 맞아?", "그거 아닌데", "잘못 만들었어", "그거 말고", "딴거 만들었네"],
           "short": ["그거가지고 되겠어?", "그걸로 부족할걸", "더 필요할텐데", "그거론 모자라"],
@@ -495,6 +503,17 @@ def typo(r, t, sp, p=0.05):
     return t[:i] + chr(0xAC00 + cho * 588 + jung * 28 + jong) + t[i + 1:]
 
 
+def unspace(r, u, p=0.2):
+    """구간 끝 뒤 공백 제거 (나무캐와·철곡들어·철셋만들어 류, 실채팅 오분류). 뒤 구간 오프셋 -1"""
+    if r.random() > p:
+        return
+    cand = [b for _, b, _, _ in u.sp if b < len(u.t) and u.t[b] == " "]
+    if cand:
+        i = r.choice(cand)
+        u.t = u.t[:i] + u.t[i + 1:]
+        u.sp = [(a - (a > i), b - (b > i), l, it) for a, b, l, it in u.sp]
+
+
 def rows_turn(r, n, banned):
     out = []
     while len(out) < n:
@@ -523,9 +542,37 @@ def rows_turn(r, n, banned):
                 y = {"act": "되묻기"}
         elif k < 0.77:  # 다중턴: 이전 발화에서 대상 / 봇 되물음 후 답
             u0, ty, tgt, cnt = t_goal(r, s)
-            if not any(l == "대상" and it and not it.startswith("ctx:") for _, _, l, it in u0.sp) or ty not in ("craft", "mine", "log", "dig", "give", "furnace", "hunt"):
+            if not any(l == "대상" and it and not it.startswith("ctx:") for _, _, l, it in u0.sp) or ty not in VERBS:
                 continue
-            if r.random() < 0.5:  # 봇이 되물음 → 사용자가 풀어 말함
+            m = r.random()
+            if m < 0.35 and ty in VERBS_ASK:  # 동사만 → 봇 '뭘요?' → 대상만 답 = 이전 동사 type 계승 (실측: 입어→뭘요?→철레깅스 를 craft로 오분류)
+                s["botq"] = r.choice(["뭘요?", "뭘요?", "뭘 할까요?"])
+                hist = f"이전 나: {r.choice(['', '그거 ', '저거 ', '빨리 ', '좀 '])}{r.choice(VERBS[ty])} / 봇: " + r.choice({"give": ["뭘 줄까요?"], "place": ["뭘 설치할까요?"]}.get(ty, ["뭘요?", "뭘 할까요?", "뭘요?"]))
+                u = U()
+                if r.random() < 0.2:
+                    u.add(r.choice(["아", "그거", "ㅇㅇ", "음"]))
+                for a, b, lab, it in u0.sp:
+                    if lab == "대상":
+                        u.add(u0.t[a:b], lab, it)
+                if r.random() < 0.3:
+                    u.add(r.choice(["요", "ㅇㅇ", "말한거", "!", "그거"]))
+                y = {"act": "목표 실행", "type": ty}
+            elif m < 0.45:  # 만든 직후 동사만 (철레깅스 만들어 → 만들었어요! → 입어/줘) = 대상은 이전 발화
+                g0 = r.choice(WEARABLE)
+                ty = r.choice(["equip", "equip", "give", "drop", "store"])
+                u0 = U(); u0.add(C.surface(r, g0), "대상", g0); u0.add(r.choice(E_CRAFT))
+                hist = f"이전 나: {u0.t} / 봇: {ko(g0)} 1개 " + r.choice(["만들었어요!", "완료!", "만들었어요."])
+                u = U()
+                if r.random() < 0.3:
+                    u.add(r.choice(["그거", "그럼", "이제", "만든거", "그럼 그거", "바로"]))
+                u.add(r.choice({"equip": E_EQUIP, "give": E_GIVE, "drop": E_DROP, "store": E_STORE}[ty]))
+                y = {"act": "목표 실행", "type": ty}
+                off = len("이전 나: ")
+                u.sp = [(a + off, b + off, l, it) for a, b, l, it in u0.sp]
+                u.in_hist = True
+            elif ty not in VERBS_OLD:
+                continue
+            elif m < 0.7:  # 봇이 되물음 → 사용자가 풀어 말함
                 bad = "".join(r.choice("가나다라마바사뚝곡갑템") for _ in range(2))
                 hist = f"이전 나: {bad} {r.choice(VERBS[ty])} / 봇: {bad}{r.choice(['이', '가', '는', ''])} 뭔가요?"
                 u = U()
@@ -572,6 +619,11 @@ def rows_turn(r, n, banned):
             u = U()
             u.add(r.choice(SIMPLE[a]))
             y = {"act": a}
+            if a in ("긍정 대답", "부정 대답") and r.random() < 0.4:  # 봇 도움요청(goal.ask) 답: 혼자해=부정(혼자 진행), 도와줄게=긍정. 봇질문 없으면 혼자해=auto
+                g0 = r.choice(PLAN_GOALS)
+                s["botq"] = f"{ko(g0)} " + r.choice(["도움", "도움", "방법", "실패"])
+                hist = f"이전 나: {C.surface(r, g0)} {r.choice(E_CRAFT)} / 봇: " + r.choice([f"{ko(g0)}는 혼자 하기 어려워요, 도와줄래요?", "계속 안되네요, 도와줄래요?", f"{ko(g0)} 만드는 법을 모르겠어요, 도와줄래요?"])
+                u = U(); u.add(r.choice(ASK_REPLY[a]))
             if a == "재개":
                 s["paused"] = s["paused"] or "철 흉갑 제작(4/7)"
         elif k < 0.94:
@@ -582,6 +634,8 @@ def rows_turn(r, n, banned):
         else:  # 봇질문 없을때 ㅇㅇ/ㅋㅋ → 잡담 (문맥 판별 학습)
             u = U(); u.add(r.choice(["ㅇㅇ", "ㅋㅋ", "ㅋ", "응", "ㅎㅎ", "굿"]))
             y = {"act": "잡담"}
+        if not getattr(u, "in_hist", False):
+            unspace(r, u)
         t = typo(r, u.t, u.sp)
         t = tail(r, t)
         if t.strip() in banned:
@@ -679,6 +733,30 @@ PAUSED_REQ = ["철 흉갑 제작", "철갑옷만들어", "나무 5개 캐와", "
 PRIO = ["계속 진행", "근접 전투", "달려서 도망", "블럭 쌓아 도망", "굴 파고 숨기", "먹기", "멈춘 작업 재개", "물 위로 올라가기", "인벤 정리"]
 
 
+TASK_OUT = ("원정(철)", "나무 캐기")
+
+
+def rows_incident():
+    """사고 prio 행 재라벨 (data/incidents/*/prio_rows.json) ×10. 규칙 = rows_prio 교사와 동일 우선순위"""
+    import glob
+    out = []
+    for f in sorted(glob.glob(os.path.join(H, "incidents", "*", "prio_rows.json"))):
+        for x in json.load(open(f)):
+            c = x["ctx"]
+            th = [(m, int(d)) for m, d in re.findall(r"([가-힣]+) (\d+)칸", c.split("위협:")[1].split("|")[0])] if "위협:" in c else []
+            night, weak = " 밤 " in c, "맨손" in c or "방어 0 " in c
+            if any(m == "크리퍼" and d <= 6 for m, d in th):
+                y = "달려서 도망"
+            elif x["pred"] in ("달려서 도망", "근접 전투") and any(d <= (12 if night or m not in ("좀비", "스켈레톤") else 6) for m, d in th):
+                y = x["pred"]  # 근접 위협 판단은 기존 유지
+            elif night and weak and any(d <= 16 for _, d in th):
+                y = "굴 파고 숨기"
+            else:
+                y = x.get("y") or x["pred"]
+            out += [{"kind": "prio", "ctx": c, "y": PRIO.index(y)}] * 10
+    return out
+
+
 def rows_prio(r, n):
     import planner
     mobs = planner.db()["mob"]
@@ -697,10 +775,11 @@ def rows_prio(r, n):
             threats.append((m, r.randint(2, 24)))
         has_food = r.random() < 0.6
         paused = r.random() < 0.3
-        task = r.choice(["철곡괭이 제작", "나무 캐기", "원정(철)", "없음", "따라가기"])
+        task = r.choice(["철곡괭이 제작", "나무 캐기", "원정(철)", "없음", "없음", "따라가기"] + [f"{ko(g)} {c}개 ({i}/{i + r.randint(0, 6)})" for g, c, i in [(r.choice(PLAN_GOALS), r.choice([1, 1, 2, 5]), r.randint(1, 5))]])  # 뒤: 봇 실측 형식
         deaths = r.choice([None, None, "creeper", "skeleton", "zombie", "drown"])
         air = 20 if r.random() < 0.7 else r.randint(0, 19)  # 물속 산소 (0~20, 0이면 익사 데미지)
         free = r.randint(8, 36) if r.random() < 0.75 else r.randint(0, 7)  # 인벤 빈칸
+        cur = r.choice(["", "", "", "근접 전투", "달려서 도망"]) if threats else ""  # 현재 행동: 히스테리시스(전투↔도망 루프 방지)
         # 교사 규칙: 생존 1순위
         near = [t for t in threats if t[1] <= (6 if not night and t[0] in ("zombie", "skeleton") else 12)]  # 낮 좀비·스켈 원거리 = 타는중·안다가옴 → 무시 (12칸 스켈 도망 루프)
         danger = 0.0
@@ -708,28 +787,36 @@ def rows_prio(r, n):
             mh, ma = mobs.get(m, (20, 3))
             ma = ma or 3
             danger += (ma * (1 - min(armor, 20) * 0.04)) * math.ceil(mh / dmg) * (1.6 if m == "creeper" else 1)
+        far = [t for t in threats if t[1] <= 16]
+        weak = weapon == "hand" or armor == 0
         if air <= 6 or (air <= 12 and (deaths == "drown" or hp <= 8)):  # 익사 직전: 전투·먹기보다 우선
             y = "물 위로 올라가기"
         elif near:
             creeper = any(m == "creeper" and d <= 6 for m, d in near)
             if creeper or (deaths == "creeper" and any(m == "creeper" for m, _ in near)):
                 y = "달려서 도망"
-            elif danger > hp * 1.2 or len(near) >= 4:
+            elif danger > hp * {"근접 전투": 1.6, "달려서 도망": 0.8}.get(cur, 1.2) or len(near) >= 4:  # 진행중 행동 유지편향
                 y = "블럭 쌓아 도망" if any(m in ("zombie", "husk", "spider") for m, _ in near) and len(near) >= 3 else "달려서 도망"
             else:
                 y = "근접 전투"
         elif hp <= 10 and has_food and food < 18:
             y = "먹기"
-        elif night and armor == 0 and task in ("원정(철)", "나무 캐기") and r.random() < 0.8:
+        elif night and weak and far:  # 밤·맨몸 + 먼 위협 → 숨기 (사고 2026-09-30 dig_place_loop)
+            y = "굴 파고 숨기"
+        elif cur == "달려서 도망" and far:  # 도망중 16칸 내 잔존 → 도망 유지 (재개↔도망 루프 방지)
+            y = "달려서 도망"
+        elif has_food and (food <= 6 or task == "없음" and food < 14):  # 선제 식사
+            y = "먹기"
+        elif night and armor == 0 and task in TASK_OUT and r.random() < 0.8:
             y = "굴 파고 숨기"
         elif free <= 2:  # 가득: 캔 템 못 주움 → 정리 먼저
             y = "인벤 정리"
-        elif task == "없음" and paused:
+        elif task == "없음" and paused and not (night and far):
             y = "멈춘 작업 재개"
         else:
             y = "계속 진행"
         ctx = (f"체력 {hp}/20 배고픔 {food}/20 빈칸 {free}/36" + (f" 산소 {air}/20" if air < 20 else "") + f" {'밤' if night else '낮'} 방어 {armor} 무기 {P.ko(weapon) if weapon != 'hand' else '맨손'} 공격력 {dmg}"
-               f" | 음식 {'있음' if has_food else '없음'} | 작업: {task}" + (" | 멈춘작업: " + r.choice(PAUSED_REQ) if paused else "") +
+               f" | 음식 {'있음' if has_food else '없음'} | 작업: {task}" + (" | 멈춘작업: " + r.choice(PAUSED_REQ) if paused else "") + (f" | 현재: {cur}" if cur else "") +
                " | 위협: " + (", ".join(f"{P.ko('mob:' + m)} {d}칸" for m, d in threats) or "없음") +
                (f" | 최근 사망원인: {'익사' if deaths == 'drown' else P.ko('mob:' + deaths)}" if deaths else ""))
         out.append({"kind": "prio", "ctx": ctx, "y": PRIO.index(y)})
@@ -791,13 +878,447 @@ def rows_tidy(r, n):
     return out
 
 
+# ---------- 0.3 판단 문항 (봇 규칙 → Miya). 행 = {kind, utt, ctx, q, opts, y}. ctx·보기 텍스트 함수는 serve 와 공용 ----
+JQ = {"food": ("음식 선택", "음식"), "weapon": ("무기 선택", "무기"), "target": ("전투 대상", "대상"), "hunt": ("사냥 대상", "사냥"),
+      "explore": ("탐색 방향", "방향"), "fail": ("실패 대응", "대응"), "recover": ("사망 회수", "회수"), "qty": (None, "수량"), "pick": (None, "실물"),
+      "hintact": (None, "조언 대응")}
+# 허기·포만·부작용 (minecraft 위키)
+FOOD = {"enchanted_golden_apple": (4, 9.6, "강력 재생"), "golden_apple": (4, 9.6, "재생"), "golden_carrot": (6, 14.4, ""), "cooked_beef": (8, 12.8, ""),
+        "cooked_porkchop": (8, 12.8, ""), "cooked_mutton": (6, 9.6, ""), "cooked_chicken": (6, 7.2, ""), "cooked_salmon": (6, 9.6, ""), "cooked_cod": (5, 6.0, ""),
+        "bread": (5, 6.0, ""), "baked_potato": (5, 6.0, ""), "pumpkin_pie": (8, 4.8, ""), "mushroom_stew": (6, 7.2, ""), "apple": (4, 2.4, ""), "carrot": (3, 3.6, ""),
+        "melon_slice": (2, 1.2, ""), "sweet_berries": (2, 0.4, ""), "cookie": (2, 0.4, ""), "dried_kelp": (1, 0.6, ""), "potato": (1, 0.6, ""),
+        "beef": (3, 1.8, ""), "porkchop": (3, 1.8, ""), "mutton": (2, 1.2, ""), "cod": (2, 0.4, ""), "salmon": (2, 0.4, ""),
+        "chicken": (2, 1.2, "허기 30%"), "rotten_flesh": (4, 0.8, "허기 80%"), "spider_eye": (2, 3.2, "독"), "poisonous_potato": (2, 1.2, "독 60%")}
+GOLD_F = ("enchanted_golden_apple", "golden_apple")
+
+
+def food_opt(k, n):
+    h, s, bad = FOOD.get(k, (2, 1.0, ""))
+    return f"{ko(k)} {n}개 (허기 +{h} 포만 {s}{' ' + bad if bad else ''})"
+
+
+def food_ctx(hp, food, fight, task):
+    return f"체력 {hp}/20 배고픔 {food}/20 | {'전투중' if fight else '평시'} | 작업: {task or '없음'}"
+
+
+def food_label(foods, hp, food, fight):
+    """교사: 비상(전투·저체력)엔 황금사과, 평시엔 아낌. 부작용 음식은 최후. 넘치는 허기(낭비) 벌점"""
+    if (fight and hp <= 8 or hp <= 4) and (g := [k for k in GOLD_F if k in foods]):
+        return g[0]
+    deficit = 20 - food
+
+    def sc(k):
+        h, s, bad = FOOD[k]
+        return (k in GOLD_F) * -50 + bool(bad) * -30 + s + h * 0.5 - max(0, h - deficit) * (0.2 if hp <= 10 else 1.0) + foods[k] * 0.001
+    return max(foods, key=sc)
+
+
+def rows_food(r, n):
+    out = []
+    ks = list(FOOD)
+    for _ in range(n):
+        fs = {k: r.choice([1, 1, 2, 3, 5, 8, 16, 32, 64]) for k in r.sample(ks, r.choice([1, 2, 2, 3, 3, 4, 5]))}
+        hp, food, fight = r.randint(1, 20), r.randint(0, 19), r.random() < 0.3
+        y = food_label(fs, hp, food, fight)
+        o = list(fs)
+        r.shuffle(o)
+        out.append({"kind": "food", "ctx": food_ctx(hp, food, fight, r.choice([None, "나무 캐기", "철곡괭이 제작", "원정(철)"])),
+                    "opts": [food_opt(k, fs[k]) for k in o], "y": o.index(y)})
+    return out
+
+
+# 무기: 근접무기 + (방패 있으면) 방패 조합. dmg/spd = planner wpn 표
+MELEE = ["wooden_sword", "stone_sword", "iron_sword", "golden_sword", "diamond_sword", "netherite_sword", "wooden_axe", "stone_axe", "iron_axe", "diamond_axe", "netherite_axe"]
+RANGED_MOB = ("skeleton", "stray", "pillager", "witch", "blaze")
+
+
+def wpn_stat(w):
+    return (1.0, 4.0) if w == "hand" else P.db()["wpn"].get(w, (1.0, 4.0))
+
+
+def weapon_opts(ws, shield):
+    """[(키, 텍스트)] 키 = 무기id 또는 '무기id+shield'"""
+    o = []
+    for w, dur in ws.items():
+        d, s = wpn_stat(w)
+        t = f"{'맨손' if w == 'hand' else ko(w)} (공격력 {d:g} 속도 {s:g}" + (f" 내구도 {dur}%" if w != "hand" else "") + ")"
+        o.append((w, t))
+        if shield:
+            o.append((w + "+shield", t + " + 방패"))
+    return o
+
+
+def weapon_ctx(mob, d, nthreat, hp, armor):
+    return f"상대: {ko('mob:' + mob)} {d}칸 | 위협 {nthreat}마리 | 체력 {hp}/20 방어 {armor}"
+
+
+def weapon_label(ws, shield, mob, nthreat):
+    mh = P.db()["mob"].get(mob, (20, 3))[0]
+
+    def ttk(w):  # 처치시간(초) ≈ 타수/공속. 내구도 5% 미만은 최후
+        d, s = wpn_stat(w)
+        return math.ceil(mh / d) / s + (100 if w != "hand" and ws[w] < 5 else 0)
+    b = min(ws, key=ttk)
+    return b + "+shield" if shield and (mob in RANGED_MOB or mob == "creeper" or nthreat >= 2) else b
+
+
+def rows_weapon(r, n):
+    out = []
+    mobs = ["zombie", "skeleton", "creeper", "spider", "witch", "husk", "drowned", "cave_spider", "slime", "enderman", "pillager", "stray"]
+    for _ in range(n):
+        ws = {w: r.choice([100, 100, 80, 50, 20, 3]) for w in r.sample(MELEE, r.choice([0, 1, 1, 2, 2, 3]))}
+        ws["hand"] = 100
+        shield = r.random() < 0.35
+        mob, d, nt = r.choice(mobs), r.randint(1, 16), r.choice([1, 1, 1, 2, 3])
+        y = weapon_label(ws, shield, mob, nt)
+        o = weapon_opts(ws, shield)
+        r.shuffle(o)
+        out.append({"kind": "weapon", "ctx": weapon_ctx(mob, d, nt, r.randint(3, 20), r.choice([0, 0, 5, 10, 15])),
+                    "opts": [t for _, t in o], "y": [k for k, _ in o].index(y)})
+    return out
+
+
+# 전투 대상: 위협 목록 중. 가중 = 위험도 / 거리 (크리퍼 근접 최우선, 엔더맨 중립은 최후)
+THREAT_W = {"creeper": 3.0, "skeleton": 3.0, "stray": 3.0, "witch": 3.0, "pillager": 3.0, "zombie": 2.0, "husk": 2.0, "drowned": 2.0, "spider": 2.0,
+            "cave_spider": 2.5, "slime": 1.0, "enderman": 0.2}
+
+
+def target_ctx(hp, weapon_ko, armor, why):
+    return f"체력 {hp}/20 무기 {weapon_ko} 방어 {armor} | 요청: {why}"
+
+
+def target_label(ts):
+    return max(range(len(ts)), key=lambda i: (THREAT_W.get(ts[i][0], 1.5) * (2.5 if ts[i][0] == "creeper" and ts[i][1] <= 5 else 1)) / (ts[i][1] + 2))
+
+
+def rows_target(r, n):
+    out = []
+    for _ in range(n):
+        ts = [(r.choice(list(THREAT_W)), r.randint(1, 24)) for _ in range(r.choice([1, 2, 2, 3, 3, 4]))]
+        y = target_label(ts)
+        w = r.choice(["hand", "stone_sword", "iron_sword", "diamond_axe"])
+        out.append({"kind": "target", "ctx": target_ctx(r.randint(3, 20), "맨손" if w == "hand" else ko(w), r.choice([0, 5, 10, 15]), r.choice(["몹 잡아", "자기방어", "지켜"])),
+                    "opts": [f"{ko('mob:' + m)} {d}칸" for m, d in ts], "y": y})
+    return out
+
+
+# 사냥 대상: 주변 동물 중 고기 기대값/거리. 없으면 원정
+MEAT_V = {"cow": 3.0, "pig": 2.4, "sheep": 1.6, "chicken": 1.0, "rabbit": 1.0, "mooshroom": 3.0, "goat": 0.1, "horse": 0.0, "llama": 0.0}
+HUNT_NONE = "주변에 없음 → 원정"
+
+
+def hunt_ctx(food, has_food, want):
+    return f"배고픔 {food}/20 음식 {'있음' if has_food else '없음'} | 요청: {want}"
+
+
+def hunt_label(an):
+    if not an:
+        return len(an)
+    sc = [MEAT_V.get(m, 0.5) * (1 + min(c, 5) * 0.1) / (1 + d / 16) for m, d, c in an]
+    return max(range(len(an)), key=lambda i: sc[i]) if max(sc) > 0.05 else len(an)
+
+
+def rows_hunt(r, n):
+    out = []
+    for _ in range(n):
+        an = [(m, r.randint(2, 48), r.randint(1, 6)) for m in r.sample(list(MEAT_V), r.choice([0, 1, 1, 2, 2, 3]))]
+        out.append({"kind": "hunt", "ctx": hunt_ctx(r.randint(0, 20), r.random() < 0.5, r.choice(["사냥해", "고기 구해와", "동물 잡아", "먹을거 구해"])),
+                    "opts": [f"{ko('mob:' + m)} {d}칸 {c}마리" for m, d, c in an] + [HUNT_NONE], "y": hunt_label(an)})
+    return out
+
+
+# 탐색 방향: 8방위 지표면 요약(봇 표본) + 방문 횟수. 찾는 것 종류별 선호 지형
+DIRS = ["북", "북동", "동", "남동", "남", "남서", "서", "북서"]
+SURF = ["나무", "풀", "돌", "모래", "물", "미로드"]
+SEEK = {"log": {"나무": 1.0}, "animal": {"풀": 1.0, "나무": 0.2}, "ore": {"돌": 1.0}, "sand": {"모래": 1.0, "물": 0.3}, "water": {"물": 1.0}, "any": {}}
+SEEK_KO = {"log": "원목", "animal": "동물", "ore": "광석·돌", "sand": "모래", "water": "물·점토"}
+
+
+def explore_opt(dr, f, v):
+    return f"{dr} " + " ".join(f"{k} {f.get(k, 0)}" for k in SURF) + f" 방문 {v}회"
+
+
+def explore_ctx(seek, what_ko, y, night, hop):
+    return f"찾는 것: {what_ko} ({SEEK_KO.get(seek, seek)}) | Y {y} | {'밤' if night else '낮'} | 탐색 {hop}번째"
+
+
+def explore_label(seek, fs, vs):
+    w = SEEK.get(seek, {})
+
+    def sc(i):
+        f = fs[i]
+        return sum(w.get(k, 0) * f.get(k, 0) for k in SURF) - 2.0 * vs[i] - (0.4 * f.get("물", 0) if seek not in ("water", "sand") else 0) - 0.5 * f.get("미로드", 0)
+    return max(range(len(fs)), key=sc)
+
+
+def rows_explore(r, n):
+    out = []
+    what = {"log": ["oak_log", "birch_log", "spruce_log"], "animal": ["mob:cow", "mob:pig", "mob:sheep"], "ore": ["iron_ore", "coal_ore", "stone", "copper_ore"],
+            "sand": ["sand"], "water": ["clay_ball", "water_bucket"]}
+    for _ in range(n):
+        seek = r.choice(list(what))
+        fs, vs = [], []
+        for _ in DIRS:
+            f = {}
+            for _ in range(8):  # 방향당 표본 8칸
+                k = r.choices(SURF, weights=[r.random() for _ in SURF])[0]
+                f[k] = f.get(k, 0) + 1
+            fs.append(f); vs.append(r.choice([0, 0, 0, 0, 1, 1, 2, 3]))
+        y = explore_label(seek, fs, vs)
+        out.append({"kind": "explore", "ctx": explore_ctx(seek, ko(r.choice(what[seek])), r.randint(40, 110), r.random() < 0.3, r.randint(1, 5)),
+                    "opts": [explore_opt(d, f, v) for d, f, v in zip(DIRS, fs, vs)], "y": y})
+    return out
+
+
+# 실패 대응 (안건4, O): 봇은 시도·재계획·연속 횟수만 셈, 결정은 모델. 같은 사유 반복 = 루프 → 재시도 금지
+FAIL = ["같은 단계 재시도", "방법 다시 계획", "도움 요청", "포기(멈춘 작업으로)"]
+REASON_KO = {"stuck": "끼임·이동 불가", "err:timeout": "시간 초과", "no_target": "대상 못찾음(탐색 실패)", "no_tool": "도구 없음(파손)", "no_material": "재료 부족",
+             "no_table": "작업대 없음", "no_furnace": "화로 없음", "no_space": "설치 자리 없음", "craft_desync": "제작 동기화 오류", "slow": "굽기 지연",
+             "taken": "누가 빼감", "liquid": "물·용암 만남", "no_floor": "발판 블럭 없음", "death": "사망", "err": "기타 오류"}
+TRANSIENT = ("stuck", "err:timeout", "craft_desync", "slow", "no_space", "err")
+
+
+def fail_ctx(goal_ko, step_ko, reason, tries, replans, streak, qed_s, hp, night, player):
+    return (f"GOAL: {goal_ko} | 실패 단계: {step_ko} | 사유: {REASON_KO.get(reason, reason)} | 이 단계 시도 {tries}회 | 재계획 {replans}회 | 같은 사유 연속 {streak}회"
+            f" | 경험: {qed_s or '없음'} | 체력 {hp}/20 {'밤' if night else '낮'} | 플레이어 {'있음' if player else '없음'}")
+
+
+def fail_label(reason, tries, replans, streak, qok, qn, hp, night, player):
+    stop = FAIL[2] if player else FAIL[3]
+    if streak >= 3 or replans >= 4 or (qn >= 5 and qok < 0.2 and replans >= 2):
+        return stop
+    if reason == "death" and (streak >= 2 or night and hp <= 6):
+        return stop
+    if reason in TRANSIENT and tries < 3:
+        return FAIL[0]
+    if reason == "no_target" and replans >= 2:
+        return stop
+    return FAIL[1]
+
+
+def rows_fail(r, n):
+    out = []
+    steps = [("mine", "iron_ore"), ("log", "oak_log"), ("craft", "iron_pickaxe"), ("furnace", "iron_ingot"), ("hunt", "mob:cow"), ("place", "crafting_table"),
+             ("expedition", "iron_ore"), ("mine", "stone"), ("craft", "stick"), ("dig", "sand")]
+    for _ in range(n):
+        st, tg = r.choice(steps)
+        reason = r.choice(list(REASON_KO))
+        tries, replans = r.choice([1, 1, 1, 2, 2, 3, 4]), r.choice([0, 0, 0, 1, 1, 2, 3, 4, 5])
+        streak = min(r.choice([1, 1, 1, 2, 2, 3, 4]), replans + tries)
+        qn = r.choice([0, 0, 0, 3, 8, 20])
+        qok = r.random() if qn else 0
+        hp, night, player = r.randint(2, 20), r.random() < 0.3, r.random() < 0.6
+        qs = f"{qn}회 성공 {round(qok * 100)}%" if qn else None
+        y = fail_label(reason, tries, replans, streak, qok, qn, hp, night, player)
+        out.append({"kind": "fail", "ctx": fail_ctx(ko(r.choice(PLAN_GOALS)), f"{P.TYPE_KO.get(st, st)} {ko(tg)}", reason, tries, replans, streak, qs, hp, night, player),
+                    "opts": FAIL, "y": FAIL.index(y)})
+    return out
+
+
+# 사망 회수 (P): 잃은 가치·거리·소멸(5분)·원인 위험
+RECOVER = ["회수하러 가기", "포기하고 하던 일"]
+DEATH_KO = {"lava": "용암", "void": "공허 추락", "fall": "낙사", "drown": "익사", "creeper": "크리퍼", "zombie": "좀비", "skeleton": "스켈레톤", "spider": "거미", "starve": "굶주림", "fire": "불"}
+
+
+def recover_ctx(v, top_ko, d, el, cause, night, armor, weapon_ko, hp):
+    return (f"잃은 가치 {v:g} | 주요: {top_ko or '없음'} | 거리 {d}칸 | 경과 {el}초 (300초 후 소멸) | 사망원인 {DEATH_KO.get(cause, cause)}"
+            f" | {'밤' if night else '낮'} | 현재 방어 {armor} 무기 {weapon_ko} 체력 {hp}/20")
+
+
+def recover_label(v, d, el, cause, night, armor, weapon):
+    left = 300 - el - d * 0.3
+    if cause in ("lava", "void", "fire") or left < 20 or v < 5:
+        return RECOVER[1]
+    risky = cause in ("creeper", "zombie", "skeleton", "spider") and (night or armor == 0 and weapon == "hand")
+    return RECOVER[0] if v >= (100 if risky else 5) else RECOVER[1]
+
+
+def rows_recover(r, n):
+    out = []
+    val = P.db()["val"]
+    pool = ["dirt", "cobblestone", "oak_log", "iron_ingot", "raw_iron", "coal", "diamond", "iron_pickaxe", "diamond_sword", "diamond_chestplate", "bread",
+            "torch", "stone_pickaxe", "iron_sword", "golden_apple", "oak_planks", "stick", "gold_ingot", "emerald", "iron_helmet"]
+    for _ in range(n):
+        inv = {k: (1 if re.search(r"_(sword|pickaxe|chestplate|helmet)$", k) else r.choice([1, 2, 5, 12, 32, 64])) for k in r.sample(pool, r.choice([1, 1, 2, 3, 5, 8]))}
+        vs = {k: val.get(k, 0.5) * c for k, c in inv.items()}
+        v = round(sum(vs.values()), 1)
+        top = ", ".join(f"{ko(k)} {inv[k]}" for k in sorted(vs, key=lambda k: -vs[k])[:3])
+        d, el = r.choice([5, 20, 40, 80, 150, 300, 600, 1200]), r.choice([10, 30, 60, 120, 200, 260, 290])
+        cause, night, armor, weapon, hp = r.choice(list(DEATH_KO)), r.random() < 0.4, r.choice([0, 0, 5, 10]), r.choice(["hand", "hand", "stone_sword", "iron_sword"]), 20
+        y = recover_label(v, d, el, cause, night, armor, weapon)
+        out.append({"kind": "recover", "ctx": recover_ctx(v, top, d, el, cause, night, armor, "맨손" if weapon == "hand" else ko(weapon), hp), "opts": RECOVER, "y": RECOVER.index(y)})
+    return out
+
+
+# 수량 의미 (B, I): 개수 없음·"다"·"좀"·"더"·"까지" → 실제 개수는 serve 가 계산
+QTY = ["전부", "1개", "절반", "말한 개수(추가로)", "말한 개수 맞추기(총)", "되묻기"]
+Q_ALL = ["다", "전부", "몽땅", "싹 다", "있는거 다", "싹", "전부 다"]
+Q_SOME = ["좀", "조금", "약간", "몇개", "몇 개"]
+Q_TOTAL = ["까지", "되게", "맞춰", "채워"]
+
+
+def qty_ctx(typ, item, held):
+    return f"행동: {TYPES[typ]} | 대상 보유: {ko(item)} {held}개 (가치 {P.db()['val'].get(item, 0.5):g}) | 종류: {P.kind_of(item)}"
+
+
+def qty_label(typ, utt, item, held, has_cnt):
+    stack = not re.search(r"_(sword|pickaxe|axe|shovel|hoe|helmet|chestplate|leggings|boots)$|^(bow|shield|bucket|water_bucket|lava_bucket)$", item)
+    v = P.db()["val"].get(item, 0.5)
+    if has_cnt:
+        return QTY[4] if typ == "craft" and any(w in utt for w in Q_TOTAL) else QTY[3]
+    if typ == "craft":
+        return QTY[1]
+    if any(re.search(rf"(^|\s){re.escape(w)}(\s|$)", utt) for w in Q_ALL):
+        return QTY[0]
+    if any(w in utt for w in Q_SOME):
+        return QTY[2] if held >= 2 else QTY[0]
+    if not stack:
+        return QTY[1]
+    if typ == "drop":
+        return QTY[5] if v >= 1 and held > 1 else QTY[0]
+    return QTY[5] if v >= 1 and held > 16 else QTY[0]
+
+
+def rows_qty(r, n):
+    out = []
+    pool = TIDY_POOL + ["diamond", "gold_ingot", "iron_ingot", "emerald", "diamond_sword", "iron_helmet"]
+    verbs = {"give": E_GIVE, "drop": E_DROP, "craft": E_CRAFT}
+    for _ in range(n):
+        typ = r.choice(["give", "give", "drop", "drop", "craft"])
+        item = r.choice(pool if typ != "craft" else CRAFT_T)
+        held = r.choice([0, 1, 2, 3, 5, 8, 16, 32, 64]) if typ == "craft" else r.choice([1, 2, 3, 5, 8, 16, 32, 64])
+        u = C.surface(r, item)
+        has_cnt, k = r.random() < 0.35, r.random()
+        if has_cnt:
+            tot = typ == "craft" and r.random() < 0.4
+            u += " " + ("더 " if not tot and r.random() < 0.3 else "") + C.count_surface(r, r.choice([1, 2, 3, 5, 8, 10, 16, 32, 64])) + (r.choice(Q_TOTAL) if tot else "")
+        elif k < 0.25:
+            u += " " + r.choice(Q_ALL)
+        elif k < 0.45:
+            u += " " + r.choice(Q_SOME)
+        u = tail(r, u + " " + r.choice(verbs[typ]))
+        out.append({"kind": "qty", "utt": u, "ctx": qty_ctx(typ, item, held), "opts": QTY, "y": QTY.index(qty_label(typ, u, item, held, has_cnt))})
+    return out
+
+
+# 실물 후보 (A, E, D): 묶음 대상 → 보유 실물 중 선택. 종·재료 수식어 우선, 파괴적 행동 + 불확실 → 되묻기
+SP_KO = {"oak": ["참나무"], "spruce": ["가문비나무", "가문비"], "birch": ["자작나무", "자작"], "jungle": ["정글나무", "정글"], "acacia": ["아카시아나무", "아카시아"],
+         "cherry": ["벚나무", "벚꽃나무"], "dark_oak": ["짙은 참나무", "다크오크"], "mangrove": ["맹그로브나무", "맹그로브"]}
+PICK_ASK = "되묻기"
+PICK_GRP = {"grp:log": [f"{s}_log" for s in SP_KO], "grp:planks": [f"{s}_planks" for s in SP_KO],
+            "grp:meat": ["beef", "porkchop", "chicken", "mutton", "cooked_beef", "cooked_porkchop", "cooked_chicken", "cooked_mutton"],
+            "grp:pickaxe": [f"{t}_pickaxe" for t in ("wooden", "stone", "iron", "golden", "diamond")], "grp:sword": [f"{t}_sword" for t in ("wooden", "stone", "iron", "golden", "diamond")],
+            "grp:axe": [f"{t}_axe" for t in ("wooden", "stone", "iron", "diamond")], "grp:iron": ["raw_iron", "iron_ingot"]}
+TIER_I = {"wooden": 1, "golden": 1, "stone": 2, "iron": 3, "diamond": 4, "netherite": 5}
+
+
+def sp_forms(item):
+    """종 지정 목재 표현 (아카시아 나무·자작 원목·가문비 판자)"""
+    m = re.match(r"(.+)_(log|planks)$", item)
+    if not m or m.group(1) not in SP_KO:
+        return []
+    out = []
+    for s in SP_KO[m.group(1)]:
+        b = s[:-2] if s.endswith("나무") else s
+        out += [f"{s} 판자", f"{b} 판자"] if m.group(2) == "planks" else [f"{s} 원목", f"{b} 나무", f"{b}나무", f"{s} 통나무", f"{b} 통나무"]
+    return out
+
+
+for _s in SP_KO:  # E: 종+나무 표현 → turn 학습 표면형
+    for _i in (f"{_s}_log", f"{_s}_planks"):
+        C.EXTRA[_i] = list(dict.fromkeys(C.EXTRA.get(_i, []) + sp_forms(_i)))
+
+
+def pick_ctx(typ, rest=""):
+    return f"행동: {TYPES[typ]}" + (f" | {rest}" if rest else "")
+
+
+def pick_label(typ, spec, cands, inv):
+    """spec = 발화가 가리킨 실물(없으면 None). 후보 보기 인덱스, 되묻기 = len(cands)"""
+    if spec:
+        return cands.index(spec) if spec in cands else len(cands)
+    if len(cands) == 1:
+        return 0
+    if typ == "equip" and re.search(r"_(pickaxe|sword|axe)$", cands[0]):
+        return max(range(len(cands)), key=lambda i: TIER_I.get(cands[i].split("_")[0], 0))
+    if typ == "drop" or re.search(r"_(pickaxe|sword|axe)$", cands[0]) and typ == "give":
+        return len(cands)
+    return max(range(len(cands)), key=lambda i: inv[cands[i]])
+
+
+def rows_pick(r, n):
+    out = []
+    verbs = {"give": E_GIVE, "drop": E_DROP, "equip": E_EQUIP, "store": E_STORE, "place": E_PLACE}
+    for _ in range(n):
+        g = r.choice(list(PICK_GRP))
+        typ = r.choice(["equip", "equip", "give", "drop"] if re.search("pickaxe|sword|axe", g) else ["give", "give", "drop", "drop", "store"])
+        cands = r.sample(PICK_GRP[g], min(len(PICK_GRP[g]), r.choice([1, 2, 2, 3, 3, 4])))
+        inv = {c: (1 if re.search(r"_(pickaxe|sword|axe)$", c) else r.choice([1, 3, 5, 8, 16, 32, 64])) for c in cands}
+        spec = None
+        if r.random() < 0.45:  # 수식어로 특정 (보유 or 미보유)
+            spec = r.choice(PICK_GRP[g])
+            fs = sp_forms(spec)
+            u = r.choice(fs) if fs and r.random() < 0.8 else C.surface(r, spec)
+        else:
+            u = r.choice(C.GROUPS[g][1])
+        u = tail(r, u + " " + r.choice(verbs[typ]))
+        o = list(cands)
+        r.shuffle(o)
+        out.append({"kind": "pick", "utt": u, "ctx": pick_ctx(typ), "opts": [f"{ko(c)} {inv[c]}개" for c in o] + [PICK_ASK], "y": pick_label(typ, spec, o, inv)})
+    return out
+
+
+# 조언 대응 (F, Q): 지적·조언 발화 → 행동 변화
+HACT = ["설명하고 계속 진행", "다른 방법으로 재계획", "멈추고 되묻기", "주변 위험 먼저 확인", "인벤·설치물 재확인 후 이어서"]
+
+
+def hint_ctx(goal_ko, step_ko, via_ko, faster, threat):
+    return (f"GOAL: {goal_ko or '없음'} | 현재 단계: {step_ko or '없음'} | 방법: {via_ko or '없음'} | 더 빠른 방법 {'있음' if faster else '없음'}"
+            f" | 위협: {threat or '없음'}")
+
+
+def hint_label(h, goal, faster):
+    if h == "danger":
+        return HACT[3]
+    if not goal:
+        return HACT[2] if h == "wrong" else HACT[0]
+    return {"slow": HACT[1] if faster else HACT[0], "wrong": HACT[2], "short": HACT[4], "done_claim": HACT[4]}[h]
+
+
+def rows_hintact(r, n):
+    out = []
+    for _ in range(n):
+        h = r.choice(H_KEYS)
+        goal = r.choice(PLAN_GOALS + [None, None])
+        st = r.choice([("log", "oak_log"), ("mine", "stone"), ("mine", "iron_ore"), ("craft", "iron_pickaxe"), ("furnace", "iron_ingot")]) if goal else None
+        faster = r.random() < 0.5
+        u = tail(r, r.choice(HINT_T[h]))
+        ctx = hint_ctx(ko(goal) if goal else None, f"{P.TYPE_KO.get(st[0], st[0])} {ko(st[1])}" if st else None, r.choice(["바로 제작", "돌 곡괭이 경유", "연료 석탄"]) if goal else None,
+                       faster, r.choice([None, None, None, "좀비 8칸", "크리퍼 5칸"]))
+        out.append({"kind": "hintact", "utt": u, "ctx": ctx, "opts": HACT, "y": HACT.index(hint_label(h, goal, faster))})
+    return out
+
+
+def rows_judge(r, n):
+    """0.3 판단 문항 전체. n = 문항당 기본 행수 (가중)"""
+    w = {rows_food: 1.0, rows_weapon: 1.0, rows_target: 0.8, rows_hunt: 0.6, rows_explore: 0.8, rows_fail: 1.4, rows_recover: 0.6, rows_qty: 1.5, rows_pick: 1.5, rows_hintact: 0.8}
+    out = []
+    for f, k in w.items():
+        rs = f(r, int(n * k))
+        for x in rs:
+            u, q = JQ[x["kind"]]
+            x.setdefault("utt", u); x["q"] = q
+        out += rs
+    return out
+
+
 def main():
     r = random.Random(int(os.environ.get("SEED", 1)))
     banned = set()
     for l in open(f"{H}/chat_raw.jsonl"):
         banned.add(json.loads(l)["text"].strip())
     nt, npl, npr = int(os.environ.get("NT", 200000)), int(os.environ.get("NP", 40000)), int(os.environ.get("NR", 30000))
-    rows = rows_turn(r, nt, banned) + rows_plan(r, npl) + rows_prio(r, npr) + rows_tidy(r, int(os.environ.get("NTD", 20000)))
+    rows = rows_turn(r, nt, banned) + rows_plan(r, npl) + rows_prio(r, npr) + rows_tidy(r, int(os.environ.get("NTD", 20000))) + rows_judge(r, int(os.environ.get("NJ", 8000))) + rows_incident()
     r.shuffle(rows)
     nd = len(rows) // 50
     os.makedirs(f"{H}/gen", exist_ok=True)

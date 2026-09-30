@@ -8,19 +8,19 @@ tags: [minecraft, agent, korean, mmbert, gliner2, mineflayer, work-in-progress]
 ---
 
 <h1 align="center">
-  <img src="miya_icon.webp" width="110" align="middle" alt="Miya icon">&nbsp;Miya-0.2
+  <img src="miya_icon.webp" width="110" align="middle" alt="Miya icon">&nbsp;Miya-0.3
 </h1>
 
-<p align="center">한국어 마인크래프트 AI 판단 모델 · 139M 인코더 · 1회 인코딩 ~18ms<br><a href="https://github.com/snowman6-git/Miya">GitHub: 봇 · 서빙 · 학습 코드</a> · <a href="https://huggingface.co/snowman6/Miya-0.2/blob/main/README.en.md">English</a></p>
+<p align="center">한국어 마인크래프트 AI 판단 모델 · 139M 인코더 · 1회 인코딩 ~18ms<br><a href="https://github.com/snowman6-git/Miya">GitHub: 봇 · 서빙 · 학습 코드</a> · <a href="https://huggingface.co/snowman6/Miya-0.3/blob/main/README.en.md">English</a></p>
 
 > [!WARNING]
-> **개발 중(WIP) 모델입니다.** 0.2는 연구용 스냅샷이며 완성된 에이전트가 아닙니다.
-> 자율모드는 아직 없고, 도움 요청(ask) 보정이 덜 됐으며, 생존 판단 일부가 약합니다([한계](#한계--미완성)).
+> **개발 중(WIP) 모델입니다.** 0.3은 연구용 스냅샷이며 완성된 에이전트가 아닙니다.
+> 자율모드는 아직 없고, 미학습 아이템 링크·일부 생존 판단이 약합니다([한계](#한계--미완성)).
 > 가중치·라벨 스키마·API는 다음 버전에서 호환 없이 바뀔 수 있습니다.
 >
 > **Work in progress.** A research snapshot, not a finished agent. Weights, label schema and API may change without notice.
 
-Korean-first Minecraft agent decision model. One encoder pass (~18 ms) gives intent, task type, target item and count spans, method choice, survival priority and inventory tidy decisions. The mineflayer bot only executes. Full English card: [README.en.md](https://huggingface.co/snowman6/Miya-0.2/blob/main/README.en.md).
+Korean-first Minecraft agent decision model. One encoder pass (~18 ms) gives intent, task type, target item and count spans, method choice, survival priority, inventory tidy and 10 fine judgments (food, weapon, combat target, hunt, explore, failure, death recovery, quantity, group pick, advice). The mineflayer bot only executes. Full English card: [README.en.md](https://huggingface.co/snowman6/Miya-0.3/blob/main/README.en.md).
 
 ![Miya 캐릭터 시트](charasheet.webp)
 
@@ -44,6 +44,19 @@ Miya는 "모든 판단은 모델이 하고, 봇은 실행만 한다"는 원칙�
 - **모르면 되묻기**: 아이템 링크가 NULL이면 되묻고, 답까지 합쳐 다시 인식합니다(멀티턴)
 - **방법 선택**: planner가 만든 후보 중 QED 경험을 보고 하나를 고릅니다
 - **생존 우선순위**: 체력·배고픔·위협·밤·산소를 보고 전투·도망·먹기·숨기·재개 중 하나를 고릅니다
+- **세부 판단 (0.3)**: 봇 if문이던 판단 10종을 모델이 합니다
+  | 판단 | 예 (인게임 실측) |
+  |---|---|
+  | 음식 | 체력 3 → 황금사과, 평소 → 빵 |
+  | 무기·방패 | 좀비 1마리 → 철검, 스켈레톤·다수 → +방패 |
+  | 전투 대상 | 좀비+거미 → 좀비 먼저 |
+  | 사냥 대상 | "사냥해" → 아르마딜로·닭·소·말·양 중 소 |
+  | 탐색 방향 | 모래 → 방향별 지형 표본·방문수 보고 북동 |
+  | 실패 대응 | 대상 없음 → 재계획 → 재계획 → 도움 요청 |
+  | 사망 회수 | 가치 58·맨몸·거미 위험 → 포기 |
+  | 수량 의미 | `조약돌 3개 줘` → 3개, `철 원석 버려`(4개 보유) → "몇 개요?" |
+  | 묶음 대상 | `나무 버려` → "참나무 원목, 아카시아나무 원목 중에 어떤 거요?" |
+  | 조언 → 행동 | `그거론 한참걸리겠는데?` → 빠른 방법 있으면 바꾸고, 없으면 설명 후 계속 |
 
 ## 구조
 
@@ -59,7 +72,7 @@ Miya는 "모든 판단은 모델이 하고, 봇은 실행만 한다"는 원칙�
 
 | 구성요소 | 하는 일 | 하지 않는 일 |
 |---|---|---|
-| **Miya 모델** | 발화 이해, 방법 선택, 생존 우선순위, 인벤 정리 | 길찾기, 블럭 조작 |
+| **Miya 모델** | 발화 이해, 방법 선택, 생존 우선순위, 인벤 정리, 세부 판단 10종 | 길찾기, 블럭 조작 |
 | **planner** | 목표 + 상태 → 방법 후보(최대 6개)와 단계열·예상 시간·위험 | 후보 중 선택 |
 | **QED DB** | 행동과 결과 기록, 다음 판단에 경험 텍스트로 주입 | 규칙으로 차단 |
 | **봇** | 걷기·캐기·제작·전투 실행, 결과 보고 | 판단 |
@@ -86,6 +99,7 @@ Miya는 "모든 판단은 모델이 하고, 봇은 실행만 한다"는 원칙�
 | 헤드 | 출력 |
 |---|---|
 | 보기 점수 | act(11) · task_type(39) · query(18) · hint(5) · prio(9) · 방법(via) · tidy(3) |
+| 판단 문항 (0.3) | food · weapon · target · hunt · explore · fail · recover · qty · pick · hintact. 보기가 입력 텍스트라 헤드 추가 없이 문항만 늘림 |
 | 구간 추출 | 대상 · 개수 · 도구 · 사람 · 좌표 · 장소 · 거리 (7종, 폭 ≤ 8) |
 | 아이템 링크 | 구간 ↔ 이름 bank 1,628개 (아이템 + 몹 + 그룹·세트·장소). bi-encoder + ColBERT late interaction으로 `철뚝` 같은 부분일치 처리. NULL이면 되묻기 |
 | 짝 | 개수 ↔ 대상·도구 연결 (`철 3개랑 석탄 5개`) |
@@ -155,10 +169,30 @@ direct | 원정 참나무 원목 1 → 벌목 참나무 원목 2 → 제작 참�
 
 ## 평가
 
+### Miya-0.3 vs 0.21
+
+같은 평가셋(실발화 537, dev 7.4k)입니다.
+
+| | 0.21 | 0.3 |
+|---|---|---|
+| 실발화 의도 (act) | 95.0% | **95.7%** |
+| 작업 종류 (type) | 92.3% | **95.3%** |
+| 대상 아이템 (target) | 84.6% | **91.7%** |
+| 개수 (count) | 89.3% | **98.2%** |
+| 생존 우선순위 (dev prio) | 74.6% | **97.0%** |
+| 방법 선택 (dev plan) | 75.6% | **76.5%** |
+| 세부 판단 10종 (dev) | 5~60% (미학습) | **96~100%** |
+| 줄임말 holdout | 11/12 | **12/12** |
+| 모델 지연 p50 / p95 | 19.0 / 22.5 ms | **18.8 / 21.9 ms** |
+
+인게임(Paper 26.1.2): 세부 판단 10종 + 밤 도망↔재개 루프 11항목 모두 통과.
+
+### Miya-0.2 vs LAYA base
+
 LAYA base와 비교했습니다. planner·QED·봇은 같게 두고 **판단만 교체**했습니다.
 
 - 실발화: 서버 채팅 원문 488건, 학습에서 제외
-- dev: 5.8k
+- dev: 5.8k (0.2 기준)
 - 인게임: 같은 시드의 로컬 서버 2대에서 14개 시나리오를 병렬로 실행
 
 | | Miya-0.2 | LAYA base (zero-shot) |
@@ -208,7 +242,7 @@ curl -s localhost:8765/prio -d '{"ctx":"체력 5/20 배고픔 18/20 | 밤 | 위�
 
 ```bash
 git clone https://github.com/snowman6-git/Miya miya && cd miya
-hf download snowman6/Miya-0.2 --local-dir ckpt/miya-0.2
+hf download snowman6/Miya-0.3 --local-dir ckpt/miya-0.3
 # 게임 데이터(mc.db, mcx.db)는 포함되지 않음 → 저장소 docs/extract.md 로 로컬 추출
 .venv/bin/python model/serve.py   # :8765 (다른 PC 봇이면 SERVE_HOST=0.0.0.0)
 curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","state":{"hp":20,"food":20,"night":false,"inv":{},"task":null}}'
@@ -225,10 +259,13 @@ curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","state":{"hp":20,"food
 | `/prio` | 상태 ctx → 생존 우선순위 |
 | `/qed` · `/death` | 결과·사망 기록 |
 | `/tidy` · `/value` · `/placed` | 인벤 정리, 아이템 가치, 설치물 |
+| `/food` · `/weapon` · `/target` | 음식, 무기·방패, 전투 대상 (0.3) |
+| `/hunt` · `/explore` | 사냥 대상·원정, 탐색 방향 (0.3) |
+| `/fail` · `/recover` · `/hintact` | 실패 대응, 사망 회수, 조언 → 행동 (0.3) |
 
 파일은 세 개입니다.
 
-- `model.pt`: state_dict
+- `model.safetensors`: 가중치
 - `schema.json`: 라벨
 - `config.json`: 메타 정보 (HF 다운로드 수 집계 기준 파일)
 
@@ -239,18 +276,18 @@ curl -s localhost:8765/turn -d '{"utt":"철곡 만들어","state":{"hp":20,"food
 > 아직 **미완성**입니다. 아래 항목은 알려진 문제이며 다음 버전에서 다룹니다.
 
 - **자율모드 없음**: "자급자족해" 같은 명령은 분류만 되고 실행되지 않습니다. 생존·발전 루프를 계획 중입니다.
-- **ask 과보정**: 성공률이 중간인 경험(예: 14회 중 28%)에서 도움 요청을 과하게 고릅니다. 0.3에서 보정할 예정입니다.
-- **생존 판단 약점**
-  - 블럭 쌓아 도망, 굴 파고 숨기의 정답률이 낮습니다.
-  - 전투와 도망의 경계가 p≈0.5로 애매합니다. 지금은 봇의 결정 유지 시간으로 완화하고 있습니다.
-- **붙여쓴 전투 동사 오분류**: "좀비처리해"를 잘못 분류합니다.
-- **데이터 편향**: 학습 데이터 대부분(284k)이 합성이고 실발화는 소량입니다. 한국어 전용입니다.
+- **ask 과보정**: 성공률이 중간인 경험에서 도움 요청을 과하게 고릅니다(0.3 별도 측정 안함).
+- **미학습 아이템 링크**: 학습 목표에 없던 아이템(`선인장`, `얼음`)을 잘못 잇거나 되묻습니다.
+- **생존 판단 약점**: 거미처럼 봇보다 빠른 몹에게도 도망을 고릅니다. 방법 선택(plan)은 76%에서 정체입니다.
+- **수량 표현 일부**: `반만`을 절반으로 못 읽고 되묻습니다.
+- **되묻기 답 연결**: 되묻기 답을 원요청과 합쳐 다시 해석하는 부분은 아직 봇이 합니다.
+- **데이터 편향**: 학습 데이터 대부분(370k)이 합성이고 실발화는 소량입니다. 한국어 전용입니다.
 - **환경 고정**: Minecraft 26.1.2 레시피 기준이고, mineflayer로 불가능한 작업(인챈트·거래·원거리 등)은 아직 실행하지 않습니다.
 - **호환성 없음**: 버전 간 가중치·스키마 호환을 보장하지 않습니다.
 
 ## 라이선스
 
-Apache-2.0 + [Miya Adopt Licence](https://huggingface.co/snowman6/Miya-0.2/blob/main/LICENSE-MIYA.md) (강제성 없는 부탁 조항).
+Apache-2.0 + [Miya Adopt Licence](https://huggingface.co/snowman6/Miya-0.3/blob/main/LICENSE-MIYA.md) (강제성 없는 부탁 조항).
 
 - 베이스: laya-multilingual (Apache-2.0) ← mmBERT-base (MIT)
 - Minecraft 게임 데이터는 포함하지 않습니다. 저장소의 `docs/extract.md`로 로컬에서 생성합니다.

@@ -527,3 +527,11 @@
 {"utt": "좀비 죽여", "prev_bot": "", "botq": null, "prev_user": "", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:zombie", "cnt": null}
 {"utt": "좀비처리해", "prev_bot": "좀비 만드는 법을 모르겠어요, 도와줄래요?", "botq": null, "prev_user": "좀비 죽여", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:zombie", "cnt": null}
 {"utt": "좀비사냥해", "prev_bot": "enchant는 아직 못해요", "botq": null, "prev_user": "좀비처리해", "y": {"act": "목표 실행", "type": "combat"}, "tgt": "mob:zombie", "cnt": null}
+{"utt": "혼자해", "prev_bot": "철셋는 혼자 하기 어려워요, 도와줄래요?", "botq": "철셋 도움", "prev_user": "철셋 만들어", "y": {"act": "부정 대답"}, "tgt": null, "cnt": null}
+{"utt": "못도와줌", "prev_bot": "철셋는 혼자 하기 어려워요, 도와줄래요?", "botq": "철셋 도움", "prev_user": "철셋 혼자 만들어!!", "y": {"act": "부정 대답"}, "tgt": null, "cnt": null}
+{"utt": "철셋 혼자 만들어!!", "prev_bot": "철셋는 혼자 하기 어려워요, 도와줄래요?", "botq": "철셋 도움", "prev_user": "철셋 만들어", "y": {"act": "목표 실행", "type": "craft"}, "tgt": "set:iron_armor", "cnt": null}
+{"utt": "익사한다", "prev_bot": "연어 잡으러 갈게요! (2단계)", "botq": null, "prev_user": "연어 사냥해", "y": {"act": "위험 경고"}, "tgt": null, "cnt": null}
+{"utt": "??", "prev_bot": "ㅎㅎ", "botq": null, "prev_user": "아이고", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "아이고", "prev_bot": "재개할 작업이 없어요", "botq": null, "prev_user": "익사한다", "y": {"act": "잡담"}, "tgt": null, "cnt": null}
+{"utt": "철곡들어", "prev_bot": "", "botq": null, "prev_user": null, "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_pickaxe", "cnt": null}
+{"utt": "철곡 손에 들어", "prev_bot": "", "botq": null, "prev_user": "철곡들어", "y": {"act": "목표 실행", "type": "equip"}, "tgt": "iron_pickaxe", "cnt": null}

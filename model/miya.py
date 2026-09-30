@@ -33,6 +33,14 @@ def num_feat(v: float) -> List[float]:
     return [1.0 if v < 0 else 0.0, math.log1p(a) / 8.0, min(a, 1000.0) / 1000.0, 1.0 if float(v).is_integer() else 0.0, min(a, 64.0) / 64.0]
 
 
+def read_ck(ck, dev="cpu"):
+    """ckpt 가중치: model.safetensors 우선, 구 model.pt 폴백"""
+    if os.path.exists(f"{ck}/model.safetensors"):
+        from safetensors.torch import load_file
+        return load_file(f"{ck}/model.safetensors", device=str(dev))
+    return torch.load(f"{ck}/model.pt", map_location=dev)
+
+
 def load_tok():
     from transformers import AutoTokenizer
     return AutoTokenizer.from_pretrained(f"{SNAP}/tokenizer")
